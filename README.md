@@ -1,165 +1,149 @@
-# guiClaw - Custom OpenClaw Web GUI
+# guiClaw v0.32
 
-A local web interface for OpenClaw.
+## Overview
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.32) provides a local web interface for interacting with OpenClaw through a browser.
+
+## Features
+- **Web-based Interface**: Access OpenClaw through your browser at http://localhost:8000
+- **File Upload Support**: Upload files directly through the web interface
+- **Model Switching**: Change AI models via the GUI
+- **Custom Styling**: Clean, modern interface with CSS variables
+- **CORS Enabled**: Cross-origin requests supported
+- **WhatsApp Integration**: Channel section with WhatsApp configuration (v0.32 feature)
+
+## Architecture
+```
+guiClaw/
+├── index.html          # Main web interface
+├── proxy.js            # Node.js proxy server (port 8000)
+├── guiClaw.command     # Mac executable script
+├── guiClaw             # Binary file
+├── package.json        # Node.js dependencies
+├── setup.sh            # Setup script
+├── start.sh            # Startup script
+├── upload/             # File upload directory
+└── README.md           # This file
+```
 
 ## Quick Start
 
-**Get started in 30 seconds:**
-
-1. **Double-click** `guiClaw.command` on your Desktop
-2. **Open your browser** to: **http://localhost:8000**
-3. **Start chatting** with OpenClaw!
-
-*That's it! No installation needed if guiClaw is already on your Desktop.*
-
-## Installation
-
 ### Prerequisites
+- Node.js installed
+- OpenClaw gateway running (default: http://localhost:18789)
 
-Before using guiClaw, ensure you have:
-
-1. **OpenClaw Gateway** running:
+### Installation
+1. **Install dependencies**:
    ```bash
-   openclaw gateway start
+   cd ~/Desktop/guiClaw
+   npm install
    ```
 
-2. **HTTP API enabled** (one-time setup):
+2. **Run the proxy server**:
    ```bash
-   openclaw config set gateway.http.endpoints.responses.enabled true
-   openclaw gateway restart
+   node proxy.js
+   ```
+   or use the startup script:
+   ```bash
+   ./start.sh
    ```
 
-3. **lsof** installed (for port management):
-   ```bash
-   brew install lsof
-   ```
-
-### Installation Methods
-
-#### Method 1: Desktop Shortcut (Recommended)
-
-1. **Locate the guiClaw folder** on your Desktop
-2. **Double-click** `guiClaw.command`
-3. **Keep the terminal window open** while using guiClaw
-
-#### Method 2: Terminal Script
-
-```bash
-cd ~/Desktop/guiClaw
-./start.sh
-```
-
-#### Method 3: Manual Execution
-
-```bash
-cd ~/Desktop/guiClaw
-node proxy.js
-```
-
-### First-Time Setup
-
-If guiClaw is not on your Desktop:
-
-1. **Download or clone** the guiClaw project
-2. **Place the folder** on your Desktop
-3. **Make scripts executable**:
-   ```bash
-   chmod +x ~/Desktop/guiClaw/start.sh
-   chmod +x ~/Desktop/guiClaw/guiClaw.command
-   ```
-
-## How to Run
-
-### Option A: Desktop Launcher (Easiest)
-
-1. **Double-click** `guiClaw.command` on your Desktop
-2. **Wait** for the terminal to show "guiClaw is running!"
-3. **Browser will open automatically** to http://localhost:8000
-
-### Option B: Terminal Command
-
-```bash
-cd ~/Desktop/guiClaw && ./start.sh
-```
-
-### Option C: Manual Node.js
-
-```bash
-cd ~/Desktop/guiClaw
-node proxy.js
-```
-
-Then open your browser to: **http://localhost:8000**
+3. **Access the interface**:
+   Open your browser and go to: http://localhost:8000
 
 ## Configuration
 
-### Gateway Settings
-
-guiClaw requires specific OpenClaw gateway settings:
-
-```bash
-# Enable HTTP responses endpoint
-openclaw config set gateway.http.endpoints.responses.enabled true
-
-# Add trusted proxy
-openclaw config set gateway.trustedProxies '["127.0.0.1"]'
-
-# Restart gateway
-openclaw gateway restart
+### OpenClaw Gateway Settings
+The gateway must be configured to trust the proxy server:
+```json
+{
+  "gateway": {
+    "trustedProxies": ["127.0.0.1"],
+    "http": {
+      "endpoints": {
+        "responses": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}
 ```
 
 ### guiClaw Settings
+- **Proxy URL**: http://localhost:8000/v1/responses
+- **Gateway URL**: http://localhost:18789 (default)
+- **Authentication**: Uses gateway token from openclaw.json
 
-- **Port:** 8000 (change in `proxy.js` if needed)
-- **Gateway URL:** http://localhost:18789
-- **Upload Directory:** `~/Desktop/guiClaw/upload/`
+## Version Information
+- **Version**: v0.32
+- **Date**: 2026-02-17
+- **Status**: Operational
+- **Features**: WhatsApp configuration, session key fix, all previous features
+
+## Features in v0.32
+- ✅ Web-based GUI for OpenClaw
+- ✅ File upload support
+- ✅ Model switching capability
+- ✅ Custom styling with CSS variables
+- ✅ CORS enabled for cross-origin requests
+- ✅ Channel section with WhatsApp configuration
+- ✅ Session key fix (ECONNREFUSED error resolved)
+- ✅ All navigation buttons working
+- ✅ Section switching functional
+- ✅ WhatsApp configuration interface working
+
+## Usage
+1. **Start the proxy server**: `node proxy.js` or `./start.sh`
+2. **Open browser**: Navigate to http://localhost:8000
+3. **Chat**: Use the web interface to interact with OpenClaw
+4. **Upload files**: Use the upload feature in the interface
+5. **Switch models**: Change AI models via the GUI
+6. **WhatsApp**: Click "Channel" in navigation to view WhatsApp configuration
 
 ## Troubleshooting
 
-### Port 8000 Already in Use
+### Common Issues
+1. **Port already in use**: Kill any process using port 8000
+   ```bash
+   lsof -ti:8000 | xargs kill -9
+   ```
 
-```bash
-# Kill existing process
-lsof -ti:8000 | xargs kill -9
+2. **ECONNREFUSED errors**: Ensure OpenClaw gateway is running and configured correctly
 
-# Then start guiClaw again
-cd ~/Desktop/guiClaw && ./start.sh
-```
+3. **CORS issues**: Verify CORS is enabled in gateway configuration
 
-### Gateway Connection Issues
+### Logs
+- Check `proxy.log` for proxy server logs
+- Check OpenClaw gateway logs for connection issues
 
-```bash
-# Check gateway status
-openclaw status
+## Development
+- **Source**: Custom OpenClaw Web GUI
+- **Framework**: Vanilla JavaScript + HTML/CSS
+- **Backend**: Node.js proxy server
+- **Dependencies**: busboy, http-proxy
 
-# Restart gateway if needed
-openclaw gateway restart
-```
-
-### Browser Issues
-
-- Clear browser cache (Ctrl+Shift+Delete)
-- Try a different browser
-- Ensure server is running: `curl http://localhost:8000`
-
-## Customization
-
-- **Edit `index.html`** to change the UI/CSS
-- **Edit `proxy.js`** to change the port or server logic
-- **Edit `start.sh`** or `guiClaw.command` to modify startup behavior
-
-## Version
-
-Current version: **v3.1** (2026-02-16)
-
-See `VERSION.md` for detailed version history and changes.
-
-## More Information
-
-For detailed installation instructions, troubleshooting, and advanced configuration, see [INSTALLATION.md](INSTALLATION.md).
+## License
+This project is part of the OpenClaw ecosystem.
 
 ## Support
+For issues or questions, refer to the OpenClaw documentation or community resources.
 
-- **OpenClaw Status:** `openclaw status`
-- **OpenClaw Logs:** `openclaw logs --follow`
-- **Documentation:** https://docs.openclaw.ai
+## Changelog
+### v0.32 (2026-02-17)
+- Initial GitHub release
+- WhatsApp configuration feature
+- Session key fix for ECONNREFUSED errors
+- All navigation and section switching working
+- File upload support
+- Model switching capability
+
+### Previous Versions
+- v3.1: Current version with session key fix
+- v3.0: Updated version
+- v2.4: More features
+- v2.3: Additional features
+- v2.2: WhatsApp configuration
+- v2.1: Working Channel section
+- v2.0: Previous version
+- v1.1: Updated version
+- v1.0: Initial version

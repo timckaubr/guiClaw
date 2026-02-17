@@ -1,10 +1,10 @@
-# guiClaw v3.1
+# guiClaw v0.32
 
 ## Version Information
-- **Version:** v3.1
-- **Date:** 2026-02-16 11:32 GMT+8
-- **Source:** Current guiClaw project on Desktop (with session key fix)
-- **Backup Location:** ~/Desktop/guiClaw backup/guiClaw v3.1
+- **Version:** v0.32
+- **Date:** 2026-02-17
+- **Source:** guiClaw project on GitHub
+- **Status:** GitHub release
 
 ## Changes from v2.1
 - **index.html:** Updated from 18,392 bytes to 22,188 bytes (added WhatsApp configuration)
