@@ -3,6 +3,11 @@
 ## Overview
 guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.32) provides a local web interface for interacting with OpenClaw through a browser.
 
+## 📸 Screenshots
+
+### Main Interface
+![Main Interface](upload/main_interface_v0.32.png)
+
 ## Features
 - **Web-based Interface**: Access OpenClaw through your browser at http://localhost:8000
 - **File Upload Support**: Upload files directly through the web interface
