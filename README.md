@@ -138,12 +138,12 @@ For issues or questions, refer to the OpenClaw documentation or community resour
 - Model switching capability
 
 ### Previous Versions
-- v3.1: Current version with session key fix
-- v3.0: Updated version
-- v2.4: More features
-- v2.3: Additional features
-- v2.2: WhatsApp configuration
-- v2.1: Working Channel section
-- v2.0: Previous version
-- v1.1: Updated version
-- v1.0: Initial version
+- v0.31: Current version with session key fix
+- v0.30: Updated version
+- v0.24: More features
+- v0.23: Additional features
+- v0.22: WhatsApp configuration
+- v0.21: Working Channel section
+- v0.20: Previous version
+- v0.11: Updated version
+- v0.10: Initial version
