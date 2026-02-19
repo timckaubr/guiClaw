@@ -611,7 +611,7 @@ For development or customization:
 
 ## Version Information
 
-Current version: **v3.1** (2026-02-16)
+Current version: **v0.38** (2026-02-19)
 
 For version details and changelog, see `VERSION.md`.
 

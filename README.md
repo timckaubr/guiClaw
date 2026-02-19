@@ -85,12 +85,12 @@ The gateway must be configured to trust the proxy server:
 - **Authentication**: Uses gateway token from openclaw.json
 
 ## Version Information
-- **Version**: v0.35
-- **Date**: 2026-02-18
+- **Version**: v0.38
+- **Date**: 2026-02-19
 - **Status**: Operational
-- **Features**: 4-step installation guide, copy buttons, auto token loading, clean interface, WhatsApp configuration
+- **Features**: Fixed authentication token issues, updated GitHub repository, improved stability
 
-## Features in v0.35
+## Features in v0.38
 - ✅ Web-based GUI for OpenClaw
 - ✅ File upload support
 - ✅ Model switching capability
@@ -105,6 +105,9 @@ The gateway must be configured to trust the proxy server:
 - ✅ Clean interface (status bar removed)
 - ✅ Title changed from "macClaw" to "guiClaw"
 - ✅ Gateway token integration with OpenClaw gateway
+- ✅ Fixed authentication token issues (401 errors resolved)
+- ✅ Updated GitHub repository with correct tokens
+- ✅ Improved stability and reliability
 
 ## Usage
 1. **Start the proxy server**: `node proxy.js` or `./start.sh`
@@ -143,6 +146,21 @@ This project is part of the OpenClaw ecosystem.
 For issues or questions, refer to the OpenClaw documentation or community resources.
 
 ## Changelog
+### v0.38 (2026-02-19)
+- Fixed authentication token issues (401 errors resolved)
+- Updated GitHub repository with correct tokens
+- Updated AUTH_TOKEN in index.html to match OpenClaw gateway config
+- Updated hardcoded token in proxy.js to match OpenClaw gateway config
+- Updated VERSION.md to reflect current version v0.38
+- Updated README.md to reflect version v0.38
+- Improved stability and reliability
+- All API endpoints working correctly
+
+### v0.37 (2026-02-19)
+- Better installation instructions
+- Fixed token update logic
+- Improved UI formatting
+
 ### v0.35 (2026-02-18)
 - Updated title from "macClaw" to "guiClaw"
 - Removed status bar for cleaner interface
