@@ -155,11 +155,11 @@ The gateway must be configured to trust the proxy server:
 
 ## Features in v0.6
 - ✅ **Complete Backup**: Full backup of current guiClaw project
-- ✅ **All v5.1 Features**: Includes all features from v5.1
+- ✅ **All v0.51 Features**: Includes all features from v0.51
 - ✅ **Version History**: Complete changelog from v0.32 to v0.6
 - ✅ **Backup Location**: ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 
-## Features in v5.1
+## Features in v0.51
 - ✅ **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
 - ✅ **Skills Configuration Panel**: AllowBundled, extraDirs, watchSkills, nodeManager settings
 - ✅ **Enable/Disable Skills**: Individual skill toggles for each skill
@@ -169,7 +169,7 @@ The gateway must be configured to trust the proxy server:
 - ✅ **ClawHub Integration**: Button to show search, install, update, publish options
 - ✅ **JavaScript Functions**: toggleSkill, configureSkill, applySkillsConfig, checkSkillsConfig, showClawHubSection
 
-## Features in v5.0
+## Features in v0.5
 - ✅ Web-based GUI for OpenClaw
 - ✅ File upload support
 - ✅ Model switching capability
@@ -237,9 +237,9 @@ For issues or questions, refer to the OpenClaw documentation or community resour
 - **Status:** Current version
 - **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 - **Purpose:** Complete backup of current guiClaw project
-- **Features:** All v5.1 features included
+- **Features:** All v0.51 features included
 
-### v5.1 (2026-02-19)
+### v0.51 (2026-02-19)
 - **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
 - **Skills Configuration Panel**: AllowBundled, extraDirs, watchSkills, nodeManager settings
 - **Enable/Disable Skills**: Individual skill toggles for each skill
@@ -249,9 +249,9 @@ For issues or questions, refer to the OpenClaw documentation or community resour
 - **ClawHub Integration**: Button to show search, install, update, publish options
 - **JavaScript Functions**: toggleSkill, configureSkill, applySkillsConfig, checkSkillsConfig, showClawHubSection
 - **GitHub Repository Updates**: Total Commits Today: 18 commits
-- **Backup Created**: ~/Desktop/Backups/guiClaw/guiClaw-v5.1
+- **Backup Created**: ~/Desktop/Backups/guiClaw/guiClaw-v0.51
 
-### v5.0 (2026-02-19)
+### v0.5 (2026-02-19)
 - **Browser Section**: Added after AI Tools and before AI Skills
   - 6 browser profiles with enable/disable toggles:
     1. profile:openclaw (Dedicated, isolated Chromium browser)
@@ -296,8 +296,8 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - Status: All changes successfully pushed to GitHub
 
 - **Backup Created**:
-  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v5.0
-  - Purpose: Complete backup of v5.0 for future reference
+  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v0.5
+  - Purpose: Complete backup of v0.5 for future reference
   - Contents: All files and dependencies included
 
 - **Testing Results**:
@@ -319,7 +319,7 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - ✅ Browser profile toggles functional
   - ✅ Browser quick actions working
 
-### v4.0 (2026-02-19)
+### v0.4 (2026-02-19)
 - **Channel Section**: Added after AI Assistant and before AI Tools
   - Current Channel Status display
   - Link WhatsApp (QR code process)
@@ -349,7 +349,7 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - Status: All changes successfully pushed to GitHub
 
 - **Backup Created**:
-  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v4.0
+  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v0.4
 
 ### v0.39 (2026-02-19)
 - **Channel Section**: Added after AI Assistant and before AI Tools

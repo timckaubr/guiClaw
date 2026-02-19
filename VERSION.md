@@ -153,9 +153,9 @@
 - **Purpose:** Complete backup of v0.39 for future reference
 - **Contents:** All files and dependencies included
 
-### Changelog v4.0 (2026-02-19)
+### Changelog v0.4 (2026-02-19)
 ### Changes
-- **Version:** Updated to v4.0
+- **Version:** Updated to v0.4
 - **Date:** 2026-02-19
 - **Status:** Current version
 
@@ -242,9 +242,9 @@
 - **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 - **Purpose:** Complete backup of current guiClaw project
 
-## Changelog v5.1 (2026-02-19)
+## Changelog v0.51 (2026-02-19)
 ### Changes
-- **Version:** Updated to v5.1
+- **Version:** Updated to v0.51
 - **Date:** 2026-02-19
 - **Status:** Current version
 
@@ -318,9 +318,9 @@
 - ✅ Existing functionality preserved
 - ✅ No breaking changes introduced
 
-## Changelog v5.0 (2026-02-19)
+## Changelog v0.5 (2026-02-19)
 ### Changes
-- **Version:** Updated to v5.0
+- **Version:** Updated to v0.5
 - **Date:** 2026-02-19
 - **Status:** Current version
 
