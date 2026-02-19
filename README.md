@@ -115,7 +115,14 @@ The gateway must be configured to trust the proxy server:
 ```json
 {
   "gateway": {
-    "trustedProxies": ["127.0.0.1"],
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "13df78878223e1c280296d6ec83f2ba92636c36b1c65bb92"
+    },
+    "trustedProxies": ["127.0.0.1:8000", "localhost:8000"],
     "http": {
       "endpoints": {
         "responses": {
@@ -131,6 +138,9 @@ The gateway must be configured to trust the proxy server:
 - **Proxy URL**: http://localhost:8000/v1/responses
 - **Gateway URL**: http://localhost:18789 (default)
 - **Authentication**: Uses gateway token from openclaw.json
+- **Current Token**: `13df78878223e1c280296d6ec83f2ba92636c36b1c65bb92`
+- **Port**: 8000 (proxy server)
+- **Gateway Port**: 18789 (OpenClaw gateway)
 
 ## Version Information
 - **Version**: v0.38
@@ -145,16 +155,6 @@ The gateway must be configured to trust the proxy server:
 - ✅ Custom styling with CSS variables
 - ✅ CORS enabled for cross-origin requests
 - ✅ 4-Step Installation Guide with copy buttons
-- ✅ Token auto-loads on page load (no button press needed)
-- ✅ Token displayed in green, bold text (64-character hex only)
-- ✅ Copy buttons with light blue background (#dbeafe) and blue text (#2563eb)
-- ✅ All buttons use consistent font size (0.85rem)
-- ✅ Clean interface (status bar removed)
-- ✅ Title changed from "macClaw" to "guiClaw"
-- ✅ Gateway token integration with OpenClaw gateway
-- ✅ Fixed authentication token issues (401 errors resolved)
-- ✅ Updated GitHub repository with correct tokens
-- ✅ Improved stability and reliability
 - ✅ Token auto-loads on page load (no button press needed)
 - ✅ Token displayed in green, bold text (64-character hex only)
 - ✅ Copy buttons with light blue background (#dbeafe) and blue text (#2563eb)
