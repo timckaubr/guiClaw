@@ -1,7 +1,7 @@
-# guiClaw v5.0
+# guiClaw v5.1
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v5.0) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, and comprehensive tool configuration.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v5.1) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, comprehensive tool configuration, and redesigned AI Skills management section.
 
 ## 📸 Screenshots
 
@@ -148,10 +148,20 @@ The gateway must be configured to trust the proxy server:
 - **Gateway Port**: 18789 (OpenClaw gateway)
 
 ## Version Information
-- **Version**: v5.0
+- **Version**: v5.1
 - **Date**: 2026-02-19
 - **Status**: Operational
-- **Features**: Browser section with 6 profiles, tool groups configuration with 9 groups, enhanced UI with 7 sections, current model display, token usage removal
+- **Features**: Redesigned AI Skills section with enable/disable, skills configuration, ClawHub integration, slash commands reference
+
+## Features in v5.1
+- ✅ **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
+- ✅ **Skills Configuration Panel**: AllowBundled, extraDirs, watchSkills, nodeManager settings
+- ✅ **Enable/Disable Skills**: Individual skill toggles for each skill
+- ✅ **Per-Skill Configuration**: Config buttons for API keys and environment variables
+- ✅ **Skill Locations Info**: Workspace, managed/local, and bundled skills explained
+- ✅ **Slash Commands Reference**: Directives and inline shortcuts documentation
+- ✅ **ClawHub Integration**: Button to show search, install, update, publish options
+- ✅ **JavaScript Functions**: toggleSkill, configureSkill, applySkillsConfig, checkSkillsConfig, showClawHubSection
 
 ## Features in v5.0
 - ✅ Web-based GUI for OpenClaw
@@ -215,6 +225,18 @@ This project is part of the OpenClaw ecosystem.
 For issues or questions, refer to the OpenClaw documentation or community resources.
 
 ## Changelog
+### v5.1 (2026-02-19)
+- **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
+- **Skills Configuration Panel**: AllowBundled, extraDirs, watchSkills, nodeManager settings
+- **Enable/Disable Skills**: Individual skill toggles for each skill
+- **Per-Skill Configuration**: Config buttons for API keys and environment variables
+- **Skill Locations Info**: Workspace, managed/local, and bundled skills explained
+- **Slash Commands Reference**: Directives and inline shortcuts documentation
+- **ClawHub Integration**: Button to show search, install, update, publish options
+- **JavaScript Functions**: toggleSkill, configureSkill, applySkillsConfig, checkSkillsConfig, showClawHubSection
+- **GitHub Repository Updates**: Total Commits Today: 18 commits
+- **Backup Created**: ~/Desktop/Backups/guiClaw/guiClaw-v5.1
+
 ### v5.0 (2026-02-19)
 - **Browser Section**: Added after AI Tools and before AI Skills
   - 6 browser profiles with enable/disable toggles:
