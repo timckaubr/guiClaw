@@ -1,7 +1,7 @@
-# guiClaw v0.7
+# guiClaw v0.8
 
 ## Version Information
-- **Version:** v0.6
+- **Version:** v0.8
 - **Date:** 2026-02-19
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
@@ -14,7 +14,7 @@
 ## Channel Section Features
 ### WhatsApp Configuration
 - **Status:** ✅ Working and functional
-- **Location:** Between AI Assistant and AI Tools sections
+- **Location:** Between Assistant and Tools sections
 - **Features:**
   - WhatsApp connection button
   - Show QR code button
@@ -112,7 +112,7 @@
 - **Status:** Current version
 
 ### Features Added
-- **Channel Section:** Added after AI Assistant and before AI Tools
+- **Channel Section:** Added after Assistant and before Tools
   - Current Channel Status display
   - Link WhatsApp (QR code process)
   - Approve Pairing Request
@@ -121,7 +121,7 @@
   - Test Integration
   - Allow List Management (view/add/remove numbers)
 
-### AI Assistant Section Updates
+### Assistant Section Updates
 - **Change 1:** Removed "Configured Models" display from AI model selector
   - Before: "Current Model: OpenClaw (Default)" + "Configured Models: GPT-4o, Gemini Pro, Claude 3"
   - After: Only "Current Model: xiaomi/mimo-v2-flash"
@@ -160,7 +160,7 @@
 - **Status:** Current version
 
 ### Features Added
-- **Channel Section:** Added after AI Assistant and before AI Tools
+- **Channel Section:** Added after Assistant and before Tools
   - Current Channel Status display
   - Link WhatsApp (QR code process)
   - Approve Pairing Request
@@ -169,7 +169,7 @@
   - Test Integration
   - Allow List Management (view/add/remove numbers)
 
-### AI Assistant Section Updates
+### Assistant Section Updates
 - **Change 1:** Removed "Configured Models" display from AI model selector
   - Before: "Current Model: OpenClaw (Default)" + "Configured Models: GPT-4o, Gemini Pro, Claude 3"
   - After: Only "Current Model: xiaomi/mimo-v2-flash"
@@ -190,7 +190,7 @@
   - After: "xiaomi/mimo-v2-flash"
   - Reason: Shows the actual current model instead of generic name
 
-### AI Tools Section Updates
+### Tools Section Updates
 - **Change 5:** Added comprehensive tool groups configuration section
   - Added 9 tool groups with enable/disable toggles:
     1. group:runtime (exec, bash, process)
@@ -234,20 +234,59 @@
 - ✅ Enable/disable toggles functional
 - ✅ Apply Tool Configuration button working
 
+## Changelog v0.8 (2026-02-19)
+### Changes
+- **Version:** Updated to v0.8
+- **Date:** 2026-02-19
+- **Status:** Current version
+- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.8
+- **Purpose:** Complete backup of current guiClaw project
+
+### Features Added
+- **Section Renaming:** Renamed navigation sections for cleaner interface
+  - **Assistant** (was AI Assistant)
+  - **Tools** (was AI Tools)
+  - **Skills** (was AI Skills)
+  - **Channel** (unchanged)
+  - **Browser** (unchanged)
+  - **Troubleshooting** (unchanged)
+
+### UI Improvements
+- **Navigation Bar:** Shorter, more concise section names
+- **Section Headers:** Updated to match new naming convention
+  - **Skills Management** (was AI Skills Management)
+  - **Tool Inventory** (was AI Tool Inventory)
+- **Documentation:** Updated all references to section names
+
+### Files Updated
+- `index.html`: Navigation buttons and section headers
+- `VERSION.md`: Section references throughout changelog
+- `README.md`: Section references throughout documentation
+- `MEMORY.md`: Section references
+- `memory/2026-02-19.md`: Section references
+
+### Testing Results
+- ✅ All navigation buttons working with new names
+- ✅ Section switching working correctly
+- ✅ All functionality preserved
+- ✅ No breaking changes introduced
+- ✅ Documentation updated consistently
+
 ## Changelog v0.7 (2026-02-19)
 ### Changes
 - **Version:** Updated to v0.7
 - **Date:** 2026-02-19
-- **Status:** Current version
+- **Status:** Previous version
 - **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.7
-- **Purpose:** Complete backup of current guiClaw project
+- **Purpose:** Complete backup of guiClaw project
 
 ### Features Added
 - **Redesigned Troubleshooting Section:** Complete overhaul with step-by-step workflow
   - **1. OpenClaw Gateway:** Gateway Stop, Gateway Install, Gateway Restart, Reboot System
-  - **2. Reinstall Gateway (All Steps):** Sequential execution of Stop → Install → Restart
-  - **3. System Doctor:** Run Doctor Check, Auto-Fix Issues, Run Full Doctor (Non-Interactive)
-  - **4. guiClaw Interface:** Reload Page, Reboot (start.sh), Clear Browser Cache & Reload
+  - **2. Force Restart (Emergency):** Force Restart (pkill), Complete Reset
+  - **3. Reinstall Gateway (All Steps):** Sequential execution of Stop → Install → Restart
+  - **4. System Doctor:** Run Doctor Check, Auto-Fix Issues, Run Full Doctor (Non-Interactive)
+  - **5. guiClaw Interface:** Reload Page, Reboot (start.sh), Clear Browser Cache & Reload
 
 ### Troubleshooting Section Updates
 - **Step-by-Step Workflow:**
@@ -257,7 +296,12 @@
     - Gateway Restart: Restarts the gateway
     - Open Terminal: Opens a new terminal window (macOS)
 
-  - **2. Reinstall Gateway (All Steps):** Automated sequence
+  - **2. Force Restart (Emergency):** Emergency restart commands
+    - Force Restart (pkill): `pkill -f openclaw && sleep 2 && openclaw gateway start`
+    - Complete Reset: `pkill -f openclaw && pkill -f node && rm -f ~/.openclaw/gateway.lock && openclaw gateway start`
+    - Use when: Gateway is completely stuck, commands don't work, or you need a clean restart
+
+  - **3. Reinstall Gateway (All Steps):** Automated sequence
     - **Stop:** Stops the gateway
     - **Install:** Installs/reinstalls gateway
     - **Restart:** Restarts the gateway
@@ -281,7 +325,7 @@
   - Shows completion message
 
 ### UI Improvements
-- **Consistent Styling:** Matches AI Skills section design
+- **Consistent Styling:** Matches Skills section design
 - **Grid Layout:** Responsive button arrangement
 - **Color Coding:**
   - Gateway commands: Neutral (white background)
@@ -297,7 +341,7 @@
 - ✅ Sequential execution working (Stop → Install → Restart)
 - ✅ Progress logging functional
 - ✅ Error handling working
-- ✅ Consistent styling with AI Skills section
+- ✅ Consistent styling with Skills section
 - ✅ No breaking changes introduced
 - ✅ Existing functionality preserved
 
@@ -308,7 +352,7 @@
 - **Status:** Current version
 
 ### Features Added
-- **Redesigned AI Skills Section:** Complete overhaul based on OpenClaw documentation
+- **Redesigned Skills Section:** Complete overhaul based on OpenClaw documentation
   - Skills Configuration Panel with allowBundled, extraDirs, watchSkills, nodeManager settings
   - Enable/Disable buttons for each skill
   - Config buttons for per-skill configuration
@@ -316,7 +360,7 @@
   - Slash Commands reference section
   - ClawHub integration button
 
-### AI Skills Section Updates
+### Skills Section Updates
 - **Skills Configuration:**
   - Allow Bundled Skills: Comma-separated list of bundled skills to allow
   - Extra Skill Directories: Additional skill directories (lowest precedence)
@@ -384,7 +428,7 @@
 - **Status:** Current version
 
 ### Features Added
-- **Browser Section:** Added after AI Tools and before AI Skills
+- **Browser Section:** Added after Tools and before Skills
   - 6 browser profiles with enable/disable toggles:
     1. profile:openclaw (Dedicated, isolated Chromium browser)
     2. profile:chrome (Extension relay to existing Chrome tabs)
@@ -398,7 +442,7 @@
   - Browser Quick Actions: Start, Stop, Restart, Open URL, Take Screenshot, Get Snapshot
   - Individual browser profile status indicators
 
-### AI Assistant Section Updates
+### Assistant Section Updates
 - **Change 1:** Removed "Configured Models" display from AI model selector
   - Before: "Current Model: OpenClaw (Default)" + "Configured Models: GPT-4o, Gemini Pro, Claude 3"
   - After: Only "Current Model: xiaomi/mimo-v2-flash"
@@ -419,7 +463,7 @@
   - After: "xiaomi/mimo-v2-flash"
   - Reason: Shows the actual current model instead of generic name
 
-### AI Tools Section Updates
+### Tools Section Updates
 - **Change 5:** Added comprehensive tool groups configuration section
   - Added 9 tool groups with enable/disable toggles:
     1. group:runtime (exec, bash, process)

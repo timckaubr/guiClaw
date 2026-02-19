@@ -1,7 +1,7 @@
-# guiClaw v0.7
+# guiClaw v0.8
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.7) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, comprehensive tool configuration, redesigned AI Skills management section, and redesigned troubleshooting section.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.8) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, comprehensive tool configuration, redesigned Skills management section, redesigned troubleshooting section, and cleaner section naming.
 
 ## 📸 Screenshots
 
@@ -22,12 +22,13 @@ guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running in
 - **Consistent UI**: All buttons use consistent font size (0.85rem)
 - **Tool Groups Configuration**: 9 tool groups with enable/disable toggles
 - **Browser Profiles**: 6 browser profiles with configuration options
-- **Enhanced UI**: 7 navigation sections (AI Assistant, Channel, AI Tools, Browser, AI Skills, Troubleshooting, etc.)
+- **Enhanced UI**: 7 navigation sections (Assistant, Channel, Tools, Browser, Skills, Troubleshooting, etc.)
 - **Current Model Display**: Shows actual model name (xiaomi/mimo-v2-flash)
 - **Token Usage Display**: Removed for cleaner interface
 - **Redesigned Troubleshooting Section**: Step-by-step workflow with sequential execution
 - **Gateway Reinstall Automation**: Stop → Install → Restart sequence
 - **System Doctor Integration**: Health checks and auto-fix capabilities
+- **Force Restart Commands**: Emergency restart with pkill and complete reset options
 
 ## Architecture
 ```
@@ -163,7 +164,7 @@ The gateway must be configured to trust the proxy server:
 - ✅ **Backup Location**: ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 
 ## Features in v0.51
-- ✅ **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
+- ✅ **Redesigned Skills Section**: Complete overhaul based on OpenClaw documentation
 - ✅ **Skills Configuration Panel**: AllowBundled, extraDirs, watchSkills, nodeManager settings
 - ✅ **Enable/Disable Skills**: Individual skill toggles for each skill
 - ✅ **Per-Skill Configuration**: Config buttons for API keys and environment variables
@@ -191,7 +192,7 @@ The gateway must be configured to trust the proxy server:
 - ✅ Improved stability and reliability
 - ✅ **Browser Section**: 6 browser profiles with enable/disable toggles
 - ✅ **Tool Groups Configuration**: 9 tool groups with enable/disable toggles
-- ✅ **Enhanced UI**: 7 navigation sections (AI Assistant, Channel, AI Tools, Browser, AI Skills, etc.)
+- ✅ **Enhanced UI**: 7 navigation sections (Assistant, Channel, Tools, Browser, Skills, etc.)
 - ✅ **Current Model Display**: Shows actual model name (xiaomi/mimo-v2-flash)
 - ✅ **Token Usage Display**: Removed for cleaner interface
 - ✅ **Tool Profiles**: Minimal, coding, messaging, full profiles
@@ -217,6 +218,49 @@ The gateway must be configured to trust the proxy server:
 
 3. **CORS issues**: Verify CORS is enabled in gateway configuration
 
+### Gateway Restart Commands
+The troubleshooting section includes several gateway restart options:
+
+#### Standard Gateway Commands
+- **Gateway Stop**: `openclaw gateway stop`
+- **Gateway Install**: `openclaw gateway install`
+- **Gateway Restart**: `openclaw gateway restart`
+
+#### Force Restart (Emergency)
+When the gateway is completely stuck or commands don't work:
+
+1. **Force Restart (pkill)**:
+   ```bash
+   pkill -f openclaw && sleep 2 && openclaw gateway start
+   ```
+   - Kills all OpenClaw processes
+   - Waits 2 seconds for clean shutdown
+   - Starts the gateway fresh
+
+2. **Complete Reset**:
+   ```bash
+   pkill -f openclaw && pkill -f node && rm -f ~/.openclaw/gateway.lock && openclaw gateway start
+   ```
+   - Kills all OpenClaw and Node processes
+   - Removes gateway lock file
+   - Starts the gateway fresh
+
+#### When to Use Force Restart
+- Gateway is completely unresponsive
+- Standard restart commands fail
+- You need a completely clean state
+- After configuration changes that need a fresh start
+
+### System Doctor
+- **Run Doctor Check**: Diagnostic check for system issues
+- **Auto-Fix Issues**: Automatic issue resolution
+- **Run Full Doctor (Non-Interactive)**: Complete system check without user interaction
+
+### guiClaw Interface
+- **Reload Page**: Refresh the browser interface
+- **Reboot (start.sh)**: Restart guiClaw via the start script
+- **Clear Browser Cache & Reload**: Clear browser cache and refresh
+
 ### Logs
 - Check `proxy.log` for proxy server logs
 - Check OpenClaw gateway logs for connection issues
@@ -234,16 +278,32 @@ This project is part of the OpenClaw ecosystem.
 For issues or questions, refer to the OpenClaw documentation or community resources.
 
 ## Changelog
+### v0.8 (2026-02-19)
+- **Version:** Updated to v0.8
+- **Date:** 2026-02-19
+- **Status:** Current version
+- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.8
+- **Purpose:** Complete backup of current guiClaw project
+- **Features:** All v0.7 features plus section renaming
+
+### v0.7 (2026-02-19)
+- **Version:** Updated to v0.7
+- **Date:** 2026-02-19
+- **Status:** Previous version
+- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.7
+- **Purpose:** Complete backup of guiClaw project
+- **Features:** All v0.6 features plus force restart commands
+
 ### v0.6 (2026-02-19)
 - **Version:** Updated to v0.6
 - **Date:** 2026-02-19
-- **Status:** Current version
+- **Status:** Previous version
 - **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.6
-- **Purpose:** Complete backup of current guiClaw project
+- **Purpose:** Complete backup of guiClaw project
 - **Features:** All v0.51 features included
 
 ### v0.51 (2026-02-19)
-- **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
+- **Redesigned Skills Section**: Complete overhaul based on OpenClaw documentation
 - **Skills Configuration Panel**: AllowBundled, extraDirs, watchSkills, nodeManager settings
 - **Enable/Disable Skills**: Individual skill toggles for each skill
 - **Per-Skill Configuration**: Config buttons for API keys and environment variables
@@ -255,7 +315,7 @@ For issues or questions, refer to the OpenClaw documentation or community resour
 - **Backup Created**: ~/Desktop/Backups/guiClaw/guiClaw-v0.51
 
 ### v0.5 (2026-02-19)
-- **Browser Section**: Added after AI Tools and before AI Skills
+- **Browser Section**: Added after Tools and before Skills
   - 6 browser profiles with enable/disable toggles:
     1. profile:openclaw (Dedicated, isolated Chromium browser)
     2. profile:chrome (Extension relay to existing Chrome tabs)
@@ -269,13 +329,13 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - Browser Quick Actions: Start, Stop, Restart, Open URL, Take Screenshot, Get Snapshot
   - Individual browser profile status indicators
 
-- **AI Assistant Section Updates**:
+- **Assistant Section Updates**:
   - Removed "Configured Models" display from AI model selector
   - Removed token usage display from Chat with AI section
   - Updated Chat with AI header to include current model
   - Updated current model display to show actual model (xiaomi/mimo-v2-flash)
 
-- **AI Tools Section Updates**:
+- **Tools Section Updates**:
   - Added comprehensive tool groups configuration section
   - Added 9 tool groups with enable/disable toggles:
     1. group:runtime (exec, bash, process)
@@ -323,7 +383,7 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - ✅ Browser quick actions working
 
 ### v0.4 (2026-02-19)
-- **Channel Section**: Added after AI Assistant and before AI Tools
+- **Channel Section**: Added after Assistant and before Tools
   - Current Channel Status display
   - Link WhatsApp (QR code process)
   - Approve Pairing Request
@@ -332,13 +392,13 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - Test Integration
   - Allow List Management (view/add/remove numbers)
 
-- **AI Assistant Section Updates**:
+- **Assistant Section Updates**:
   - Removed "Configured Models" display from AI model selector
   - Removed token usage display from Chat with AI section
   - Updated Chat with AI header to include current model
   - Updated current model display to show actual model (xiaomi/mimo-v2-flash)
 
-- **AI Tools Section Updates**:
+- **Tools Section Updates**:
   - Added comprehensive tool groups configuration section
   - Added 9 tool groups with enable/disable toggles
   - Added tool profiles information (minimal, coding, messaging, full)
@@ -355,7 +415,7 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - Location: ~/Desktop/Backups/guiClaw/guiClaw-v0.4
 
 ### v0.39 (2026-02-19)
-- **Channel Section**: Added after AI Assistant and before AI Tools
+- **Channel Section**: Added after Assistant and before Tools
   - Current Channel Status display
   - Link WhatsApp (QR code process)
   - Approve Pairing Request
@@ -364,7 +424,7 @@ For issues or questions, refer to the OpenClaw documentation or community resour
   - Test Integration
   - Allow List Management (view/add/remove numbers)
 
-- **AI Assistant Section Updates**:
+- **Assistant Section Updates**:
   - Removed "Configured Models" display from AI model selector
   - Removed token usage display from Chat with AI section
   - Updated Chat with AI header to include current model

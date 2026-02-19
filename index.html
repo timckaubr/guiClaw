@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>guiClaw v0.7</title>
+    <title>guiClaw v0.8</title>
     <style>
         :root {
             --bg-color: #f9fafb;
@@ -294,16 +294,16 @@
     <div class="container">
         <header>
             <div class="brand">
-                <h1>🦁 guiClaw <span class="version-badge">v0.7</span></h1>
+                <h1>🦁 guiClaw <span class="version-badge">v0.8</span></h1>
                 <p>GUI for OpenClaw by Riceball</p>
             </div>
             <nav>
                 <button onclick="showSection('install')" id="nav-install" style="font-size: 0.85rem;">Installation</button>
-                <button onclick="showSection('assistant')" id="nav-assistant" class="active" style="font-size: 0.85rem;">AI Assistant</button>
+                <button onclick="showSection('assistant')" id="nav-assistant" class="active" style="font-size: 0.85rem;">Assistant</button>
                 <button onclick="showSection('channel')" id="nav-channel" style="font-size: 0.85rem;">Channel</button>
-                <button onclick="showSection('tools')" id="nav-tools" style="font-size: 0.85rem;">AI Tools</button>
+                <button onclick="showSection('tools')" id="nav-tools" style="font-size: 0.85rem;">Tools</button>
                 <button onclick="showSection('browser')" id="nav-browser" style="font-size: 0.85rem;">Browser</button>
-                <button onclick="showSection('skills')" id="nav-skills" style="font-size: 0.85rem;">AI Skills</button>
+                <button onclick="showSection('skills')" id="nav-skills" style="font-size: 0.85rem;">Skills</button>
                 <button onclick="showSection('troubleshoot')" id="nav-troubleshoot" style="font-size: 0.85rem;">Troubleshooting</button>
             </nav>
         </header>
@@ -494,7 +494,7 @@
                 </div>
             </div>
 
-            <!-- SECTION 2: AI ASSISTANT -->
+            <!-- SECTION 2: ASSISTANT -->
             <div id="section-assistant" class="section active">
                 <!-- BOX 1: AI MODEL SELECTOR -->
                 <div class="chat-wrapper" style="flex: 0 0 auto;">
@@ -738,10 +738,10 @@
                 </div>
             </div>
 
-            <!-- SECTION 4: AI TOOLS -->
+            <!-- SECTION 4: TOOLS -->
             <div id="section-tools" class="section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h2 style="margin: 0;">AI Tool Inventory</h2>
+                    <h2 style="margin: 0;">Tool Inventory</h2>
                     <button onclick="checkAllTools()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Run System Check</button>
                 </div>
 
@@ -1166,10 +1166,10 @@
                 </div>
             </div>
 
-            <!-- SECTION 5: AI SKILLS -->
+            <!-- SECTION 5: SKILLS -->
             <div id="section-skills" class="section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h2 style="margin: 0;">AI Skills Management</h2>
+                    <h2 style="margin: 0;">Skills Management</h2>
                     <div style="display: flex; gap: 0.5rem;">
                         <button onclick="checkAllSkills()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Check Skills Status</button>
                         <button onclick="showClawHubSection()" style="padding: 0.6rem 1.25rem; background: #10b981; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);">ClawHub</button>
@@ -1183,12 +1183,12 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                         <div>
                             <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Allow Bundled Skills</label>
-                            <input type="text" id="allowBundled" placeholder="e.g., gemini, peekaboo" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                            <input type="text" id="allowBundled" placeholder="e.g., gemini, peekaboo" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; box-sizing: border-box;">
                             <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">Comma-separated list of bundled skills to allow</div>
                         </div>
                         <div>
                             <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Extra Skill Directories</label>
-                            <input type="text" id="extraDirs" placeholder="~/Projects/agent-scripts/skills" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                            <input type="text" id="extraDirs" placeholder="~/Projects/agent-scripts/skills" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; box-sizing: border-box;">
                             <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">Additional skill directories (lowest precedence)</div>
                         </div>
                     </div>
@@ -1196,14 +1196,14 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                         <div>
                             <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Watch Skills for Changes</label>
-                            <select id="watchSkills" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                            <select id="watchSkills" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; box-sizing: border-box;">
                                 <option value="true">Enabled (Auto-refresh)</option>
                                 <option value="false">Disabled</option>
                             </select>
                         </div>
                         <div>
                             <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Node Manager</label>
-                            <select id="nodeManager" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                            <select id="nodeManager" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; box-sizing: border-box;">
                                 <option value="npm">npm</option>
                                 <option value="pnpm">pnpm</option>
                                 <option value="yarn">yarn</option>
@@ -1385,10 +1385,26 @@
                         </div>
                     </div>
 
-                    <!-- 2. Reinstall Gateway (All Steps) -->
+                    <!-- 2. Force Restart (Emergency) -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #fef2f2; border-bottom: 1px solid #fecaca; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🚨</span> 2. Force Restart (Emergency)
+                        </div>
+                        <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem;">
+                                <button onclick="runTroubleshoot('pkill -f openclaw && sleep 2 && openclaw gateway start')" style="padding: 0.5rem; background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Force Restart (pkill)</button>
+                                <button onclick="runTroubleshoot('pkill -f openclaw && pkill -f node && rm -f ~/.openclaw/gateway.lock && openclaw gateway start')" style="padding: 0.5rem; background: #fef2f2; border: 1px solid #fecaca; color: #7f1d1d; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Complete Reset</button>
+                            </div>
+                            <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.375rem; padding: 0.75rem; font-size: 0.85rem; color: #7f1d1d;">
+                                <strong>⚠️ Use when:</strong> Gateway is completely stuck, commands don't work, or you need a clean restart.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Reinstall Gateway (All Steps) -->
                     <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
                         <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>🔄</span> 2. Reinstall Gateway (All Steps)
+                            <span>🔄</span> 3. Reinstall Gateway (All Steps)
                         </div>
                         <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
@@ -1400,10 +1416,10 @@
                         </div>
                     </div>
 
-                    <!-- 3. System Doctor -->
+                    <!-- 4. System Doctor -->
                     <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
                         <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>🩺</span> 3. System Doctor
+                            <span>🩺</span> 4. System Doctor
                         </div>
                         <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
@@ -1414,10 +1430,10 @@
                         </div>
                     </div>
 
-                    <!-- 4. guiClaw Interface -->
+                    <!-- 5. guiClaw Interface -->
                     <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
                         <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>🦁</span> 4. guiClaw Interface
+                            <span>🦁</span> 5. guiClaw Interface
                         </div>
                         <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
