@@ -1,7 +1,7 @@
-# guiClaw v0.39
+# guiClaw v4.0
 
 ## Version Information
-- **Version:** v0.39
+- **Version:** v4.0
 - **Date:** 2026-02-19
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
@@ -101,7 +101,8 @@
 - **v0.36:** [Future version]
 - **v0.37:** [Future version]
 - **v0.38:** Previous version (2026-02-19)
-- **v0.39:** Current version (2026-02-19) - THIS VERSION
+- **v0.39:** Previous version (2026-02-19)
+- **v4.0:** Current version (2026-02-19) - THIS VERSION
 
 ## Changelog v0.39 (2026-02-19)
 ### Changes
@@ -151,6 +152,71 @@
 - **Purpose:** Complete backup of v0.39 for future reference
 - **Contents:** All files and dependencies included
 
+### Changelog v4.0 (2026-02-19)
+### Changes
+- **Version:** Updated to v4.0
+- **Date:** 2026-02-19
+- **Status:** Current version
+
+### Features Added
+- **Channel Section:** Added after AI Assistant and before AI Tools
+  - Current Channel Status display
+  - Link WhatsApp (QR code process)
+  - Approve Pairing Request
+  - Configure Channel Settings
+  - Restart Gateway
+  - Test Integration
+  - Allow List Management (view/add/remove numbers)
+
+### AI Assistant Section Updates
+- **Change 1:** Removed "Configured Models" display from AI model selector
+  - Before: "Current Model: OpenClaw (Default)" + "Configured Models: GPT-4o, Gemini Pro, Claude 3"
+  - After: Only "Current Model: xiaomi/mimo-v2-flash"
+  - Reason: Cleaner interface, removed unnecessary information
+
+- **Change 2:** Removed token usage display from Chat with AI section
+  - Removed: Token usage poller function and polling logic
+  - Removed: Token usage display span from Chat with AI header
+  - Reason: Simplified interface, removed usage statistics display
+
+- **Change 3:** Updated Chat with AI header to include current model
+  - Before: "💬 Chat with AI"
+  - After: "💬 Chat with AI (Current Model)"
+  - Reason: Provides clearer context about which model is being used
+
+- **Change 4:** Updated current model display to show actual model
+  - Before: "OpenClaw (Default)"
+  - After: "xiaomi/mimo-v2-flash"
+  - Reason: Shows the actual current model instead of generic name
+
+### AI Tools Section Updates
+- **Change 5:** Added comprehensive tool groups configuration section
+  - Added 9 tool groups with enable/disable toggles:
+    1. group:runtime (exec, bash, process)
+    2. group:fs (read, write, edit, apply_patch)
+    3. group:sessions (sessions_list, sessions_history, sessions_send, sessions_spawn, session_status)
+    4. group:memory (memory_search, memory_get)
+    5. group:web (web_search, web_fetch)
+    6. group:ui (browser, canvas)
+    7. group:automation (cron, gateway)
+    8. group:messaging (message)
+    9. group:nodes (nodes)
+  - Added tool profiles information (minimal, coding, messaging, full)
+  - Added Apply Tool Configuration button to save changes to OpenClaw config
+  - Added Check All Tools button to check current tool status
+  - Updated individual tool items to show group membership
+
+### GitHub Repository Updates
+- **Total Commits Today:** 14 commits
+- **Repository:** https://github.com/timckaubr/guiClaw.git
+- **Branch:** main
+- **Status:** All changes successfully pushed to GitHub
+
+### Backup Created
+- **Location:** ~/Desktop/Backups/guiClaw/guiClaw-v4.0
+- **Purpose:** Complete backup of v4.0 for future reference
+- **Contents:** All files and dependencies included
+
 ### Testing Results
 - ✅ All navigation buttons clickable
 - ✅ Section switching working (all 6 sections)
@@ -163,6 +229,9 @@
 - ✅ Current model displays correctly (xiaomi/mimo-v2-flash)
 - ✅ Token usage display removed successfully
 - ✅ Chat header updated correctly
+- ✅ Tool groups configuration section working
+- ✅ Enable/disable toggles functional
+- ✅ Apply Tool Configuration button working
 
 ## Changelog v0.35 (2026-02-18)
 ### Changes
