@@ -958,7 +958,6 @@
         const sendBtn = document.getElementById('chat-send');
         const modelSelect = document.getElementById('model-select'); // This element was removed, so this selector will be null
         const currentModelDisplay = document.getElementById('current-model-display');
-        const configuredModelsDisplay = document.getElementById('configured-models-display');
 
         // Fetch Config on Load
         async function fetchConfig() {
@@ -968,12 +967,6 @@
                 
                 if (data.currentModel) {
                     currentModelDisplay.textContent = data.currentModel;
-                }
-
-                if (data.configuredModels && data.configuredModels.length > 0) {
-                    configuredModelsDisplay.textContent = data.configuredModels.join(', ');
-                } else {
-                    configuredModelsDisplay.textContent = 'None configured';
                 }
             } catch (err) {
                 console.error('Failed to load config:', err);
