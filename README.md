@@ -1,7 +1,7 @@
-# guiClaw v6.0
+# guiClaw v0.6
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v6.0) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, comprehensive tool configuration, and redesigned AI Skills management section.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.6) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, comprehensive tool configuration, and redesigned AI Skills management section.
 
 ## 📸 Screenshots
 
@@ -148,16 +148,16 @@ The gateway must be configured to trust the proxy server:
 - **Gateway Port**: 18789 (OpenClaw gateway)
 
 ## Version Information
-- **Version**: v6.0
+- **Version**: v0.6
 - **Date**: 2026-02-19
 - **Status**: Operational
 - **Features**: Complete backup of current guiClaw project, all v5.1 features included
 
-## Features in v6.0
+## Features in v0.6
 - ✅ **Complete Backup**: Full backup of current guiClaw project
 - ✅ **All v5.1 Features**: Includes all features from v5.1
-- ✅ **Version History**: Complete changelog from v0.32 to v6.0
-- ✅ **Backup Location**: ~/Desktop/Backups/guiClaw/guiClaw-v6.0
+- ✅ **Version History**: Complete changelog from v0.32 to v0.6
+- ✅ **Backup Location**: ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 
 ## Features in v5.1
 - ✅ **Redesigned AI Skills Section**: Complete overhaul based on OpenClaw documentation
@@ -231,11 +231,11 @@ This project is part of the OpenClaw ecosystem.
 For issues or questions, refer to the OpenClaw documentation or community resources.
 
 ## Changelog
-### v6.0 (2026-02-19)
-- **Version:** Updated to v6.0
+### v0.6 (2026-02-19)
+- **Version:** Updated to v0.6
 - **Date:** 2026-02-19
 - **Status:** Current version
-- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v6.0
+- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 - **Purpose:** Complete backup of current guiClaw project
 - **Features:** All v5.1 features included
 

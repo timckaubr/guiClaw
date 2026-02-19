@@ -1,7 +1,7 @@
-# guiClaw v6.0
+# guiClaw v0.6
 
 ## Version Information
-- **Version:** v6.0
+- **Version:** v0.6
 - **Date:** 2026-02-19
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
@@ -234,12 +234,12 @@
 - ✅ Enable/disable toggles functional
 - ✅ Apply Tool Configuration button working
 
-## Changelog v6.0 (2026-02-19)
+## Changelog v0.6 (2026-02-19)
 ### Changes
-- **Version:** Updated to v6.0
+- **Version:** Updated to v0.6
 - **Date:** 2026-02-19
 - **Status:** Current version
-- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v6.0
+- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 - **Purpose:** Complete backup of current guiClaw project
 
 ## Changelog v5.1 (2026-02-19)
