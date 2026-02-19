@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>guiClaw</title>
+    <title>guiClaw v0.6</title>
     <style>
         :root {
             --bg-color: #f9fafb;
@@ -64,6 +64,16 @@
             margin: 0;
             font-size: 0.75rem;
             color: #6b7280;
+        }
+
+        .version-badge {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
         }
 
         nav {
@@ -284,8 +294,8 @@
     <div class="container">
         <header>
             <div class="brand">
-                <h1>🦁 guiClaw</h1>
-                <p>GUI for OpenClaw by Riceball (v0.6)</p>
+                <h1>🦁 guiClaw <span class="version-badge">v0.6</span></h1>
+                <p>GUI for OpenClaw by Riceball</p>
             </div>
             <nav>
                 <button onclick="showSection('install')" id="nav-install" style="font-size: 0.85rem;">Installation</button>
@@ -1368,32 +1378,53 @@
                             <span>🌐</span> 1. OpenClaw Gateway
                         </div>
                         <div style="padding: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem;">
-                            <button onclick="runTroubleshoot('gateway restart')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Restart</button>
-                            <button onclick="runTroubleshoot('gateway install')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Install</button>
                             <button onclick="runTroubleshoot('gateway stop')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Stop</button>
+                            <button onclick="runTroubleshoot('gateway install')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Install</button>
+                            <button onclick="runTroubleshoot('gateway restart')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Restart</button>
                             <button onclick="runTroubleshoot('reboot system')" style="padding: 0.5rem; background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reboot System</button>
                         </div>
                     </div>
 
-                    <!-- 2. System Doctor -->
+                    <!-- 2. Reinstall Gateway (All Steps) -->
                     <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
                         <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>🩺</span> 2. System Doctor
+                            <span>🔄</span> 2. Reinstall Gateway (All Steps)
                         </div>
-                        <div style="padding: 1rem; display: flex; gap: 0.75rem;">
-                            <button onclick="runTroubleshoot('doctor check')" style="flex: 1; padding: 0.6rem; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Run Doctor Check</button>
-                            <button onclick="runTroubleshoot('doctor fix')" style="flex: 1; padding: 0.6rem; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Auto-Fix Issues</button>
+                        <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
+                                <button onclick="runTroubleshoot('gateway stop')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">1. Stop</button>
+                                <button onclick="runTroubleshoot('gateway install')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">2. Install</button>
+                                <button onclick="runTroubleshoot('gateway restart')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">3. Restart</button>
+                            </div>
+                            <button onclick="runReinstallGateway()" style="padding: 0.6rem; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600; width: 100%;">▶ Run All Steps (Stop → Install → Restart)</button>
                         </div>
                     </div>
 
-                    <!-- 3. guiClaw Interface -->
+                    <!-- 3. System Doctor -->
                     <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
                         <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>🦁</span> 3. guiClaw
+                            <span>🩺</span> 3. System Doctor
                         </div>
-                        <div style="padding: 1rem; display: flex; gap: 0.75rem;">
-                            <button onclick="location.reload()" style="flex: 1; padding: 0.6rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reload Page</button>
-                            <button onclick="runTroubleshoot('guiclaw reboot')" style="flex: 1; padding: 0.6rem; background: #fff7ed; border: 1px solid #ffedd5; color: #9a3412; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reboot (start.sh)</button>
+                        <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
+                                <button onclick="runTroubleshoot('doctor check')" style="padding: 0.5rem; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Run Doctor Check</button>
+                                <button onclick="runTroubleshoot('doctor fix')" style="padding: 0.5rem; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Auto-Fix Issues</button>
+                            </div>
+                            <button onclick="runTroubleshoot('openclaw doctor --non-interactive')" style="padding: 0.6rem; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600; width: 100%;">▶ Run Full Doctor (Non-Interactive)</button>
+                        </div>
+                    </div>
+
+                    <!-- 4. guiClaw Interface -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🦁</span> 4. guiClaw Interface
+                        </div>
+                        <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
+                                <button onclick="location.reload()" style="padding: 0.5rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reload Page</button>
+                                <button onclick="runTroubleshoot('guiclaw reboot')" style="padding: 0.5rem; background: #fff7ed; border: 1px solid #ffedd5; color: #9a3412; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reboot (start.sh)</button>
+                            </div>
+                            <button onclick="runTroubleshoot('clear cache')" style="padding: 0.6rem; background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600; width: 100%;">▶ Clear Browser Cache & Reload</button>
                         </div>
                     </div>
                 </div>
@@ -1696,6 +1727,63 @@
             } catch (err) {
                 logEl.textContent += `\n> Error: ${err.message}`;
             }
+        }
+
+        // Run all gateway steps in sequence
+        async function runReinstallGateway() {
+            const logEl = document.getElementById('troubleshoot-log');
+            logEl.textContent += `\n> Starting gateway reinstall sequence...`;
+            logEl.scrollTo(0, logEl.scrollHeight);
+
+            const steps = [
+                { cmd: 'gateway stop', desc: 'Stopping gateway...' },
+                { cmd: 'gateway install', desc: 'Installing gateway...' },
+                { cmd: 'gateway restart', desc: 'Restarting gateway...' }
+            ];
+
+            for (const step of steps) {
+                logEl.textContent += `\n> ${step.desc}`;
+                logEl.scrollTo(0, logEl.scrollHeight);
+                
+                try {
+                    const response = await fetch('/v1/responses', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${AUTH_TOKEN}`,
+                            'x-openclaw-agent-id': 'main'
+                        },
+                        body: JSON.stringify({
+                            model: 'openclaw',
+                            input: `[MAINTENANCE] Execute troubleshooting command: ${step.cmd}. Provide a brief confirmation of the result.`
+                        })
+                    });
+
+                    const data = await response.json();
+                    let output = '';
+                    if (data.choices?.[0]?.message?.content) {
+                        output = data.choices[0].message.content;
+                    } else if (data.output) {
+                        const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                        if (msg && msg.content) {
+                            output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                        }
+                    }
+                    
+                    logEl.textContent += `\n${output || '> Command completed.'}`;
+                    logEl.scrollTo(0, logEl.scrollHeight);
+                    
+                    // Small delay between steps
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                } catch (err) {
+                    logEl.textContent += `\n> Error on ${step.cmd}: ${err.message}`;
+                    logEl.scrollTo(0, logEl.scrollHeight);
+                    break;
+                }
+            }
+
+            logEl.textContent += `\n> Gateway reinstall sequence completed.`;
+            logEl.scrollTo(0, logEl.scrollHeight);
         }
 
         // New function to show result below button in installation section

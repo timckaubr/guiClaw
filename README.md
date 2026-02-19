@@ -22,9 +22,12 @@ guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running in
 - **Consistent UI**: All buttons use consistent font size (0.85rem)
 - **Tool Groups Configuration**: 9 tool groups with enable/disable toggles
 - **Browser Profiles**: 6 browser profiles with configuration options
-- **Enhanced UI**: 7 navigation sections (AI Assistant, Channel, AI Tools, Browser, AI Skills, etc.)
+- **Enhanced UI**: 7 navigation sections (AI Assistant, Channel, AI Tools, Browser, AI Skills, Troubleshooting, etc.)
 - **Current Model Display**: Shows actual model name (xiaomi/mimo-v2-flash)
 - **Token Usage Display**: Removed for cleaner interface
+- **Redesigned Troubleshooting Section**: Step-by-step workflow with sequential execution
+- **Gateway Reinstall Automation**: Stop → Install → Restart sequence
+- **System Doctor Integration**: Health checks and auto-fix capabilities
 
 ## Architecture
 ```

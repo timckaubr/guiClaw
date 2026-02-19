@@ -242,6 +242,65 @@
 - **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.6
 - **Purpose:** Complete backup of current guiClaw project
 
+### Features Added
+- **Redesigned Troubleshooting Section:** Complete overhaul with step-by-step workflow
+  - **1. OpenClaw Gateway:** Gateway Stop, Gateway Install, Gateway Restart, Reboot System
+  - **2. Reinstall Gateway (All Steps):** Sequential execution of Stop → Install → Restart
+  - **3. System Doctor:** Run Doctor Check, Auto-Fix Issues, Run Full Doctor (Non-Interactive)
+  - **4. guiClaw Interface:** Reload Page, Reboot (start.sh), Clear Browser Cache & Reload
+
+### Troubleshooting Section Updates
+- **Step-by-Step Workflow:**
+  - **1. OpenClaw Gateway:** Individual gateway commands
+    - Gateway Stop: Stops the OpenClaw gateway
+    - Gateway Install: Installs/reinstalls gateway
+    - Gateway Restart: Restarts the gateway
+    - Reboot System: Full system reboot
+
+  - **2. Reinstall Gateway (All Steps):** Automated sequence
+    - **Stop:** Stops the gateway
+    - **Install:** Installs/reinstalls gateway
+    - **Restart:** Restarts the gateway
+    - **Run All Steps:** Executes all three steps in sequence with delays
+
+  - **3. System Doctor:** Health checks and fixes
+    - Run Doctor Check: Diagnostic check
+    - Auto-Fix Issues: Automatic issue resolution
+    - Run Full Doctor (Non-Interactive): Complete system check
+
+  - **4. guiClaw Interface:** Interface management
+    - Reload Page: Refresh browser
+    - Reboot (start.sh): Restart guiClaw via start script
+    - Clear Browser Cache & Reload: Clear cache and refresh
+
+### JavaScript Functions Added
+- `runReinstallGateway()`: Executes gateway reinstall sequence (Stop → Install → Restart)
+  - Runs steps sequentially with 1-second delays
+  - Logs progress to troubleshooting log
+  - Handles errors gracefully
+  - Shows completion message
+
+### UI Improvements
+- **Consistent Styling:** Matches AI Skills section design
+- **Grid Layout:** Responsive button arrangement
+- **Color Coding:**
+  - Gateway commands: Neutral (white background)
+  - Reinstall sequence: Yellow/amber (warning)
+  - System Doctor: Blue/green (health)
+  - Interface commands: Grey/pink (interface)
+- **Sequential Execution:** Clear step-by-step workflow
+- **Progress Logging:** Real-time feedback in troubleshooting log
+
+### Testing Results
+- ✅ All troubleshooting buttons clickable
+- ✅ Individual commands working
+- ✅ Sequential execution working (Stop → Install → Restart)
+- ✅ Progress logging functional
+- ✅ Error handling working
+- ✅ Consistent styling with AI Skills section
+- ✅ No breaking changes introduced
+- ✅ Existing functionality preserved
+
 ## Changelog v0.51 (2026-02-19)
 ### Changes
 - **Version:** Updated to v0.51
