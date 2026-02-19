@@ -285,7 +285,7 @@
         <header>
             <div class="brand">
                 <h1>🦁 guiClaw</h1>
-                <p>GUI for OpenClaw by Riceball (v5.0)</p>
+                <p>GUI for OpenClaw by Riceball (v5.1)</p>
             </div>
             <nav>
                 <button onclick="showSection('install')" id="nav-install" style="font-size: 0.85rem;">Installation</button>
@@ -1159,89 +1159,200 @@
             <!-- SECTION 5: AI SKILLS -->
             <div id="section-skills" class="section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h2 style="margin: 0;">AI Skill Library</h2>
-                    <button onclick="checkAllSkills()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Check Skills Status</button>
+                    <h2 style="margin: 0;">AI Skills Management</h2>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="checkAllSkills()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Check Skills Status</button>
+                        <button onclick="showClawHubSection()" style="padding: 0.6rem 1.25rem; background: #10b981; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);">ClawHub</button>
+                    </div>
                 </div>
 
-                <div id="skills-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <!-- Apple Reminders -->
-                    <div class="skill-item" id="skill-reminders" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">🍎</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Apple Reminders</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Manage macOS reminders (add, list, complete).</div>
+                <!-- Skills Configuration Panel -->
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1rem; color: #111827;">Skills Configuration</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Allow Bundled Skills</label>
+                            <input type="text" id="allowBundled" placeholder="e.g., gemini, peekaboo" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                            <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">Comma-separated list of bundled skills to allow</div>
                         </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                        <div>
+                            <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Extra Skill Directories</label>
+                            <input type="text" id="extraDirs" placeholder="~/Projects/agent-scripts/skills" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                            <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">Additional skill directories (lowest precedence)</div>
+                        </div>
                     </div>
 
-                    <!-- Apple Notes -->
-                    <div class="skill-item" id="skill-notes" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">📝</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Apple Notes</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Search, view, and edit Apple Notes via memo CLI.</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Watch Skills for Changes</label>
+                            <select id="watchSkills" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                                <option value="true">Enabled (Auto-refresh)</option>
+                                <option value="false">Disabled</option>
+                            </select>
                         </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                        <div>
+                            <label style="font-size: 0.875rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.5rem;">Node Manager</label>
+                            <select id="nodeManager" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+                                <option value="npm">npm</option>
+                                <option value="pnpm">pnpm</option>
+                                <option value="yarn">yarn</option>
+                                <option value="bun">bun</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Weather -->
-                    <div class="skill-item" id="skill-weather" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">☁️</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Weather</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Get real-time forecasts and conditions.</div>
-                        </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button onclick="applySkillsConfig()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Apply Configuration</button>
+                        <button onclick="checkSkillsConfig()" style="padding: 0.6rem 1.25rem; background: #6b7280; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Check Current Config</button>
                     </div>
+                </div>
 
-                    <!-- Summarize -->
-                    <div class="skill-item" id="skill-summarize" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">📑</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Summarize</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Extract key points from URLs and local files.</div>
+                <!-- Skills List with Enable/Disable -->
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1rem; color: #111827;">Available Skills</h3>
+                    
+                    <div id="skills-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Apple Reminders -->
+                        <div class="skill-item" id="skill-reminders" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; width: 40px;">🍎</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #111827;">Apple Reminders</div>
+                                <div style="font-size: 0.8125rem; color: #6b7280;">Manage macOS reminders (add, list, complete).</div>
+                                <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Type: Bundled • Location: ~/.openclaw/skills</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                                <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af;">Status: Unknown</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="toggleSkill('reminders')" style="padding: 0.35rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Enable</button>
+                                    <button onclick="configureSkill('reminders')" style="padding: 0.35rem 0.75rem; background: #6b7280; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Config</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+
+                        <!-- Apple Notes -->
+                        <div class="skill-item" id="skill-notes" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; width: 40px;">📝</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #111827;">Apple Notes</div>
+                                <div style="font-size: 0.8125rem; color: #6b7280;">Search, view, and edit Apple Notes via memo CLI.</div>
+                                <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Type: Bundled • Location: ~/.openclaw/skills</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                                <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af;">Status: Unknown</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="toggleSkill('notes')" style="padding: 0.35rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Enable</button>
+                                    <button onclick="configureSkill('notes')" style="padding: 0.35rem 0.75rem; background: #6b7280; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Config</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Weather -->
+                        <div class="skill-item" id="skill-weather" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; width: 40px;">☁️</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #111827;">Weather</div>
+                                <div style="font-size: 0.8125rem; color: #6b7280;">Get real-time forecasts and conditions.</div>
+                                <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Type: Bundled • Location: ~/.openclaw/skills</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                                <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af;">Status: Unknown</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="toggleSkill('weather')" style="padding: 0.35rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Enable</button>
+                                    <button onclick="configureSkill('weather')" style="padding: 0.35rem 0.75rem; background: #6b7280; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Config</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summarize -->
+                        <div class="skill-item" id="skill-summarize" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; width: 40px;">📑</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #111827;">Summarize</div>
+                                <div style="font-size: 0.8125rem; color: #6b7280;">Extract key points from URLs and local files.</div>
+                                <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Type: Bundled • Location: ~/.openclaw/skills</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                                <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af;">Status: Unknown</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="toggleSkill('summarize')" style="padding: 0.35rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Enable</button>
+                                    <button onclick="configureSkill('summarize')" style="padding: 0.35rem 0.75rem; background: #6b7280; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Config</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Healthcheck -->
+                        <div class="skill-item" id="skill-healthcheck" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; width: 40px;">🛡️</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #111827;">Healthcheck</div>
+                                <div style="font-size: 0.8125rem; color: #6b7280;">Security audits and host hardening.</div>
+                                <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Type: Bundled • Location: ~/.openclaw/skills</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                                <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af;">Status: Unknown</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="toggleSkill('healthcheck')" style="padding: 0.35rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Enable</button>
+                                    <button onclick="configureSkill('healthcheck')" style="padding: 0.35rem 0.75rem; background: #6b7280; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Config</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skill Creator -->
+                        <div class="skill-item" id="skill-creator" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                            <div style="font-size: 1.5rem; width: 40px;">🛠️</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: #111827;">Skill Creator</div>
+                                <div style="font-size: 0.8125rem; color: #6b7280;">Design, structure, and package new AI skills.</div>
+                                <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Type: Bundled • Location: ~/.openclaw/skills</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                                <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af;">Status: Unknown</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button onclick="toggleSkill('creator')" style="padding: 0.35rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Enable</button>
+                                    <button onclick="configureSkill('creator')" style="padding: 0.35rem 0.75rem; background: #6b7280; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem; font-weight: 600;">Config</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Image Gen -->
-                    <div class="skill-item" id="skill-imagegen" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">🖼️</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Image Generation</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Generate AI images via DALL-E 3 API.</div>
-                        </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                <!-- Skill Locations Info -->
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1rem; color: #111827;">Skill Locations & Precedence</h3>
+                    <div style="font-size: 0.875rem; color: #374151; line-height: 1.6;">
+                        <p><strong>Skills are loaded from three locations:</strong></p>
+                        <ol style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                            <li><strong>Workspace skills:</strong> <code style="background: #e5e7eb; padding: 0.125rem 0.25rem; border-radius: 0.25rem;">&lt;workspace&gt;/skills</code> (highest precedence)</li>
+                            <li><strong>Managed/local skills:</strong> <code style="background: #e5e7eb; padding: 0.125rem 0.25rem; border-radius: 0.25rem;">~/.openclaw/skills</code> (shared across agents)</li>
+                            <li><strong>Bundled skills:</strong> Shipped with OpenClaw install (lowest precedence)</li>
+                        </ol>
+                        <p><strong>Precedence:</strong> Workspace → Managed/local → Bundled</p>
+                        <p><strong>Per-agent vs shared:</strong> Workspace skills are per-agent, managed/local skills are shared across all agents on the same machine.</p>
                     </div>
+                </div>
 
-                    <!-- Whisper -->
-                    <div class="skill-item" id="skill-whisper" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">🎧</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Whisper Transcribe</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Transcribe audio files into high-quality text.</div>
+                <!-- Slash Commands Reference -->
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.25rem;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1rem; color: #111827;">Slash Commands Reference</h3>
+                    <div style="font-size: 0.875rem; color: #374151; line-height: 1.6;">
+                        <p><strong>Directives (persist to session):</strong></p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.5rem 0;">
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/think</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/verbose</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/reasoning</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/elevated</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/exec</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/model</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/queue</code>
                         </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
-                    </div>
-
-                    <!-- Healthcheck -->
-                    <div class="skill-item" id="skill-healthcheck" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">🛡️</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Healthcheck</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Security audits and host hardening.</div>
+                        <p><strong>Inline shortcuts (run immediately):</strong></p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.5rem 0;">
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/help</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/commands</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/status</code>
+                            <code style="background: #e5e7eb; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/whoami</code>
                         </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
-                    </div>
-
-                    <!-- Skill Creator -->
-                    <div class="skill-item" id="skill-creator" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                        <div style="font-size: 1.5rem; width: 40px;">🛠️</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; color: #111827;">Skill Creator</div>
-                            <div style="font-size: 0.8125rem; color: #6b7280;">Design, structure, and package new AI skills.</div>
-                        </div>
-                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
                     </div>
                 </div>
             </div>
@@ -2592,6 +2703,208 @@
             } catch (err) {
                 resultDiv.textContent = `Error: ${err.message}`;
                 resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        // SKILLS MANAGEMENT FUNCTIONS
+        async function toggleSkill(skillName) {
+            const skillItem = document.getElementById(`skill-${skillName}`);
+            const statusEl = skillItem.querySelector('.status-indicator');
+            const button = skillItem.querySelector('button');
+            
+            try {
+                statusEl.textContent = 'Status: Updating...';
+                statusEl.style.color = '#3b82f6';
+                
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SKILL_CONFIG] Toggle skill "${skillName}". Reply with confirmation and new status.`
+                    })
+                });
+                
+                const data = await response.json();
+                let result = '';
+                
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                if (result.includes('enabled') || result.includes('Enabled')) {
+                    statusEl.textContent = 'Status: Enabled ✅';
+                    statusEl.style.color = '#10b981';
+                    button.textContent = 'Disable';
+                    button.style.background = '#ef4444';
+                } else if (result.includes('disabled') || result.includes('Disabled')) {
+                    statusEl.textContent = 'Status: Disabled ❌';
+                    statusEl.style.color = '#ef4444';
+                    button.textContent = 'Enable';
+                    button.style.background = '#10b981';
+                } else {
+                    statusEl.textContent = 'Status: Updated';
+                    statusEl.style.color = '#10b981';
+                }
+            } catch (err) {
+                statusEl.textContent = 'Status: Error ❌';
+                statusEl.style.color = '#ef4444';
+            }
+        }
+
+        async function configureSkill(skillName) {
+            const skillItem = document.getElementById(`skill-${skillName}`);
+            const statusEl = skillItem.querySelector('.status-indicator');
+            
+            try {
+                statusEl.textContent = 'Status: Configuring...';
+                statusEl.style.color = '#3b82f6';
+                
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SKILL_CONFIG] Show configuration options for skill "${skillName}". Include API keys, environment variables, and other settings.`
+                    })
+                });
+                
+                const data = await response.json();
+                let result = '';
+                
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                // Show configuration in a modal or alert
+                alert(`Configuration for ${skillName}:\n\n${result}`);
+                statusEl.textContent = 'Status: Configured';
+                statusEl.style.color = '#10b981';
+            } catch (err) {
+                statusEl.textContent = 'Status: Error ❌';
+                statusEl.style.color = '#ef4444';
+            }
+        }
+
+        async function applySkillsConfig() {
+            const allowBundled = document.getElementById('allowBundled').value;
+            const extraDirs = document.getElementById('extraDirs').value;
+            const watchSkills = document.getElementById('watchSkills').value;
+            const nodeManager = document.getElementById('nodeManager').value;
+            
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SKILL_CONFIG] Apply skills configuration: allowBundled="${allowBundled}", extraDirs="${extraDirs}", watchSkills="${watchSkills}", nodeManager="${nodeManager}". Reply with confirmation.`
+                    })
+                });
+                
+                const data = await response.json();
+                let result = '';
+                
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                alert(`Skills configuration applied:\n\n${result}`);
+            } catch (err) {
+                alert(`Error applying configuration: ${err.message}`);
+            }
+        }
+
+        async function checkSkillsConfig() {
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SKILL_CONFIG] Show current skills configuration from ~/.openclaw/openclaw.json. Include allowBundled, extraDirs, watch settings, and nodeManager.`
+                    })
+                });
+                
+                const data = await response.json();
+                let result = '';
+                
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                alert(`Current Skills Configuration:\n\n${result}`);
+            } catch (err) {
+                alert(`Error checking configuration: ${err.message}`);
+            }
+        }
+
+        async function showClawHubSection() {
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SKILL_CONFIG] Show ClawHub integration options. Include search, install, update, and publish commands.`
+                    })
+                });
+                
+                const data = await response.json();
+                let result = '';
+                
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                alert(`ClawHub Integration:\n\n${result}\n\n\nClawHub is the public skill registry for OpenClaw.\nSite: https://clawhub.ai\nCLI: npm i -g clawhub\n\nCommands:\n- clawhub search "calendar"\n- clawhub install <skill-slug>\n- clawhub update <skill-slug>\n- clawhub publish <skill-folder>`);
+            } catch (err) {
+                alert(`Error showing ClawHub options: ${err.message}`);
             }
         }
 

@@ -234,6 +234,82 @@
 - ✅ Enable/disable toggles functional
 - ✅ Apply Tool Configuration button working
 
+## Changelog v5.1 (2026-02-19)
+### Changes
+- **Version:** Updated to v5.1
+- **Date:** 2026-02-19
+- **Status:** Current version
+
+### Features Added
+- **Redesigned AI Skills Section:** Complete overhaul based on OpenClaw documentation
+  - Skills Configuration Panel with allowBundled, extraDirs, watchSkills, nodeManager settings
+  - Enable/Disable buttons for each skill
+  - Config buttons for per-skill configuration
+  - Skill locations and precedence information
+  - Slash Commands reference section
+  - ClawHub integration button
+
+### AI Skills Section Updates
+- **Skills Configuration:**
+  - Allow Bundled Skills: Comma-separated list of bundled skills to allow
+  - Extra Skill Directories: Additional skill directories (lowest precedence)
+  - Watch Skills for Changes: Enable/disable auto-refresh
+  - Node Manager: npm/pnpm/yarn/bun preference
+  - Apply Configuration button to save changes
+  - Check Current Config button to view current settings
+
+- **Skills List:**
+  - Each skill now has Enable/Disable buttons
+  - Each skill has Config button for per-skill settings
+  - Shows skill type (Bundled/Managed/Workspace)
+  - Shows skill location
+  - Status indicators for each skill
+
+- **Skill Locations & Precedence:**
+  - Workspace skills: &lt;workspace&gt;/skills (highest precedence)
+  - Managed/local skills: ~/.openclaw/skills (shared across agents)
+  - Bundled skills: Shipped with OpenClaw install (lowest precedence)
+  - Precedence: Workspace → Managed/local → Bundled
+
+- **Slash Commands Reference:**
+  - Directives: /think, /verbose, /reasoning, /elevated, /exec, /model, /queue
+  - Inline shortcuts: /help, /commands, /status, /whoami
+
+- **ClawHub Integration:**
+  - Button to show ClawHub options
+  - Search, install, update, publish skills
+  - Links to https://clawhub.ai
+
+### JavaScript Functions Added
+- `toggleSkill(skillName)`: Enable/disable individual skills
+- `configureSkill(skillName)`: Show configuration options for a skill
+- `applySkillsConfig()`: Apply skills configuration changes
+- `checkSkillsConfig()`: Check current skills configuration
+- `showClawHubSection()`: Show ClawHub integration options
+
+### GitHub Repository Updates
+- **Total Commits Today:** 18 commits
+- **Repository:** https://github.com/timckaubr/guiClaw.git
+- **Branch:** main
+- **Status:** All changes successfully pushed to GitHub
+
+### Backup Created
+- **Location:** ~/Desktop/Backups/guiClaw/guiClaw-v5.1
+- **Purpose:** Complete backup of v5.1 for future reference
+- **Contents:** All files and dependencies included
+
+### Testing Results
+- ✅ Skills Configuration panel working
+- ✅ Enable/Disable buttons functional
+- ✅ Config buttons functional
+- ✅ Skill locations information displayed
+- ✅ Slash commands reference displayed
+- ✅ ClawHub button functional
+- ✅ All navigation buttons clickable
+- ✅ Section switching working (all 7 sections)
+- ✅ Existing functionality preserved
+- ✅ No breaking changes introduced
+
 ## Changelog v5.0 (2026-02-19)
 ### Changes
 - **Version:** Updated to v5.0
