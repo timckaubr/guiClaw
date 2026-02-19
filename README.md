@@ -1,7 +1,7 @@
-# guiClaw v0.35
+# guiClaw v0.38
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.35) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide and improved UI.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.38) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide and improved UI.
 
 ## 📸 Screenshots
 
