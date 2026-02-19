@@ -1,7 +1,7 @@
-# guiClaw v0.38
+# guiClaw v5.0
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.38) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide and improved UI.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v5.0) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, and comprehensive tool configuration.
 
 ## 📸 Screenshots
 
@@ -20,6 +20,11 @@ guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running in
 - **Auto Token Loading**: Gateway token automatically loads on page load
 - **Clean Interface**: Status bar removed for cleaner look
 - **Consistent UI**: All buttons use consistent font size (0.85rem)
+- **Tool Groups Configuration**: 9 tool groups with enable/disable toggles
+- **Browser Profiles**: 6 browser profiles with configuration options
+- **Enhanced UI**: 7 navigation sections (AI Assistant, Channel, AI Tools, Browser, AI Skills, etc.)
+- **Current Model Display**: Shows actual model name (xiaomi/mimo-v2-flash)
+- **Token Usage Display**: Removed for cleaner interface
 
 ## Architecture
 ```
@@ -143,12 +148,12 @@ The gateway must be configured to trust the proxy server:
 - **Gateway Port**: 18789 (OpenClaw gateway)
 
 ## Version Information
-- **Version**: v0.38
+- **Version**: v5.0
 - **Date**: 2026-02-19
 - **Status**: Operational
-- **Features**: Fixed authentication token issues, updated GitHub repository, improved stability
+- **Features**: Browser section with 6 profiles, tool groups configuration with 9 groups, enhanced UI with 7 sections, current model display, token usage removal
 
-## Features in v0.38
+## Features in v5.0
 - ✅ Web-based GUI for OpenClaw
 - ✅ File upload support
 - ✅ Model switching capability
@@ -165,6 +170,13 @@ The gateway must be configured to trust the proxy server:
 - ✅ Fixed authentication token issues (401 errors resolved)
 - ✅ Updated GitHub repository with correct tokens
 - ✅ Improved stability and reliability
+- ✅ **Browser Section**: 6 browser profiles with enable/disable toggles
+- ✅ **Tool Groups Configuration**: 9 tool groups with enable/disable toggles
+- ✅ **Enhanced UI**: 7 navigation sections (AI Assistant, Channel, AI Tools, Browser, AI Skills, etc.)
+- ✅ **Current Model Display**: Shows actual model name (xiaomi/mimo-v2-flash)
+- ✅ **Token Usage Display**: Removed for cleaner interface
+- ✅ **Tool Profiles**: Minimal, coding, messaging, full profiles
+- ✅ **Browser Quick Actions**: Start, Stop, Restart, Open URL, Take Screenshot, Get Snapshot
 
 ## Usage
 1. **Start the proxy server**: `node proxy.js` or `./start.sh`
@@ -203,6 +215,131 @@ This project is part of the OpenClaw ecosystem.
 For issues or questions, refer to the OpenClaw documentation or community resources.
 
 ## Changelog
+### v5.0 (2026-02-19)
+- **Browser Section**: Added after AI Tools and before AI Skills
+  - 6 browser profiles with enable/disable toggles:
+    1. profile:openclaw (Dedicated, isolated Chromium browser)
+    2. profile:chrome (Extension relay to existing Chrome tabs)
+    3. profile:work (Work-specific browser profile)
+    4. profile:remote (Remote CDP browser connection)
+    5. profile:browserless (Hosted Chromium service via Browserless.io)
+    6. profile:default (System default Chromium-based browser)
+  - Browser configuration options information
+  - Apply Browser Configuration button
+  - Check Browser Status button
+  - Browser Quick Actions: Start, Stop, Restart, Open URL, Take Screenshot, Get Snapshot
+  - Individual browser profile status indicators
+
+- **AI Assistant Section Updates**:
+  - Removed "Configured Models" display from AI model selector
+  - Removed token usage display from Chat with AI section
+  - Updated Chat with AI header to include current model
+  - Updated current model display to show actual model (xiaomi/mimo-v2-flash)
+
+- **AI Tools Section Updates**:
+  - Added comprehensive tool groups configuration section
+  - Added 9 tool groups with enable/disable toggles:
+    1. group:runtime (exec, bash, process)
+    2. group:fs (read, write, edit, apply_patch)
+    3. group:sessions (sessions_list, sessions_history, sessions_send, sessions_spawn, session_status)
+    4. group:memory (memory_search, memory_get)
+    5. group:web (web_search, web_fetch)
+    6. group:ui (browser, canvas)
+    7. group:automation (cron, gateway)
+    8. group:messaging (message)
+    9. group:nodes (nodes)
+  - Added tool profiles information (minimal, coding, messaging, full)
+  - Added Apply Tool Configuration button to save changes to OpenClaw config
+  - Added Check All Tools button to check current tool status
+  - Updated individual tool items to show group membership
+
+- **GitHub Repository Updates**:
+  - Total Commits Today: 17 commits
+  - Repository: https://github.com/timckaubr/guiClaw.git
+  - Branch: main
+  - Status: All changes successfully pushed to GitHub
+
+- **Backup Created**:
+  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v5.0
+  - Purpose: Complete backup of v5.0 for future reference
+  - Contents: All files and dependencies included
+
+- **Testing Results**:
+  - ✅ All navigation buttons clickable
+  - ✅ Section switching working (all 7 sections)
+  - ✅ Channel section accessible and displays correctly
+  - ✅ WhatsApp configuration interface working
+  - ✅ Connect and Show QR buttons functional
+  - ✅ Status display working
+  - ✅ Existing functionality preserved
+  - ✅ No breaking changes introduced
+  - ✅ Current model displays correctly (xiaomi/mimo-v2-flash)
+  - ✅ Token usage display removed successfully
+  - ✅ Chat header updated correctly
+  - ✅ Tool groups configuration section working
+  - ✅ Enable/disable toggles functional
+  - ✅ Apply Tool Configuration button working
+  - ✅ Browser section working
+  - ✅ Browser profile toggles functional
+  - ✅ Browser quick actions working
+
+### v4.0 (2026-02-19)
+- **Channel Section**: Added after AI Assistant and before AI Tools
+  - Current Channel Status display
+  - Link WhatsApp (QR code process)
+  - Approve Pairing Request
+  - Configure Channel Settings
+  - Restart Gateway
+  - Test Integration
+  - Allow List Management (view/add/remove numbers)
+
+- **AI Assistant Section Updates**:
+  - Removed "Configured Models" display from AI model selector
+  - Removed token usage display from Chat with AI section
+  - Updated Chat with AI header to include current model
+  - Updated current model display to show actual model (xiaomi/mimo-v2-flash)
+
+- **AI Tools Section Updates**:
+  - Added comprehensive tool groups configuration section
+  - Added 9 tool groups with enable/disable toggles
+  - Added tool profiles information (minimal, coding, messaging, full)
+  - Added Apply Tool Configuration button
+  - Added Check All Tools button
+
+- **GitHub Repository Updates**:
+  - Total Commits Today: 14 commits
+  - Repository: https://github.com/timckaubr/guiClaw.git
+  - Branch: main
+  - Status: All changes successfully pushed to GitHub
+
+- **Backup Created**:
+  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v4.0
+
+### v0.39 (2026-02-19)
+- **Channel Section**: Added after AI Assistant and before AI Tools
+  - Current Channel Status display
+  - Link WhatsApp (QR code process)
+  - Approve Pairing Request
+  - Configure Channel Settings
+  - Restart Gateway
+  - Test Integration
+  - Allow List Management (view/add/remove numbers)
+
+- **AI Assistant Section Updates**:
+  - Removed "Configured Models" display from AI model selector
+  - Removed token usage display from Chat with AI section
+  - Updated Chat with AI header to include current model
+  - Updated current model display to show actual model (xiaomi/mimo-v2-flash)
+
+- **GitHub Repository Updates**:
+  - Total Commits Today: 11 commits
+  - Repository: https://github.com/timckaubr/guiClaw.git
+  - Branch: main
+  - Status: All changes successfully pushed to GitHub
+
+- **Backup Created**:
+  - Location: ~/Desktop/Backups/guiClaw/guiClaw-v0.39
+
 ### v0.38 (2026-02-19)
 - Fixed authentication token issues (401 errors resolved)
 - Updated GitHub repository with correct tokens
