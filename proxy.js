@@ -113,9 +113,8 @@ const server = http.createServer((req, res) => {
             method: req.method,
             headers: {
                 'Content-Type': req.headers['content-type'],
-                'Authorization': req.headers['authorization'] || 'Bearer _mcuInWCnelGGCUVAHoo5Xxn_Shu2ZoOoAhR1Yo8yS0',
+                'Authorization': req.headers['authorization'] || 'Bearer 13df78878223e1c280296d6ec83f2ba92636c36b1c65bb92',
                 'x-openclaw-agent-id': req.headers['x-openclaw-agent-id'] || 'main',
-                // 'x-openclaw-session-key': req.headers['x-openclaw-session-key'] || 'agent:main:main',
                 'host': '127.0.0.1:18789'
             }
         };
