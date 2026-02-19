@@ -292,6 +292,7 @@
                 <button onclick="showSection('assistant')" id="nav-assistant" class="active" style="font-size: 0.85rem;">AI Assistant</button>
                 <button onclick="showSection('channel')" id="nav-channel" style="font-size: 0.85rem;">Channel</button>
                 <button onclick="showSection('tools')" id="nav-tools" style="font-size: 0.85rem;">AI Tools</button>
+                <button onclick="showSection('browser')" id="nav-browser" style="font-size: 0.85rem;">Browser</button>
                 <button onclick="showSection('skills')" id="nav-skills" style="font-size: 0.85rem;">AI Skills</button>
                 <button onclick="showSection('troubleshoot')" id="nav-troubleshoot" style="font-size: 0.85rem;">Troubleshooting</button>
             </nav>
@@ -952,7 +953,210 @@
                 </div>
             </div>
 
-            <!-- SECTION 4: AI SKILLS -->
+            <!-- SECTION 4: BROWSER -->
+            <div id="section-browser" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="margin: 0;">Browser Configuration</h2>
+                    <button onclick="checkBrowserStatus()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Check Browser Status</button>
+                </div>
+
+                <!-- Browser Profiles Configuration -->
+                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h3 style="margin-top: 0;">Browser Profiles</h3>
+                    <p style="margin-top: 0.5rem; color: #4b5563; font-size: 0.9rem;">Enable or disable browser profiles to control which browser is available to the AI agent.</p>
+                    
+                    <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                        <!-- OpenClaw Managed Browser -->
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600; color: #1f2937;">profile:openclaw</span>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="toggle-profile-openclaw" onchange="toggleBrowserProfile('openclaw')" style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.85rem; color: #6b7280;">Enable</span>
+                                </label>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #6b7280;">Dedicated, isolated Chromium browser</div>
+                            <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">No extension required, fully managed</div>
+                        </div>
+
+                        <!-- Chrome Extension Relay -->
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600; color: #1f2937;">profile:chrome</span>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="toggle-profile-chrome" onchange="toggleBrowserProfile('chrome')" style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.85rem; color: #6b7280;">Enable</span>
+                                </label>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #6b7280;">Extension relay to existing Chrome tabs</div>
+                            <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Requires OpenClaw Browser Relay extension</div>
+                        </div>
+
+                        <!-- Work Profile -->
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600; color: #1f2937;">profile:work</span>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="toggle-profile-work" onchange="toggleBrowserProfile('work')" style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.85rem; color: #6b7280;">Enable</span>
+                                </label>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #6b7280;">Work-specific browser profile</div>
+                            <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Separate CDP port and configuration</div>
+                        </div>
+
+                        <!-- Remote CDP Browser -->
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600; color: #1f2937;">profile:remote</span>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="toggle-profile-remote" onchange="toggleBrowserProfile('remote')" style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.85rem; color: #6b7280;">Enable</span>
+                                </label>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #6b7280;">Remote Chromium browser via CDP</div>
+                            <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Connect to remote browser instance</div>
+                        </div>
+
+                        <!-- Browserless Profile -->
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600; color: #1f2937;">profile:browserless</span>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="toggle-profile-browserless" onchange="toggleBrowserProfile('browserless')" style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.85rem; color: #6b7280;">Enable</span>
+                                </label>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #6b7280;">Hosted Chromium service (Browserless.io)</div>
+                            <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Cloud-based browser automation</div>
+                        </div>
+
+                        <!-- Default Browser -->
+                        <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ec4899;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600; color: #1f2937;">profile:default</span>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" id="toggle-profile-default" onchange="toggleBrowserProfile('default')" style="width: 18px; height: 18px;">
+                                    <span style="font-size: 0.85rem; color: #6b7280;">Enable</span>
+                                </label>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #6b7280;">System default Chromium-based browser</div>
+                            <div style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">Auto-detects Chrome, Brave, Edge, etc.</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                        <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">Browser Configuration</h4>
+                        <p style="margin: 0.5rem 0; color: #4b5563; font-size: 0.85rem;">OpenClaw browser configuration options:</p>
+                        <ul style="margin: 0.5rem 0; color: #4b5563; font-size: 0.85rem; padding-left: 1.5rem;">
+                            <li><strong>enabled</strong>: Enable/disable browser tool</li>
+                            <li><strong>defaultProfile</strong>: Set default browser profile</li>
+                            <li><strong>executablePath</strong>: Custom browser executable path</li>
+                            <li><strong>headless</strong>: Run browser in headless mode</li>
+                            <li><strong>evaluateEnabled</strong>: Allow JavaScript evaluation</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <button onclick="applyBrowserConfig()" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Apply Browser Configuration</button>
+                        <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to apply the selected browser profiles configuration to OpenClaw config.</p>
+                        <div id="browser-config-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                    </div>
+                </div>
+
+                <!-- Browser Status -->
+                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h3 style="margin-top: 0;">Browser Status</h3>
+                    <p style="margin-top: 0.5rem; color: #4b5563; font-size: 0.9rem;">Check the status of the OpenClaw browser and its profiles.</p>
+                    
+                    <div style="margin-top: 1rem;">
+                        <button onclick="checkBrowserStatus()" style="padding: 0.75rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Check Browser Status</button>
+                        <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to check the current status of the browser and profiles.</p>
+                        <div id="browser-status-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                    </div>
+                </div>
+
+                <!-- Browser Quick Actions -->
+                <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <h3 style="margin-top: 0;">Browser Quick Actions</h3>
+                    <p style="margin-top: 0.5rem; color: #4b5563; font-size: 0.9rem;">Quick actions to manage the OpenClaw browser.</p>
+                    
+                    <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem;">
+                        <button onclick="startBrowser()" style="padding: 0.75rem 1rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Start Browser</button>
+                        <button onclick="stopBrowser()" style="padding: 0.75rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Stop Browser</button>
+                        <button onclick="restartBrowser()" style="padding: 0.75rem 1rem; background: #f59e0b; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Restart Browser</button>
+                        <button onclick="openBrowserUrl()" style="padding: 0.75rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Open URL</button>
+                        <button onclick="takeBrowserScreenshot()" style="padding: 0.75rem 1rem; background: #8b5cf6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Take Screenshot</button>
+                        <button onclick="getBrowserSnapshot()" style="padding: 0.75rem 1rem; background: #ec4899; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Get Snapshot</button>
+                    </div>
+                    <div id="browser-action-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                </div>
+
+                <!-- Individual Browser Profile Status -->
+                <div id="browser-profiles-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <!-- 1. OpenClaw Managed Browser -->
+                    <div class="browser-item" id="browser-openclaw" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">🌐</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">1. OpenClaw Managed Browser</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Dedicated, isolated Chromium browser profile (no extension required).</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 2. Chrome Extension Relay -->
+                    <div class="browser-item" id="browser-chrome" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">💻</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">2. Chrome Extension Relay</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Controls existing Chrome tabs via local relay + Chrome extension.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 3. Work Profile -->
+                    <div class="browser-item" id="browser-work" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">💼</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">3. Work Profile</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Work-specific browser profile with separate CDP port and configuration.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 4. Remote CDP Browser -->
+                    <div class="browser-item" id="browser-remote" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">🖥️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">4. Remote CDP Browser</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Connect to remote Chromium browser via CDP URL.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 5. Browserless Profile -->
+                    <div class="browser-item" id="browser-browserless" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">☁️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">5. Browserless Profile</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Hosted Chromium service via Browserless.io API.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 6. Default Browser -->
+                    <div class="browser-item" id="browser-default" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">🌐</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">6. Default Browser</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">System default Chromium-based browser (Chrome, Brave, Edge, etc.).</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: AI SKILLS -->
             <div id="section-skills" class="section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h2 style="margin: 0;">AI Skill Library</h2>
@@ -1905,6 +2109,341 @@
                 resultDiv.textContent = 'Error: ' + error.message;
                 resultDiv.style.color = '#ef4444';
             }
+        }
+
+        // Browser Configuration Functions
+        async function toggleBrowserProfile(profileName) {
+            const checkbox = document.getElementById(`toggle-profile-${profileName}`);
+            const resultDiv = document.getElementById('browser-config-result');
+            resultDiv.style.display = 'block';
+            
+            if (checkbox.checked) {
+                resultDiv.textContent = `Enabling browser profile: ${profileName}...`;
+                resultDiv.style.color = '#6b7280';
+            } else {
+                resultDiv.textContent = `Disabling browser profile: ${profileName}...`;
+                resultDiv.style.color = '#6b7280';
+            }
+            
+            // Update the configuration based on current state
+            const profiles = ['openclaw', 'chrome', 'work', 'remote', 'browserless', 'default'];
+            const enabledProfiles = [];
+            
+            profiles.forEach(profile => {
+                const profileCheckbox = document.getElementById(`toggle-profile-${profile}`);
+                if (profileCheckbox && profileCheckbox.checked) {
+                    enabledProfiles.push(profile);
+                }
+            });
+            
+            // Show current configuration
+            if (enabledProfiles.length > 0) {
+                resultDiv.textContent = `Current enabled profiles: ${enabledProfiles.join(', ')}\n\nClick "Apply Browser Configuration" to save changes to OpenClaw config.`;
+            } else {
+                resultDiv.textContent = `No profiles enabled.\n\nClick "Apply Browser Configuration" to save changes to OpenClaw config.`;
+            }
+        }
+
+        async function applyBrowserConfig() {
+            const resultDiv = document.getElementById('browser-config-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Applying browser configuration...';
+            
+            const profiles = ['openclaw', 'chrome', 'work', 'remote', 'browserless', 'default'];
+            const enabledProfiles = [];
+            
+            profiles.forEach(profile => {
+                const checkbox = document.getElementById(`toggle-profile-${profile}`);
+                if (checkbox && checkbox.checked) {
+                    enabledProfiles.push(profile);
+                }
+            });
+            
+            // Build the OpenClaw config command
+            let configCommand;
+            if (enabledProfiles.length > 0) {
+                const defaultProfile = enabledProfiles[0]; // Use first enabled profile as default
+                configCommand = `openclaw config patch '{"browser": {"enabled": true, "defaultProfile": "${defaultProfile}"}}'`;
+            } else {
+                configCommand = `openclaw config patch '{"browser": {"enabled": false}}'`;
+            }
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: ${configCommand}. Provide confirmation of the update.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#10b981';
+                
+                // Show the actual command for reference
+                resultDiv.textContent += `\n\nCommand executed: ${configCommand}`;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function checkBrowserStatus() {
+            const resultDiv = document.getElementById('browser-status-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Checking browser status...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: openclaw browser status. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                
+                // Update individual browser status indicators
+                updateBrowserStatusIndicators(output);
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function startBrowser() {
+            const resultDiv = document.getElementById('browser-action-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Starting browser...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser start. Provide confirmation of the start.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#10b981';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function stopBrowser() {
+            const resultDiv = document.getElementById('browser-action-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Stopping browser...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser stop. Provide confirmation of the stop.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#ef4444';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function restartBrowser() {
+            const resultDiv = document.getElementById('browser-action-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Restarting browser...';
+            
+            try {
+                // Stop first
+                const stopResponse = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser stop.`
+                    })
+                });
+                
+                // Then start
+                const startResponse = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser start. Provide confirmation of the restart.`
+                    })
+                });
+                
+                const data = await startResponse.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#f59e0b';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function openBrowserUrl() {
+            const url = prompt("Enter URL to open:", "https://example.com");
+            if (!url) return;
+            
+            const resultDiv = document.getElementById('browser-action-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = `Opening URL: ${url}...`;
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser open ${url}. Provide confirmation of the open.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#3b82f6';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function takeBrowserScreenshot() {
+            const resultDiv = document.getElementById('browser-action-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Taking screenshot...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser screenshot. Provide confirmation and path of the screenshot.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#8b5cf6';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function getBrowserSnapshot() {
+            const resultDiv = document.getElementById('browser-action-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Getting browser snapshot...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw browser snapshot. Provide the snapshot output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                resultDiv.style.color = '#ec4899';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        function updateBrowserStatusIndicators(statusText) {
+            // Update individual browser status indicators based on the output
+            const browserItems = document.querySelectorAll('.browser-item');
+            
+            browserItems.forEach(item => {
+                const statusIndicator = item.querySelector('.status-indicator');
+                if (!statusIndicator) return;
+                
+                const browserName = item.id.replace('browser-', '');
+                
+                // Check if browser is mentioned in status text
+                if (statusText.toLowerCase().includes(browserName) || 
+                    statusText.toLowerCase().includes('enabled') ||
+                    statusText.toLowerCase().includes('available')) {
+                    statusIndicator.textContent = 'Status: Enabled';
+                    statusIndicator.style.color = '#10b981';
+                } else if (statusText.toLowerCase().includes('disabled') ||
+                          statusText.toLowerCase().includes('unavailable') ||
+                          statusText.toLowerCase().includes('stopped')) {
+                    statusIndicator.textContent = 'Status: Disabled';
+                    statusIndicator.style.color = '#ef4444';
+                } else {
+                    statusIndicator.textContent = 'Status: Unknown';
+                    statusIndicator.style.color = '#9ca3af';
+                }
+            });
         }
 
         async function checkAllTools() {
