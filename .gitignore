@@ -1,0 +1,79 @@
+# guiClaw .gitignore
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+*.log
+proxy.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# Upload directory (if contains sensitive data)
+# upload/
+
+# Binary files (if any)
+*.bin
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Cache
+.cache/
+.nyc_output/
+coverage/
+
+# Build output
+dist/
+build/
+out/
+
+# Package files (keep these)
+!package.json
+!package-lock.json
+
+# Keep these important files
+!README.md
+!VERSION.md
+!INSTALLATION.md
+!INSTALLATION_CHECKLIST.md
+!guiClaw.command
+!guiClaw
+!proxy.js
+!index.html
+!setup.sh
+!start.sh

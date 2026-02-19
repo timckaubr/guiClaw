@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>guiClaw</title>
+    <style>
+        :root {
+            --bg-color: #f9fafb;
+            --chat-bg: #ffffff;
+            --primary-color: #2563eb;
+            --text-color: #1f2937;
+            --bubble-user: #2563eb;
+            --bubble-assistant: #f3f4f6;
+            --bubble-text-user: #ffffff;
+            --bubble-text-assistant: #1f2937;
+            --nav-border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow: hidden; /* Prevent body scroll, container handles it */
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: var(--chat-bg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            overflow: hidden; /* Ensure content stays within bounds */
+        }
+
+        /* HEADER & NAV */
+        header {
+            flex-shrink: 0; /* Don't shrink header */
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--nav-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .brand p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        nav button {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        nav button:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        nav button.active {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* SECTIONS */
+        main {
+            flex: 1;
+            overflow: hidden; /* Important: this contains the scrollable sections */
+            position: relative;
+            display: flex; /* Ensure children fill height */
+            flex-direction: column;
+            height: 100%; /* Explicit height */
+        }
+
+        .section {
+            display: none !important; /* Force hide inactive sections */
+            flex: 1; /* Fill remaining space */
+            flex-direction: column;
+            padding: 1.5rem;
+            overflow-y: auto; /* Scroll ONLY the section content */
+            height: 100%; /* Ensure it takes full height of main */
+            box-sizing: border-box; /* Include padding in height */
+            width: 100%; /* Ensure full width */
+        }
+
+        .section.active {
+            display: flex !important; /* Force show active section */
+        }
+
+        /* CHAT SPECIFIC STYLES (Nested scroll) */
+        #section-assistant {
+            overflow: hidden; /* Don't scroll the outer container for chat */
+            padding: 1.5rem; /* Add padding back to outer container */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 1rem; /* Gap between the two boxes */
+            background-color: var(--bg-color); /* Ensure background is grey/light */
+            box-sizing: border-box;
+        }
+
+        /* BOX 1: MODEL SELECTOR */
+        .chat-header {
+            flex-shrink: 0;
+            padding: 1rem 1.5rem;
+            background: #fff;
+            border: 1px solid #e5e7eb; /* Add border */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        /* BOX 2: CHAT AREA WRAPPER */
+        .chat-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            overflow: hidden; /* Contain inner scroll */
+            min-height: 0;
+        }
+
+        .chat-header label { font-weight: 600; }
+
+        .chat-header select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: #111827;
+            background: #fff;
+            min-width: 200px;
+        }
+        
+        #chat-container {
+            flex: 1;
+            overflow-y: auto; /* Scroll ONLY the message list */
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem; /* Padding inside scroll area */
+            min-height: 0; /* Important for flex child scrolling */
+            background-color: #fff; /* White background for chat area */
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            white-space: pre-wrap; /* Preserve line breaks and spacing */
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--bubble-user);
+            color: var(--bubble-text-user);
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background-color: var(--bubble-assistant);
+            color: var(--bubble-text-assistant);
+        }
+
+        /* Chat Input Area */
+        .chat-controls {
+            flex-shrink: 0; /* Don't shrink input area */
+            padding: 1rem 1.5rem; /* Padding for input area */
+            border-top: 1px solid #e5e7eb; /* Separator from chat */
+            display: flex;
+            gap: 0.75rem;
+            background: #fff;
+            margin-bottom: 0; /* Ensure no extra margin */
+        }
+
+        .chat-controls input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            outline: none;
+        }
+
+        .chat-controls input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .chat-controls button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700; /* Made bolder to match */
+            font-size: 1rem; /* Matched size with input/titles */
+            cursor: pointer;
+        }
+
+        .chat-controls button:hover { background-color: #1d4ed8; }
+
+        /* GENERIC SECTION STYLES */
+        h2 { margin-top: 0; font-size: 1.5rem; color: #111827; }
+        p { color: #4b5563; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TYPING INDICATOR */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--bubble-assistant);
+            border-radius: 12px;
+            align-self: flex-start;
+            width: fit-content;
+            margin-bottom: 8px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <h1>🦁 guiClaw</h1>
+                <p>GUI for OpenClaw by Riceball</p>
+            </div>
+            <nav>
+                <button onclick="showSection('install')" id="nav-install" style="font-size: 0.85rem;">Installation</button>
+                <button onclick="showSection('assistant')" id="nav-assistant" class="active" style="font-size: 0.85rem;">AI Assistant</button>
+                <button onclick="showSection('tools')" id="nav-tools" style="font-size: 0.85rem;">AI Tools</button>
+                <button onclick="showSection('skills')" id="nav-skills" style="font-size: 0.85rem;">AI Skills</button>
+                <button onclick="showSection('troubleshoot')" id="nav-troubleshoot" style="font-size: 0.85rem;">Troubleshooting</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- SECTION 1: INSTALLATION -->
+            <div id="section-install" class="section">
+                <h2>Installation</h2>
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+
+                    <!-- Step 1: Installation and Uninstallation of OpenClaw in macOS -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3 style="margin-top:0;">Step 1: Installation and Uninstallation of OpenClaw in macOS</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Follow these steps to install OpenClaw on macOS:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">1. Install Homebrew</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+                                <button onclick="copyToClipboard('/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Homebrew is the package manager for macOS.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2. Install Node.js</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">brew install node</pre>
+                                <button onclick="copyToClipboard('brew install node')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Node.js 22+ is required for OpenClaw gateway.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3. Install OpenClaw</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">curl -fsSL https://openclaw.ai/install.sh | bash</pre>
+                                <button onclick="copyToClipboard('curl -fsSL https://openclaw.ai/install.sh | bash')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This will install OpenClaw CLI and set up the gateway service.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4. Setup OpenClaw</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw onboard</pre>
+                                <button onclick="copyToClipboard('openclaw onboard')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This will run the onboarding wizard to configure OpenClaw.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">Uninstallation (if needed)</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw uninstall --all --yes --non-interactive</pre>
+                                <button onclick="copyToClipboard('openclaw uninstall --all --yes --non-interactive')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This will completely remove OpenClaw from your system.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="showInstallResult('openclaw --version', 'install-verify-result')" style="padding: 0.75rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Verify Installation</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to check if OpenClaw is installed correctly.</p>
+                            <div id="install-verify-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Setup of the OpenClaw Environment -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 2: Setup of the OpenClaw Environment</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Configure the OpenClaw environment for guiClaw to work properly:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.1 Enable HTTP API Endpoints</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw config set gateway.http.endpoints.responses.enabled true</pre>
+                                <button onclick="copyToClipboard('openclaw config set gateway.http.endpoints.responses.enabled true')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This is the critical step for guiClaw to work properly.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.2 Add Trusted Proxy</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw config set gateway.trustedProxies '["127.0.0.1:8000", "localhost:8000"]'</pre>
+                                <button onclick="copyToClipboard('openclaw config set gateway.trustedProxies \'[\"127.0.0.1:8000\", \"localhost:8000\"]\'')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This allows guiClaw to communicate with OpenClaw securely.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.3 Restart the Gateway</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw gateway restart</pre>
+                                <button onclick="copyToClipboard('openclaw gateway restart')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Restart to apply the configuration changes.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="showInstallResult('openclaw gateway status', 'gateway-status-result')" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Check Gateway Status</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to verify the gateway is running correctly.</p>
+                            <div id="gateway-status-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Update guiClaw to the Correct OpenClaw Gateway Token -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 3: Update guiClaw to the Correct OpenClaw Gateway Token</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Get your OpenClaw gateway token and update guiClaw:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.1 Get Your Gateway Token</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cat ~/.openclaw/openclaw.json | jq -r '.gateway.auth.token'</pre>
+                                <button onclick="copyToClipboard('cat ~/.openclaw/openclaw.json | jq -r \\'\".gateway.auth.token\"\\'')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Copy the token value for the next step.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.2 Show the Current Gateway Token</h4>
+                            <p style="margin-top: 0.5rem; color: #4b5563;">Your current OpenClaw gateway token:</p>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.75rem;">
+                                <div id="current-token-display" style="flex: 1; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #10b981; font-weight: bold; word-break: break-all; min-height: 40px; display: flex; align-items: center;">Loading token...</div>
+                                <button onclick="copyToken()" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.3 Update Token in Index File</h4>
+                            <p style="margin-top: 0.5rem; color: #4b5563;">Update the token value by editing the index.html file in guiClaw:</p>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">const AUTH_TOKEN = 'YOUR_TOKEN_HERE';</pre>
+                                <button onclick="copyToClipboard('const AUTH_TOKEN = \'YOUR_TOKEN_HERE\';')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Search for <code>const AUTH_TOKEN</code> in <code>~/Desktop/guiClaw/index.html</code> and replace the value.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.4 Install Dependencies</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cd ~/Desktop/guiClaw && npm install busboy</pre>
+                                <button onclick="copyToClipboard('cd ~/Desktop/guiClaw && npm install busboy')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Install the <code>busboy</code> package for file uploads.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Refresh guiClaw -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 4: Refresh guiClaw</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Stop the current guiClaw server and run the start script:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.1 Stop the Current guiClaw Server</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">pkill -f "node proxy.js"</pre>
+                                <button onclick="copyToClipboard('pkill -f \"node proxy.js\"')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.2 Run the Start Script</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cd ~/Desktop/guiClaw && ./start.sh</pre>
+                                <button onclick="copyToClipboard('cd ~/Desktop/guiClaw && ./start.sh')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This will start guiClaw and open your browser automatically.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.3 Access guiClaw</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Open your browser and navigate to:</p>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">http://localhost:8000</pre>
+                                <button onclick="copyToClipboard('http://localhost:8000')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="showInstallResult('cd ~/Desktop/guiClaw && ./start.sh', 'refresh-result')" style="padding: 0.75rem 1.5rem; background: #ef4444; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Refresh guiClaw</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to stop and restart guiClaw with the updated token.</p>
+                            <div id="refresh-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SECTION 2: AI ASSISTANT -->
+            <div id="section-assistant" class="section active">
+                <!-- BOX 1: AI MODEL SELECTOR -->
+                <div class="chat-wrapper" style="flex: 0 0 auto;">
+                    <div style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">🧠 AI Model</div>
+                    <div style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: 600; color: #4b5563;">Current Model:</span>
+                            <span id="current-model-display" style="color: #111827;">OpenClaw (Default)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: 600; color: #4b5563;">Configured Models:</span>
+                            <span id="configured-models-display" style="color: #6b7280; font-size: 0.875rem;">GPT-4o, Gemini Pro, Claude 3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOX 2: CHAT WRAPPER (MESSAGES + INPUT) -->
+                <div class="chat-wrapper">
+                    <div style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                        <span>💬 Chat with AI</span>
+                        <span id="token-usage-display" style="font-size: 0.8rem; font-weight: normal; color: #6b7280; background: #f3f4f6; padding: 2px 8px; border-radius: 12px;">📊 Loading usage...</span>
+                    </div>
+                    <div id="chat-container">
+                        <div class="message assistant">Hello! I'm Riceball. How can I help you today?</div>
+                    </div>
+                    <!-- CHAT INPUT (Send Message) -->
+                    <div class="chat-controls">
+                        <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+                        <button id="chat-send">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: AI TOOLS -->
+            <div id="section-tools" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="margin: 0;">AI Tool Inventory</h2>
+                    <button onclick="checkAllTools()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Run System Check</button>
+                </div>
+                
+                <div id="tools-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <!-- 1. File System -->
+                    <div class="tool-item" id="tool-filesystem" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">📂</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">1. File System</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Direct workspace file management and editing.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 2. Shell -->
+                    <div class="tool-item" id="tool-shell" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">💻</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">2. Shell (Exec)</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Terminal command execution and background processes.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 3. Web Search -->
+                    <div class="tool-item" id="tool-search" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">🔍</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">3. Web Search</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Real-time information gathering via Brave Search.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 4. Message -->
+                    <div class="tool-item" id="tool-message" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">💬</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">4. Message</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">External communications (WhatsApp, Telegram).</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 5. Browser -->
+                    <div class="tool-item" id="tool-browser" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">🌐</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">5. Browser</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Automated web interaction and scraping.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- 6. Others -->
+                    <div class="tool-item" id="tool-others" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; transition: all 0.2s;">
+                        <div style="font-size: 1.5rem; width: 40px;">🛠️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">6. Others</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Canvas, TTS, Vision, and Memory tools.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: AI SKILLS -->
+            <div id="section-skills" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="margin: 0;">AI Skill Library</h2>
+                    <button onclick="checkAllSkills()" style="padding: 0.6rem 1.25rem; background: var(--primary-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">Check Skills Status</button>
+                </div>
+
+                <div id="skills-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <!-- Apple Reminders -->
+                    <div class="skill-item" id="skill-reminders" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">🍎</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Apple Reminders</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Manage macOS reminders (add, list, complete).</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Apple Notes -->
+                    <div class="skill-item" id="skill-notes" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">📝</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Apple Notes</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Search, view, and edit Apple Notes via memo CLI.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Weather -->
+                    <div class="skill-item" id="skill-weather" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">☁️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Weather</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Get real-time forecasts and conditions.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Summarize -->
+                    <div class="skill-item" id="skill-summarize" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">📑</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Summarize</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Extract key points from URLs and local files.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Image Gen -->
+                    <div class="skill-item" id="skill-imagegen" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">🖼️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Image Generation</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Generate AI images via DALL-E 3 API.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Whisper -->
+                    <div class="skill-item" id="skill-whisper" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">🎧</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Whisper Transcribe</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Transcribe audio files into high-quality text.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Healthcheck -->
+                    <div class="skill-item" id="skill-healthcheck" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">🛡️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Healthcheck</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Security audits and host hardening.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+
+                    <!-- Skill Creator -->
+                    <div class="skill-item" id="skill-creator" style="display: flex; align-items: center; padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                        <div style="font-size: 1.5rem; width: 40px;">🛠️</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #111827;">Skill Creator</div>
+                            <div style="font-size: 0.8125rem; color: #6b7280;">Design, structure, and package new AI skills.</div>
+                        </div>
+                        <div class="status-indicator" style="font-size: 0.875rem; font-weight: 600; color: #9ca3af; text-align: right; min-width: 150px;">Status: Unknown</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: TROUBLESHOOTING -->
+            <div id="section-troubleshoot" class="section">
+                <h2>Troubleshooting & Maintenance</h2>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- 1. OpenClaw Gateway -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🌐</span> 1. OpenClaw Gateway
+                        </div>
+                        <div style="padding: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem;">
+                            <button onclick="runTroubleshoot('gateway restart')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Restart</button>
+                            <button onclick="runTroubleshoot('gateway install')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Install</button>
+                            <button onclick="runTroubleshoot('gateway stop')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Stop</button>
+                            <button onclick="runTroubleshoot('reboot system')" style="padding: 0.5rem; background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reboot System</button>
+                        </div>
+                    </div>
+
+                    <!-- 2. System Doctor -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🩺</span> 2. System Doctor
+                        </div>
+                        <div style="padding: 1rem; display: flex; gap: 0.75rem;">
+                            <button onclick="runTroubleshoot('doctor check')" style="flex: 1; padding: 0.6rem; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Run Doctor Check</button>
+                            <button onclick="runTroubleshoot('doctor fix')" style="flex: 1; padding: 0.6rem; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Auto-Fix Issues</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. guiClaw Interface -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🦁</span> 3. guiClaw
+                        </div>
+                        <div style="padding: 1rem; display: flex; gap: 0.75rem;">
+                            <button onclick="location.reload()" style="flex: 1; padding: 0.6rem; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reload Page</button>
+                            <button onclick="runTroubleshoot('guiclaw reboot')" style="flex: 1; padding: 0.6rem; background: #fff7ed; border: 1px solid #ffedd5; color: #9a3412; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reboot (start.sh)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="troubleshoot-log" style="margin-top: 1.5rem; padding: 1rem; background: #111827; color: #10b981; border-radius: 0.5rem; font-family: monospace; font-size: 0.8125rem; min-height: 100px; white-space: pre-wrap; overflow-y: auto;">
+> System diagnostics ready...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // NAVIGATION LOGIC
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById('section-' + sectionId).classList.add('active');
+            document.getElementById('nav-' + sectionId).classList.add('active');
+        }
+
+        // CHAT LOGIC (AI ASSISTANT)
+        const GATEWAY_URL = 'http://127.0.0.1:8000/v1/responses';
+        const AUTH_TOKEN = '3ef2e73d1adc12dda6a7d311d823ce0a7ecb3466e9daeede';
+
+        const chatContainer = document.getElementById('chat-container');
+        const sectionAssistant = document.getElementById('section-assistant');
+        const input = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('chat-send');
+        const modelSelect = document.getElementById('model-select'); // This element was removed, so this selector will be null
+        const currentModelDisplay = document.getElementById('current-model-display');
+        const configuredModelsDisplay = document.getElementById('configured-models-display');
+
+        // Fetch Config on Load
+        async function fetchConfig() {
+            try {
+                const res = await fetch('/config');
+                const data = await res.json();
+                
+                if (data.currentModel) {
+                    currentModelDisplay.textContent = data.currentModel;
+                }
+
+                if (data.configuredModels && data.configuredModels.length > 0) {
+                    configuredModelsDisplay.textContent = data.configuredModels.join(', ');
+                } else {
+                    configuredModelsDisplay.textContent = 'None configured';
+                }
+            } catch (err) {
+                console.error('Failed to load config:', err);
+                currentModelDisplay.textContent = 'Error loading config';
+            }
+        }
+        
+        // Initial fetch
+        fetchConfig();
+        
+        // Chat Logic
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.textContent = text;
+            chatContainer.appendChild(div);
+            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+        }
+
+        async function sendMessage() {
+            const text = input.value.trim();
+            // Default to 'openclaw' since selector is removed for now
+            const model = 'openclaw'; 
+            
+            if (!text) return;
+
+            // Show user message
+            appendMessage('user', text);
+
+            input.value = '';
+            input.focus();
+
+            // Show Typing Indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator message assistant';
+            typingIndicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatContainer.appendChild(typingIndicator);
+            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+            
+            try {
+                // Prepare request body
+                const requestBody = {
+                    model: model === 'openclaw' ? 'openclaw' : model,
+                    input: text
+                };
+
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                // Remove Typing Indicator
+                if (chatContainer.contains(typingIndicator)) {
+                    chatContainer.removeChild(typingIndicator);
+                }
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    appendMessage('assistant', `Error: ${data.error.message}`);
+                } else {
+                    let reply = '';
+                    if (data.choices?.[0]?.message?.content) {
+                        reply = data.choices[0].message.content;
+                    } else if (data.output && Array.isArray(data.output)) {
+                        const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                        if (msg && msg.content) {
+                            reply = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                        }
+                    }
+                    if (!reply) reply = JSON.stringify(data, null, 2);
+                    appendMessage('assistant', reply);
+                }
+            } catch (err) {
+                // Remove Typing Indicator on Error
+                if (chatContainer.contains(typingIndicator)) {
+                    chatContainer.removeChild(typingIndicator);
+                }
+                appendMessage('assistant', `Network Error: ${err.message}`);
+            }
+        }
+
+        // Token Usage Poller
+        async function fetchTokenUsage() {
+            const usageDisplay = document.getElementById('token-usage-display');
+            if (!usageDisplay) return;
+
+            try {
+                // Call session_status tool via the gateway
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: '[SYSTEM] Run tool session_status for current session stats. Return ONLY JSON.'
+                    })
+                });
+
+                const data = await response.json();
+                
+                // Parse the response to extract token usage
+                let outputText = '';
+                if (data.choices?.[0]?.message?.content) {
+                    outputText = data.choices[0].message.content;
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        outputText = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                    }
+                }
+
+                // Look for pattern "Context: Xk / Yk (Z%)" or similar in the standard session_status output
+                // Example output: "📊 Session Status ... Context: 12145 / 128000 (9%)..."
+                const contextMatch = outputText.match(/Context:\s*([\d\.k]+)\s*\/\s*([\d\.k]+)\s*\((\d+%)\)/i);
+                
+                if (contextMatch) {
+                    const [_, used, total, percent] = contextMatch;
+                    usageDisplay.textContent = `📊 ${used}/${total} (${percent})`;
+                    
+                    // Color coding for urgency
+                    const percentVal = parseInt(percent);
+                    if (percentVal > 90) usageDisplay.style.color = '#dc2626'; // Red
+                    else if (percentVal > 75) usageDisplay.style.color = '#d97706'; // Orange
+                    else usageDisplay.style.color = '#6b7280'; // Gray
+                } else {
+                     // Fallback if parsing fails but we got a response
+                     console.log('Token usage parse failed:', outputText);
+                }
+
+            } catch (err) {
+                console.error('Failed to fetch token usage:', err);
+            }
+        }
+
+        // Start polling
+        setInterval(fetchTokenUsage, 30000); // Check every 30s
+        fetchTokenUsage(); // Check immediately
+
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // TOOL STATUS CHECKER
+        async function checkAllTools() {
+            const tools = [
+                { id: 'tool-filesystem', name: 'File System' },
+                { id: 'tool-shell', name: 'Shell (Exec)' },
+                { id: 'tool-search', name: 'Web Search' },
+                { id: 'tool-message', name: 'Message' },
+                { id: 'tool-browser', name: 'Browser' },
+                { id: 'tool-others', name: 'Others' }
+            ];
+
+            for (const tool of tools) {
+                const el = document.getElementById(tool.id).querySelector('.status-indicator');
+                el.textContent = 'Status: Checking...';
+                el.style.color = '#3b82f6';
+                
+                try {
+                    // Use standard /v1/responses endpoint
+                    const response = await fetch('/v1/responses', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${AUTH_TOKEN}`,
+                            'x-openclaw-agent-id': 'main'
+                        },
+                        body: JSON.stringify({
+                            model: 'openclaw',
+                            input: `[INTERNAL_CHECK] Verify status for "${tool.name}". Reply ONLY "OK" or "ISSUE: [short reason]".`
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    let result = '';
+                    
+                    // Handle different response formats
+                    if (data.choices?.[0]?.message?.content) {
+                        result = data.choices[0].message.content.trim();
+                    } else if (data.output) {
+                        // Extract text from OpenClaw native output format
+                        const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                        if (msg && msg.content) {
+                            result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                        }
+                    }
+
+                    if (result.includes('OK')) {
+                        el.textContent = 'Status: Working ✅';
+                        el.style.color = '#10b981';
+                    } else if (result.includes('ISSUE:')) {
+                        const issue = result.split('ISSUE:')[1].trim();
+                        el.textContent = 'Status: ' + issue + ' ⚠️';
+                        el.style.color = '#f59e0b';
+                    } else if (result) {
+                        el.textContent = 'Status: ' + result.substring(0, 20) + ' ⚠️';
+                        el.style.color = '#f59e0b';
+                    } else {
+                        el.textContent = 'Status: No Response ⚠️';
+                        el.style.color = '#f59e0b';
+                    }
+                } catch (err) {
+                    console.error('Check failed for ' + tool.name, err);
+                    el.textContent = 'Status: Offline ❌';
+                    el.style.color = '#ef4444';
+                }
+            }
+        }
+
+        // SKILL STATUS CHECKER
+        async function checkAllSkills() {
+            const skills = [
+                { id: 'skill-reminders', name: 'Apple Reminders' },
+                { id: 'skill-notes', name: 'Apple Notes' },
+                { id: 'skill-weather', name: 'Weather' },
+                { id: 'skill-summarize', name: 'Summarize' },
+                { id: 'skill-imagegen', name: 'Image Generation' },
+                { id: 'skill-whisper', name: 'Whisper Transcribe' },
+                { id: 'skill-healthcheck', name: 'Healthcheck' },
+                { id: 'skill-creator', name: 'Skill Creator' }
+            ];
+
+            for (const skill of skills) {
+                const el = document.getElementById(skill.id).querySelector('.status-indicator');
+                el.textContent = 'Status: Checking...';
+                el.style.color = '#3b82f6';
+                
+                try {
+                    const response = await fetch('/v1/responses', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${AUTH_TOKEN}`,
+                            'x-openclaw-agent-id': 'main'
+                        },
+                        body: JSON.stringify({
+                            model: 'openclaw',
+                            input: `[INTERNAL_CHECK] Verify status for skill "${skill.name}". Check if the command/API is available. Reply ONLY "OK" or "ISSUE: [short reason]".`
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    let result = '';
+                    
+                    if (data.choices?.[0]?.message?.content) {
+                        result = data.choices[0].message.content.trim();
+                    } else if (data.output) {
+                        const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                        if (msg && msg.content) {
+                            result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                        }
+                    }
+
+                    if (result.includes('OK')) {
+                        el.textContent = 'Status: Available ✅';
+                        el.style.color = '#10b981';
+                    } else if (result.includes('ISSUE:')) {
+                        const issue = result.split('ISSUE:')[1].trim();
+                        el.textContent = 'Status: ' + issue + ' ⚠️';
+                        el.style.color = '#f59e0b';
+                    } else {
+                        el.textContent = 'Status: ' + result.substring(0, 20) + ' ⚠️';
+                        el.style.color = '#f59e0b';
+                    }
+                } catch (err) {
+                    el.textContent = 'Status: Offline ❌';
+                    el.style.color = '#ef4444';
+                }
+            }
+        }
+        // TROUBLESHOOT LOGIC
+        async function runTroubleshoot(cmd) {
+            const logEl = document.getElementById('troubleshoot-log');
+            logEl.textContent += `\n> Executing: ${cmd}...`;
+            logEl.scrollTo(0, logEl.scrollHeight);
+
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute troubleshooting command: ${cmd}. Provide a brief confirmation of the result.`
+                    })
+                });
+
+                const data = await response.json();
+                let output = '';
+                if (data.choices?.[0]?.message?.content) {
+                    output = data.choices[0].message.content;
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                    }
+                }
+                
+                logEl.textContent += `\n${output || '> Command completed.'}`;
+                logEl.scrollTo(0, logEl.scrollHeight);
+            } catch (err) {
+                logEl.textContent += `\n> Error: ${err.message}`;
+            }
+        }
+
+        // New function to show result below button in installation section
+        async function showInstallResult(cmd, resultElementId) {
+            const resultEl = document.getElementById(resultElementId);
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Executing...';
+            
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: ${cmd}. Provide the result.`
+                    })
+                });
+
+                const data = await response.json();
+                let output = '';
+                if (data.choices?.[0]?.message?.content) {
+                    output = data.choices[0].message.content;
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                    }
+                }
+                
+                resultEl.textContent = output || 'Command completed.';
+            } catch (err) {
+                resultEl.textContent = `Error: ${err.message}`;
+            }
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show a brief confirmation
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    if (btn.textContent === 'Copy' && btn.onclick.toString().includes(text.replace(/"/g, '\\"'))) {
+                        const originalText = btn.textContent;
+                        btn.textContent = '✓ Copied!';
+                        btn.style.background = '#dbeafe';
+                        btn.style.color = '#2563eb';
+                        setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.style.background = '#dbeafe';
+                            btn.style.color = '#2563eb';
+                        }, 2000);
+                    }
+                });
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Function to load and display the current gateway token from openclaw.json
+        async function loadCurrentToken() {
+            const tokenDisplay = document.getElementById('current-token-display');
+            
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: cat ~/.openclaw/openclaw.json | jq -r '.gateway.auth.token'. Provide just the token value.`
+                    })
+                });
+
+                const data = await response.json();
+                let output = '';
+                if (data.choices?.[0]?.message?.content) {
+                    output = data.choices[0].message.content;
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                    }
+                }
+                
+                // Extract just the 64-character hex token from the output
+                const tokenMatch = output.match(/([a-f0-9]{64})/i);
+                if (tokenMatch) {
+                    tokenDisplay.textContent = tokenMatch[1];
+                    tokenDisplay.style.color = '#10b981';
+                    tokenDisplay.style.fontWeight = 'bold';
+                } else {
+                    // Try to find token in any format
+                    const tokenMatch2 = output.match(/`([a-f0-9]{64})`/i);
+                    if (tokenMatch2) {
+                        tokenDisplay.textContent = tokenMatch2[1];
+                        tokenDisplay.style.color = '#10b981';
+                        tokenDisplay.style.fontWeight = 'bold';
+                    } else {
+                        tokenDisplay.textContent = output || 'Token not found.';
+                        tokenDisplay.style.color = '#6b7280';
+                        tokenDisplay.style.fontWeight = 'normal';
+                    }
+                }
+            } catch (err) {
+                tokenDisplay.textContent = `Error: ${err.message}`;
+                tokenDisplay.style.color = '#ef4444';
+                tokenDisplay.style.fontWeight = 'normal';
+            }
+        }
+
+        // Function to copy the token to clipboard
+        function copyToken() {
+            const tokenDisplay = document.getElementById('current-token-display');
+            const token = tokenDisplay.textContent;
+            
+            if (token && token.length === 64 && /^[a-f0-9]+$/i.test(token)) {
+                navigator.clipboard.writeText(token).then(() => {
+                    const copyBtn = event.target;
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✓ Copied!';
+                    copyBtn.style.background = '#dbeafe';
+                    copyBtn.style.color = '#2563eb';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = '#dbeafe';
+                        copyBtn.style.color = '#2563eb';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy token: ', err);
+                });
+            } else {
+                // If token is not in expected format, copy whatever is there
+                navigator.clipboard.writeText(token).then(() => {
+                    const copyBtn = event.target;
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✓ Copied!';
+                    copyBtn.style.background = '#dbeafe';
+                    copyBtn.style.color = '#2563eb';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = '#dbeafe';
+                        copyBtn.style.color = '#2563eb';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy token: ', err);
+                });
+            }
+        }
+
+        // Function to update the token in index.html const AUTH_TOKEN
+        async function updateTokenInIndex() {
+            const resultDiv = document.getElementById('token-update-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Updating token...';
+            
+            try {
+                // First, get the current token from openclaw.json
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: cat ~/.openclaw/openclaw.json | jq -r '.gateway.auth.token'. Provide just the token value.`
+                    })
+                });
+
+                const data = await response.json();
+                let token = '';
+                if (data.choices?.[0]?.message?.content) {
+                    token = data.choices[0].message.content;
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        token = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                    }
+                }
+                
+                // Extract just the 64-character hex token from the output
+                const tokenMatch = token.match(/([a-f0-9]{64})/i);
+                if (tokenMatch) {
+                    token = tokenMatch[1];
+                } else {
+                    // Try to find token in any format
+                    const tokenMatch2 = token.match(/`([a-f0-9]{64})`/i);
+                    if (tokenMatch2) {
+                        token = tokenMatch2[1];
+                    }
+                }
+                
+                if (!token || token.length !== 64) {
+                    resultDiv.textContent = 'Error: Could not get valid token from openclaw.json';
+                    resultDiv.style.color = '#ef4444';
+                    return;
+                }
+                
+                // Now update the index.html file
+                const updateResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: sed -i '' "s|const AUTH_TOKEN = '3ef2e73d1adc12dda6a7d311d823ce0a7ecb3466e9daeede';|" ~/Desktop/guiClaw/index.html. Provide confirmation of the update.`
+                    })
+                });
+
+                const updateData = await updateResponse.json();
+                let output = '';
+                if (updateData.choices?.[0]?.message?.content) {
+                    output = updateData.choices[0].message.content;
+                } else if (updateData.output) {
+                    const msg = updateData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('');
+                    }
+                }
+                
+                resultDiv.textContent = `Token updated successfully! New token: ${token}`;
+                resultDiv.style.color = '#10b981';
+                
+                // Update the displayed token
+                const tokenDisplay = document.getElementById('current-token-display');
+                tokenDisplay.textContent = token;
+                tokenDisplay.style.color = '#10b981';
+                tokenDisplay.style.fontWeight = 'bold';
+                
+            } catch (err) {
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        // Automatically load the current gateway token when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCurrentToken();
+        });
+    </script>
+</body>
+</html>
