@@ -290,6 +290,7 @@
             <nav>
                 <button onclick="showSection('install')" id="nav-install" style="font-size: 0.85rem;">Installation</button>
                 <button onclick="showSection('assistant')" id="nav-assistant" class="active" style="font-size: 0.85rem;">AI Assistant</button>
+                <button onclick="showSection('channel')" id="nav-channel" style="font-size: 0.85rem;">Channel</button>
                 <button onclick="showSection('tools')" id="nav-tools" style="font-size: 0.85rem;">AI Tools</button>
                 <button onclick="showSection('skills')" id="nav-skills" style="font-size: 0.85rem;">AI Skills</button>
                 <button onclick="showSection('troubleshoot')" id="nav-troubleshoot" style="font-size: 0.85rem;">Troubleshooting</button>
@@ -516,7 +517,222 @@
                 </div>
             </div>
 
-            <!-- SECTION 3: AI TOOLS -->
+            <!-- SECTION 3: CHANNEL -->
+            <div id="section-channel" class="section">
+                <h2>Channel Configuration</h2>
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+
+                    <!-- Current Channel Status -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3 style="margin-top:0;">Current Channel Status</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Check the status of your connected channels:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw channels status</pre>
+                                <button onclick="copyToClipboard('openclaw channels status')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Check the status of all configured channels.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="showChannelStatus()" style="padding: 0.75rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Check Channel Status</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to check the current status of your channels.</p>
+                            <div id="channel-status-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Link WhatsApp -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 1: Link WhatsApp</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Link your WhatsApp account to OpenClaw:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">1.1 Link WhatsApp Account</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw channels login --channel whatsapp</pre>
+                                <button onclick="copyToClipboard('openclaw channels login --channel whatsapp')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">This will display a QR code for you to scan with your phone.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">1.2 Scan QR Code</h4>
+                            <p style="margin-top: 0.5rem; color: #4b5563;">After running the command above:</p>
+                            <ol style="margin-top: 0.5rem; color: #4b5563; padding-left: 1.5rem;">
+                                <li>Open WhatsApp on your phone</li>
+                                <li>Go to <strong>Settings</strong> → <strong>Linked Devices</strong> → <strong>Link a Device</strong></li>
+                                <li>Scan the QR code displayed in your terminal</li>
+                            </ol>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="linkWhatsApp()" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Link WhatsApp</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to start the WhatsApp linking process.</p>
+                            <div id="link-whatsapp-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Approve Pairing Request -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 2: Approve Pairing Request</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">If using pairing mode, approve the pairing request:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.1 List Pairing Requests</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw pairing list whatsapp</pre>
+                                <button onclick="copyToClipboard('openclaw pairing list whatsapp')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">View pending pairing requests.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.2 Approve Pairing Request</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw pairing approve whatsapp &lt;CODE&gt;</pre>
+                                <button onclick="copyToClipboard('openclaw pairing approve whatsapp <CODE>')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Replace &lt;CODE&gt; with the actual pairing code.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="listPairingRequests()" style="padding: 0.75rem 1.5rem; background: #8b5cf6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">List Pairing Requests</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to see pending pairing requests.</p>
+                            <div id="pairing-list-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Configure Channel Settings -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 3: Configure Channel Settings</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Configure WhatsApp channel settings:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.1 Current Configuration</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cat ~/.openclaw/openclaw.json | jq '.channels.whatsapp'</pre>
+                                <button onclick="copyToClipboard('cat ~/.openclaw/openclaw.json | jq \\''.channels.whatsapp\\'')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">View current WhatsApp configuration.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="showCurrentConfig()" style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Show Current Configuration</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to see current WhatsApp configuration.</p>
+                            <div id="current-config-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Restart Gateway -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 4: Restart Gateway</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Restart the gateway to apply changes:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.1 Restart Gateway</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw gateway restart</pre>
+                                <button onclick="copyToClipboard('openclaw gateway restart')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Restart to apply configuration changes.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="restartGateway()" style="padding: 0.75rem 1.5rem; background: #ef4444; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Restart Gateway</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to restart the OpenClaw gateway.</p>
+                            <div id="restart-gateway-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Test Integration -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 5: Test Integration</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Test the WhatsApp integration:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">5.1 Send Test Message</h4>
+                            <p style="margin-top: 0.5rem; color: #4b5563;">Send a WhatsApp message to your OpenClaw number to test the integration.</p>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Make sure your number is in the allowlist.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="testWhatsApp()" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Test WhatsApp</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to check if WhatsApp is ready for testing.</p>
+                            <div id="test-whatsapp-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Allow List Management -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 6: Allow List Management</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Manage which numbers can contact OpenClaw via WhatsApp:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.1 View Current Allow List</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cat ~/.openclaw/openclaw.json | jq '.channels.whatsapp.allowFrom'</pre>
+                                <button onclick="copyToClipboard('cat ~/.openclaw/openclaw.json | jq \\''.channels.whatsapp.allowFrom\\'')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">View numbers currently allowed to contact OpenClaw.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.2 Add Number to Allow List</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw config set channels.whatsapp.allowFrom '[\"+97363706\", \"+1234567890\"]'</pre>
+                                <button onclick="copyToClipboard('openclaw config set channels.whatsapp.allowFrom \\'[\\\"+97363706\\\", \\\"+1234567890\\\"]\\'')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Add a new number to the allow list (E.164 format).</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.3 Remove Number from Allow List</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw config set channels.whatsapp.allowFrom '[\"+97363706\"]'</pre>
+                                <button onclick="copyToClipboard('openclaw config set channels.whatsapp.allowFrom \\'[\\\"+97363706\\\"]\\'')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Remove a number from the allow list.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.4 Edit Allow List</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">openclaw config edit</pre>
+                                <button onclick="copyToClipboard('openclaw config edit')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Edit the full configuration file.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="viewAllowList()" style="padding: 0.75rem 1.5rem; background: #8b5cf6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">View Allow List</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to see current allow list.</p>
+                            <div id="allow-list-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.5 Add Number to Allow List</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <input type="text" id="new-number-input" placeholder="+1234567890" style="flex: 1; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem;">
+                                <button onclick="addNumberToAllowList()" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Add Number</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Enter a phone number in E.164 format (+countrycode number).</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.6 Remove Number from Allow List</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <input type="text" id="remove-number-input" placeholder="+1234567890" style="flex: 1; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem;">
+                                <button onclick="removeNumberFromAllowList()" style="padding: 0.75rem 1.5rem; background: #ef4444; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Remove Number</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Enter the phone number to remove from the allow list.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SECTION 4: AI TOOLS -->
             <div id="section-tools" class="section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h2 style="margin: 0;">AI Tool Inventory</h2>
@@ -1235,6 +1451,292 @@
                 }).catch(err => {
                     console.error('Failed to copy token: ', err);
                 });
+            }
+        }
+
+        // Channel Section Functions
+        async function showChannelStatus() {
+            const resultDiv = document.getElementById('channel-status-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Checking channel status...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: openclaw channels status. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function linkWhatsApp() {
+            const resultDiv = document.getElementById('link-whatsapp-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Starting WhatsApp linking process...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: openclaw channels login --channel whatsapp. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function listPairingRequests() {
+            const resultDiv = document.getElementById('pairing-list-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Listing pairing requests...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: openclaw pairing list whatsapp. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function showCurrentConfig() {
+            const resultDiv = document.getElementById('current-config-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Loading current configuration...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: cat ~/.openclaw/openclaw.json | jq '.channels.whatsapp'. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function restartGateway() {
+            const resultDiv = document.getElementById('restart-gateway-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Restarting gateway...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: openclaw gateway restart. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function testWhatsApp() {
+            const resultDiv = document.getElementById('test-whatsapp-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing WhatsApp integration...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: openclaw channels status. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                
+                if (output.includes('linked')) {
+                    resultDiv.textContent = '✅ WhatsApp is linked and ready for testing!\n\nSend a message to your OpenClaw WhatsApp number to test the integration.';
+                } else {
+                    resultDiv.textContent = '❌ WhatsApp is not linked yet.\n\nPlease run Step 1 to link your WhatsApp account.';
+                }
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function viewAllowList() {
+            const resultDiv = document.getElementById('allow-list-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Loading allow list...';
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[SYSTEM] Run command: cat ~/.openclaw/openclaw.json | jq '.channels.whatsapp.allowFrom'. Return ONLY the output.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function addNumberToAllowList() {
+            const numberInput = document.getElementById('new-number-input');
+            const number = numberInput.value.trim();
+            
+            if (!number) {
+                alert('Please enter a phone number');
+                return;
+            }
+            
+            if (!number.startsWith('+')) {
+                alert('Please enter number in E.164 format (e.g., +1234567890)');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('allow-list-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = `Adding ${number} to allow list...`;
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw config set channels.whatsapp.allowFrom '[\"+97363706\", \"${number}\"]'. Provide confirmation of the update.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                numberInput.value = '';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function removeNumberFromAllowList() {
+            const numberInput = document.getElementById('remove-number-input');
+            const number = numberInput.value.trim();
+            
+            if (!number) {
+                alert('Please enter a phone number');
+                return;
+            }
+            
+            if (!number.startsWith('+')) {
+                alert('Please enter number in E.164 format (e.g., +1234567890)');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('allow-list-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = `Removing ${number} from allow list...`;
+            
+            try {
+                const response = await fetch(GATEWAY_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: openclaw config set channels.whatsapp.allowFrom '[\"+97363706\"]'. Provide confirmation of the update.`
+                    })
+                });
+                
+                const data = await response.json();
+                const output = data.output?.[0]?.content?.[0]?.text || 'No output received';
+                resultDiv.textContent = output;
+                numberInput.value = '';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.style.color = '#ef4444';
             }
         }
 
