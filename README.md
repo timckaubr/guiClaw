@@ -41,24 +41,72 @@ guiClaw/
 - Node.js installed
 - OpenClaw gateway running (default: http://localhost:18789)
 
-### Installation
-1. **Install dependencies**:
+### Installation (4-Step Process)
+
+#### Step 1: Installation and Uninstallation of OpenClaw in macOS
+1. **Install Homebrew**:
    ```bash
-   cd ~/Desktop/guiClaw
-   npm install
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
 
-2. **Run the proxy server**:
+2. **Install Node.js**:
    ```bash
-   node proxy.js
-   ```
-   or use the startup script:
-   ```bash
-   ./start.sh
+   brew install node
    ```
 
-3. **Access the interface**:
-   Open your browser and go to: http://localhost:8000
+3. **Install OpenClaw**:
+   ```bash
+   curl -fsSL https://openclaw.ai/install.sh | bash
+   ```
+
+4. **Setup OpenClaw**:
+   ```bash
+   openclaw onboard
+   ```
+
+#### Step 2: Setup of the OpenClaw Environment
+1. **Enable HTTP API Endpoints**:
+   ```bash
+   openclaw config set gateway.http.endpoints.responses.enabled true
+   ```
+
+2. **Add Trusted Proxy**:
+   ```bash
+   openclaw config set gateway.trustedProxies '["127.0.0.1:8000", "localhost:8000"]'
+   ```
+
+3. **Restart the Gateway**:
+   ```bash
+   openclaw gateway restart
+   ```
+
+#### Step 3: Update guiClaw to the Correct OpenClaw Gateway Token
+1. **Get Your Gateway Token**:
+   ```bash
+   cat ~/.openclaw/openclaw.json | jq -r '.gateway.auth.token'
+   ```
+
+2. **Update Token in Index File**:
+   Search for `const AUTH_TOKEN` in `~/Desktop/guiClaw/index.html` and replace the value.
+
+3. **Install Dependencies**:
+   ```bash
+   cd ~/Desktop/guiClaw && npm install busboy
+   ```
+
+#### Step 4: Refresh guiClaw
+1. **Stop the Current guiClaw Server**:
+   ```bash
+   pkill -f "node proxy.js"
+   ```
+
+2. **Run the Start Script**:
+   ```bash
+   cd ~/Desktop/guiClaw && ./start.sh
+   ```
+
+3. **Access guiClaw**:
+   Open your browser and navigate to: http://localhost:8000
 
 ## Configuration
 
@@ -96,8 +144,17 @@ The gateway must be configured to trust the proxy server:
 - ✅ Model switching capability
 - ✅ Custom styling with CSS variables
 - ✅ CORS enabled for cross-origin requests
-- ✅ Channel section with WhatsApp configuration
 - ✅ 4-Step Installation Guide with copy buttons
+- ✅ Token auto-loads on page load (no button press needed)
+- ✅ Token displayed in green, bold text (64-character hex only)
+- ✅ Copy buttons with light blue background (#dbeafe) and blue text (#2563eb)
+- ✅ All buttons use consistent font size (0.85rem)
+- ✅ Clean interface (status bar removed)
+- ✅ Title changed from "macClaw" to "guiClaw"
+- ✅ Gateway token integration with OpenClaw gateway
+- ✅ Fixed authentication token issues (401 errors resolved)
+- ✅ Updated GitHub repository with correct tokens
+- ✅ Improved stability and reliability
 - ✅ Token auto-loads on page load (no button press needed)
 - ✅ Token displayed in green, bold text (64-character hex only)
 - ✅ Copy buttons with light blue background (#dbeafe) and blue text (#2563eb)
