@@ -255,7 +255,7 @@
     - Gateway Stop: Stops the OpenClaw gateway
     - Gateway Install: Installs/reinstalls gateway
     - Gateway Restart: Restarts the gateway
-    - Reboot System: Full system reboot
+    - Open Terminal: Opens a new terminal window (macOS)
 
   - **2. Reinstall Gateway (All Steps):** Automated sequence
     - **Stop:** Stops the gateway

@@ -1381,7 +1381,7 @@
                             <button onclick="runTroubleshoot('gateway stop')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Stop</button>
                             <button onclick="runTroubleshoot('gateway install')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Install</button>
                             <button onclick="runTroubleshoot('gateway restart')" style="padding: 0.5rem; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 500;">Gateway Restart</button>
-                            <button onclick="runTroubleshoot('reboot system')" style="padding: 0.5rem; background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Reboot System</button>
+                            <button onclick="openTerminal()" style="padding: 0.5rem; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Open Terminal</button>
                         </div>
                     </div>
 
@@ -1784,6 +1784,44 @@
 
             logEl.textContent += `\n> Gateway reinstall sequence completed.`;
             logEl.scrollTo(0, logEl.scrollHeight);
+        }
+
+        // Open a new terminal window
+        function openTerminal() {
+            const logEl = document.getElementById('troubleshoot-log');
+            logEl.textContent += `\n> Opening new terminal...`;
+            logEl.scrollTo(0, logEl.scrollHeight);
+
+            // Try to open terminal using different methods
+            const terminalCommands = [
+                // macOS Terminal
+                'open -a Terminal',
+                // iTerm2 (if installed)
+                'open -a iTerm',
+                // Default terminal
+                'open -a Terminal .'
+            ];
+
+            // Create a hidden iframe to execute the terminal command
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'terminal://open';
+            document.body.appendChild(iframe);
+
+            // Try to open terminal via URL scheme (macOS)
+            window.location.href = 'terminal://open';
+
+            // Log the attempt
+            setTimeout(() => {
+                logEl.textContent += `\n> Terminal should open automatically.`;
+                logEl.textContent += `\n> If not, you can manually open Terminal from Applications.`;
+                logEl.scrollTo(0, logEl.scrollHeight);
+                
+                // Clean up iframe
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                }, 1000);
+            }, 500);
         }
 
         // New function to show result below button in installation section
