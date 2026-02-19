@@ -1,8 +1,8 @@
-# guiClaw v0.35
+# guiClaw v0.39
 
 ## Version Information
-- **Version:** v0.35
-- **Date:** 2026-02-18
+- **Version:** v0.39
+- **Date:** 2026-02-19
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
 
@@ -100,9 +100,58 @@
 - **v0.35:** Updated with all buttons using consistent font size (2026-02-18)
 - **v0.36:** [Future version]
 - **v0.37:** [Future version]
-- **v0.38:** Current version (2026-02-19) - THIS VERSION
+- **v0.38:** Previous version (2026-02-19)
+- **v0.39:** Current version (2026-02-19) - THIS VERSION
 
-## Testing Results
+## Changelog v0.39 (2026-02-19)
+### Changes
+- **Version:** Updated to v0.39
+- **Date:** 2026-02-19
+- **Status:** Current version
+
+### Features Added
+- **Channel Section:** Added after AI Assistant and before AI Tools
+  - Current Channel Status display
+  - Link WhatsApp (QR code process)
+  - Approve Pairing Request
+  - Configure Channel Settings
+  - Restart Gateway
+  - Test Integration
+  - Allow List Management (view/add/remove numbers)
+
+### AI Assistant Section Updates
+- **Change 1:** Removed "Configured Models" display from AI model selector
+  - Before: "Current Model: OpenClaw (Default)" + "Configured Models: GPT-4o, Gemini Pro, Claude 3"
+  - After: Only "Current Model: xiaomi/mimo-v2-flash"
+  - Reason: Cleaner interface, removed unnecessary information
+
+- **Change 2:** Removed token usage display from Chat with AI section
+  - Removed: Token usage poller function and polling logic
+  - Removed: Token usage display span from Chat with AI header
+  - Reason: Simplified interface, removed usage statistics display
+
+- **Change 3:** Updated Chat with AI header to include current model
+  - Before: "💬 Chat with AI"
+  - After: "💬 Chat with AI (Current Model)"
+  - Reason: Provides clearer context about which model is being used
+
+- **Change 4:** Updated current model display to show actual model
+  - Before: "OpenClaw (Default)"
+  - After: "xiaomi/mimo-v2-flash"
+  - Reason: Shows the actual current model instead of generic name
+
+### GitHub Repository Updates
+- **Total Commits Today:** 11 commits
+- **Repository:** https://github.com/timckaubr/guiClaw.git
+- **Branch:** main
+- **Status:** All changes successfully pushed to GitHub
+
+### Backup Created
+- **Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.39
+- **Purpose:** Complete backup of v0.39 for future reference
+- **Contents:** All files and dependencies included
+
+### Testing Results
 - ✅ All navigation buttons clickable
 - ✅ Section switching working (all 6 sections)
 - ✅ Channel section accessible and displays correctly
@@ -111,6 +160,9 @@
 - ✅ Status display working
 - ✅ Existing functionality preserved
 - ✅ No breaking changes introduced
+- ✅ Current model displays correctly (xiaomi/mimo-v2-flash)
+- ✅ Token usage display removed successfully
+- ✅ Chat header updated correctly
 
 ## Changelog v0.35 (2026-02-18)
 ### Changes
