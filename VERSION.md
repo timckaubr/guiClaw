@@ -1,12 +1,20 @@
-# guiClaw v1.3.3
+# guiClaw v1.4
 
 ## Version Information
-- **Version:** v1.3.3
+- **Version:** v1.4
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
 - **Purpose:** Session & Memory Management System
 - **Author:** Riceball Mimo (formerly riceball)
+
+## Changes from v1.3.3 to v1.4
+- **Version Bump:** Updated from v1.3.3 to v1.4
+- **Brand Text:** Updated navigation bar brand text to "Riceball Mimo" (formerly riceball)
+- **Navigation Layout:** Moved brand to center above navigation bar
+- **CSS Updates:** Updated header and navigation CSS for proper layout
+- **Documentation:** Added author information to all documentation files
+- **Git Integration:** Changes committed and pushed to GitHub
 
 ## Changes from v1.3.2 to v1.3.3
 - **New Section:** Added "Session & Memory Management" section

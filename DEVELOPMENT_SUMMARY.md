@@ -2,7 +2,7 @@
 
 ## Project: Session & Memory Management System
 **Date:** 2026-02-20  
-**Version:** v1.3.3  
+**Version:** v1.4  
 **Status:** ✅ COMPLETE  
 **Author:** Riceball Mimo (formerly riceball) 🍚
 

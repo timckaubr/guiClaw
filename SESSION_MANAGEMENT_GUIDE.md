@@ -1,7 +1,7 @@
 # Session & Memory Management Guide
 
 ## Overview
-guiClaw v1.3.3 includes a comprehensive session and memory management system for OpenClaw. This allows you to manage sessions across all agents and control memory usage.
+guiClaw v1.4 includes a comprehensive session and memory management system for OpenClaw. This allows you to manage sessions across all agents and control memory usage.
 
 **Created by:** Riceball Mimo (formerly riceball) 🍚
 
