@@ -1,11 +1,11 @@
 # guiClaw v1.4
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v1.3.1) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed between sections. New in v1.3: Multi-Agent Management section with inter-agent chat, session management, agent configuration, and routing bindings UI.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v1.4) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed between sections. New in v1.4: Navigation bar brand text update, brand centered above navigation bar, and author information added to all documentation files.
 
 **Created by:** Riceball Mimo (formerly riceball) 🍚
 
-## Changes in v1.3.1
+## Changes in v1.4
 - **Fix:** List All Agents button now displays results in correct location (Inter-Agent Chat section)
 - **Issue:** Previously, "List All Agents" button was trying to display results in "Agent Configuration" section instead of "Inter-Agent Chat" section
 - **Solution:** Updated `listAllAgents()` function to display results in `agentChatDisplay` element
