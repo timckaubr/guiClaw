@@ -1,18 +1,22 @@
-# guiClaw v1.0
+# guiClaw v1.1
 
 ## Version Information
-- **Version:** v1.0
+- **Version:** v1.1
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
-- **Purpose:** Stable release with updated troubleshooting section and correct OpenClaw CLI commands
+- **Purpose:** Redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed below each button
 
-## Changes from v0.9.5 to v1.0
-- **Version:** Updated from v0.9.5 to v1.0 (stable release)
-- **index.html:** Updated version number and badge to v1.0
-- **README.md:** Updated version reference to v1.0
-- **VERSION.md:** Updated version reference to v1.0
-- **Status:** Stable release ready for GitHub upload
+## Changes from v1.0 to v1.1
+- **Version:** Updated from v1.0 to v1.1 (redesigned troubleshooting section)
+- **index.html:** Updated version number and badge to v1.1
+- **README.md:** Updated version reference to v1.1
+- **VERSION.md:** Updated version reference to v1.1
+- **Troubleshooting Section:** Redesigned with installation section style
+- **Result Display:** Individual result boxes for each command instead of single dark terminal log
+- **Copy Buttons:** Added copy buttons for all commands
+- **Results Below Buttons:** Results now show below each button instead of in a separate log
+- **Status:** Redesigned troubleshooting section ready for GitHub upload
 
 ## Changes from v2.1
 - **index.html:** Updated from 18,392 bytes to 22,188 bytes (added WhatsApp configuration)

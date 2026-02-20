@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>guiClaw v1.0</title>
+    <title>guiClaw v1.1</title>
     <style>
         :root {
             --bg-color: #f9fafb;
@@ -294,7 +294,7 @@
     <div class="container">
         <header>
             <div class="brand">
-                <h1>🦁 guiClaw <span class="version-badge">v1.0</span></h1>
+                <h1>🦁 guiClaw <span class="version-badge">v1.1</span></h1>
                 <p>GUI for OpenClaw by Riceball</p>
             </div>
             <nav>
@@ -1445,9 +1445,8 @@
                     </div>
                 </div>
 
-                <div id="troubleshoot-log" style="margin-top: 1.5rem; padding: 1rem; background: #111827; color: #10b981; border-radius: 0.5rem; font-family: monospace; font-size: 0.8125rem; min-height: 100px; white-space: pre-wrap; overflow-y: auto;">
-> System diagnostics ready...
-                </div>
+                <!-- Troubleshooting Results Container -->
+                <div id="troubleshoot-results" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;"></div>
             </div>
         </main>
     </div>
@@ -1709,9 +1708,39 @@
         }
         // TROUBLESHOOT LOGIC
         async function runTroubleshoot(cmd) {
-            const logEl = document.getElementById('troubleshoot-log');
-            logEl.textContent += `\n> Executing: ${cmd}...`;
-            logEl.scrollTo(0, logEl.scrollHeight);
+            const resultsContainer = document.getElementById('troubleshoot-results');
+            
+            // Create result box
+            const resultBox = document.createElement('div');
+            resultBox.style.cssText = 'background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;';
+            
+            // Create command display
+            const commandDiv = document.createElement('div');
+            commandDiv.style.cssText = 'display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.75rem;';
+            
+            const commandPre = document.createElement('pre');
+            commandPre.style.cssText = 'background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;';
+            commandPre.textContent = cmd;
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'Copy';
+            copyBtn.style.cssText = 'padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;';
+            copyBtn.onclick = () => copyToClipboard(cmd);
+            
+            commandDiv.appendChild(commandPre);
+            commandDiv.appendChild(copyBtn);
+            
+            // Create result display
+            const resultDiv = document.createElement('div');
+            resultDiv.style.cssText = 'background: #f9fafb; padding: 0.75rem; border-radius: 0.375rem; border-left: 4px solid #3b82f6; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; white-space: pre-wrap;';
+            resultDiv.textContent = 'Executing...';
+            
+            resultBox.appendChild(commandDiv);
+            resultBox.appendChild(resultDiv);
+            resultsContainer.appendChild(resultBox);
+            
+            // Scroll to the new result
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
             try {
                 const response = await fetch('/v1/responses', {
@@ -1738,18 +1767,53 @@
                     }
                 }
                 
-                logEl.textContent += `\n${output || '> Command completed.'}`;
-                logEl.scrollTo(0, logEl.scrollHeight);
+                resultDiv.textContent = output || 'Command completed successfully.';
+                resultDiv.style.color = '#065f46';
+                resultDiv.style.borderLeftColor = '#10b981';
+                resultDiv.style.background = '#ecfdf5';
             } catch (err) {
-                logEl.textContent += `\n> Error: ${err.message}`;
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#991b1b';
+                resultDiv.style.borderLeftColor = '#ef4444';
+                resultDiv.style.background = '#fef2f2';
             }
         }
 
         // Run all gateway steps in sequence
         async function runReinstallGateway() {
-            const logEl = document.getElementById('troubleshoot-log');
-            logEl.textContent += `\n> Starting gateway reinstall sequence...`;
-            logEl.scrollTo(0, logEl.scrollHeight);
+            const resultsContainer = document.getElementById('troubleshoot-results');
+            
+            // Create result box for the sequence
+            const resultBox = document.createElement('div');
+            resultBox.style.cssText = 'background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;';
+            
+            // Create command display
+            const commandDiv = document.createElement('div');
+            commandDiv.style.cssText = 'display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.75rem;';
+            
+            const commandPre = document.createElement('pre');
+            commandPre.style.cssText = 'background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;';
+            commandPre.textContent = 'openclaw gateway stop && openclaw gateway install && openclaw gateway restart';
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'Copy';
+            copyBtn.style.cssText = 'padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;';
+            copyBtn.onclick = () => copyToClipboard('openclaw gateway stop && openclaw gateway install && openclaw gateway restart');
+            
+            commandDiv.appendChild(commandPre);
+            commandDiv.appendChild(copyBtn);
+            
+            // Create result display
+            const resultDiv = document.createElement('div');
+            resultDiv.style.cssText = 'background: #f9fafb; padding: 0.75rem; border-radius: 0.375rem; border-left: 4px solid #3b82f6; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; white-space: pre-wrap;';
+            resultDiv.textContent = 'Starting gateway reinstall sequence...';
+            
+            resultBox.appendChild(commandDiv);
+            resultBox.appendChild(resultDiv);
+            resultsContainer.appendChild(resultBox);
+            
+            // Scroll to the new result
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
             const steps = [
                 { cmd: 'openclaw gateway stop', desc: 'Stopping gateway...' },
@@ -1758,8 +1822,8 @@
             ];
 
             for (const step of steps) {
-                logEl.textContent += `\n> ${step.desc}`;
-                logEl.scrollTo(0, logEl.scrollHeight);
+                resultDiv.textContent += `\n${step.desc}`;
+                resultDiv.scrollTop = resultDiv.scrollHeight;
                 
                 try {
                     const response = await fetch('/v1/responses', {
@@ -1786,27 +1850,62 @@
                         }
                     }
                     
-                    logEl.textContent += `\n${output || '> Command completed.'}`;
-                    logEl.scrollTo(0, logEl.scrollHeight);
+                    resultDiv.textContent += `\n${output || 'Command completed.'}`;
+                    resultDiv.scrollTop = resultDiv.scrollHeight;
                     
                     // Small delay between steps
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 } catch (err) {
-                    logEl.textContent += `\n> Error on ${step.cmd}: ${err.message}`;
-                    logEl.scrollTo(0, logEl.scrollHeight);
+                    resultDiv.textContent += `\nError on ${step.cmd}: ${err.message}`;
+                    resultDiv.style.color = '#991b1b';
+                    resultDiv.style.borderLeftColor = '#ef4444';
+                    resultDiv.style.background = '#fef2f2';
+                    resultDiv.scrollTop = resultDiv.scrollHeight;
                     break;
                 }
             }
 
-            logEl.textContent += `\n> Gateway reinstall sequence completed.`;
-            logEl.scrollTo(0, logEl.scrollHeight);
+            resultDiv.textContent += `\nGateway reinstall sequence completed.`;
+            resultDiv.style.color = '#065f46';
+            resultDiv.style.borderLeftColor = '#10b981';
+            resultDiv.style.background = '#ecfdf5';
         }
 
         // Open a new terminal window
         function openTerminal() {
-            const logEl = document.getElementById('troubleshoot-log');
-            logEl.textContent += `\n> Opening new terminal...`;
-            logEl.scrollTo(0, logEl.scrollHeight);
+            const resultsContainer = document.getElementById('troubleshoot-results');
+            
+            // Create result box
+            const resultBox = document.createElement('div');
+            resultBox.style.cssText = 'background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;';
+            
+            // Create command display
+            const commandDiv = document.createElement('div');
+            commandDiv.style.cssText = 'display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.75rem;';
+            
+            const commandPre = document.createElement('pre');
+            commandPre.style.cssText = 'background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;';
+            commandPre.textContent = 'open -a Terminal';
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.textContent = 'Copy';
+            copyBtn.style.cssText = 'padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;';
+            copyBtn.onclick = () => copyToClipboard('open -a Terminal');
+            
+            commandDiv.appendChild(commandPre);
+            commandDiv.appendChild(copyBtn);
+            
+            // Create result display
+            const resultDiv = document.createElement('div');
+            resultDiv.style.cssText = 'background: #f9fafb; padding: 0.75rem; border-radius: 0.375rem; border-left: 4px solid #3b82f6; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; white-space: pre-wrap;';
+            resultDiv.textContent = 'Opening new terminal...';
+            
+            resultBox.appendChild(commandDiv);
+            resultBox.appendChild(resultDiv);
+            resultsContainer.appendChild(resultBox);
+            
+            // Scroll to the new result
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
             // Try to open terminal using different methods
             const terminalCommands = [
@@ -1829,9 +1928,11 @@
 
             // Log the attempt
             setTimeout(() => {
-                logEl.textContent += `\n> Terminal should open automatically.`;
-                logEl.textContent += `\n> If not, you can manually open Terminal from Applications.`;
-                logEl.scrollTo(0, logEl.scrollHeight);
+                resultDiv.textContent += `\nTerminal should open automatically.`;
+                resultDiv.textContent += `\nIf not, you can manually open Terminal from Applications.`;
+                resultDiv.style.color = '#065f46';
+                resultDiv.style.borderLeftColor = '#10b981';
+                resultDiv.style.background = '#ecfdf5';
                 
                 // Clean up iframe
                 setTimeout(() => {
