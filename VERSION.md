@@ -7,6 +7,11 @@
 - **Status:** GitHub release
 - **Purpose:** Multi-Agent Management section with inter-agent chat, session management, agent configuration, and routing bindings UI
 
+## Changes from v1.3 to v1.3.1
+- **Fix:** List All Agents button now displays results in correct location (Inter-Agent Chat section)
+- **Issue:** Previously, "List All Agents" button was trying to display results in "Agent Configuration" section instead of "Inter-Agent Chat" section
+- **Solution:** Updated `listAllAgents()` function to display results in `agentChatDisplay` element
+
 ## Changes from v1.2 to v1.3
 - **Version:** Updated from v1.2 to v1.3 (Multi-Agent Management)
 - **index.html:** Updated version number and badge to v1.3
