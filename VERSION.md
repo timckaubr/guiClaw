@@ -1,11 +1,20 @@
-# guiClaw v1.1
+# guiClaw v1.2
 
 ## Version Information
-- **Version:** v1.1
+- **Version:** v1.2
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
-- **Purpose:** Redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed below each button
+- **Purpose:** Redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed between sections
+
+## Changes from v1.1 to v1.2
+- **Version:** Updated from v1.1 to v1.2 (result display between sections)
+- **index.html:** Updated version number and badge to v1.2
+- **README.md:** Updated version reference to v1.2
+- **VERSION.md:** Updated version reference to v1.2
+- **Result Display:** Results now appear between sections instead of at the bottom
+- **JavaScript Functions:** Updated runTroubleshoot(), runReinstallGateway(), openTerminal() to insert results after the section that contains the clicked button
+- **Status:** Result display between sections ready for GitHub upload
 
 ## Changes from v1.0 to v1.1
 - **Version:** Updated from v1.0 to v1.1 (redesigned troubleshooting section)
