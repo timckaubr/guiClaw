@@ -294,7 +294,7 @@
     <div class="container">
         <header>
             <div class="brand">
-                <h1>🦁 guiClaw <span class="version-badge">v1.2</span></h1>
+                <h1>🦁 guiClaw <span class="version-badge">v1.3</span></h1>
                 <p>GUI for OpenClaw by Riceball</p>
             </div>
             <nav>
@@ -3371,9 +3371,12 @@
                     }
                 }
                 
-                document.getElementById('agentConfigDisplay').textContent = result || 'No agents found or error occurred.';
+                // Display in agentChatDisplay (Inter-Agent Chat section)
+                const chatDisplay = document.getElementById('agentChatDisplay');
+                chatDisplay.innerHTML = `<div style="color: #2563eb; margin-bottom: 0.5rem;"><strong>Agent List:</strong></div><div style="color: #1f2937; white-space: pre-wrap;">${result || 'No agents found or error occurred.'}</div>`;
             } catch (err) {
-                document.getElementById('agentConfigDisplay').textContent = `Error: ${err.message}`;
+                const chatDisplay = document.getElementById('agentChatDisplay');
+                chatDisplay.innerHTML = `<div style="color: #ef4444;"><strong>Error:</strong> ${err.message}</div>`;
             }
         }
 
