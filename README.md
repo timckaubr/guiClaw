@@ -1,7 +1,7 @@
-# guiClaw v0.9.5
+# guiClaw v1.0
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.9.5) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes updated troubleshooting section with correct OpenClaw CLI commands and improved result display design.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v1.0) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes updated troubleshooting section with correct OpenClaw CLI commands and improved result display design.
 
 ## 📸 Screenshots
 

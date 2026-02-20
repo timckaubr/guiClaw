@@ -1,11 +1,18 @@
-# guiClaw v0.9.5
+# guiClaw v1.0
 
 ## Version Information
-- **Version:** v0.9.5
+- **Version:** v1.0
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
-- **Purpose:** Updated troubleshooting section with correct OpenClaw CLI commands and improved result display design
+- **Purpose:** Stable release with updated troubleshooting section and correct OpenClaw CLI commands
+
+## Changes from v0.9.5 to v1.0
+- **Version:** Updated from v0.9.5 to v1.0 (stable release)
+- **index.html:** Updated version number and badge to v1.0
+- **README.md:** Updated version reference to v1.0
+- **VERSION.md:** Updated version reference to v1.0
+- **Status:** Stable release ready for GitHub upload
 
 ## Changes from v2.1
 - **index.html:** Updated from 18,392 bytes to 22,188 bytes (added WhatsApp configuration)
