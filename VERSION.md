@@ -1,12 +1,19 @@
-# guiClaw v1.4
+# guiClaw v1.4.1
 
 ## Version Information
-- **Version:** v1.4
+- **Version:** v1.4.1
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
 - **Purpose:** Session & Memory Management System
 - **Author:** Riceball Mimo (formerly riceball)
+
+## Changes from v1.4 to v1.4.1
+- **Multi-Agent Fix:** Fixed multi-agent session loading in guiClaw
+- **Command Format:** Fixed OpenClaw CLI command formats for session listing
+- **API Endpoint:** Changed from /v1/responses to /api/execute
+- **JSON Parsing:** Added JSON parsing for session list output
+- **Agent Mapping:** Added agent path mapping for session store locations
 
 ## Changes from v1.3.3 to v1.4
 - **Version Bump:** Updated from v1.3.3 to v1.4
