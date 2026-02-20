@@ -1,20 +1,25 @@
-# guiClaw v1.2
+# guiClaw v1.3
 
 ## Version Information
-- **Version:** v1.2
+- **Version:** v1.3
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
-- **Purpose:** Redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed between sections
+- **Purpose:** Multi-Agent Management section with inter-agent chat, session management, agent configuration, and routing bindings UI
 
-## Changes from v1.1 to v1.2
-- **Version:** Updated from v1.1 to v1.2 (result display between sections)
-- **index.html:** Updated version number and badge to v1.2
-- **README.md:** Updated version reference to v1.2
-- **VERSION.md:** Updated version reference to v1.2
-- **Result Display:** Results now appear between sections instead of at the bottom
-- **JavaScript Functions:** Updated runTroubleshoot(), runReinstallGateway(), openTerminal() to insert results after the section that contains the clicked button
-- **Status:** Result display between sections ready for GitHub upload
+## Changes from v1.2 to v1.3
+- **Version:** Updated from v1.2 to v1.3 (Multi-Agent Management)
+- **index.html:** Updated version number and badge to v1.3
+- **README.md:** Updated version reference to v1.3
+- **VERSION.md:** Updated version reference to v1.3
+- **Multi-Agent Section:** Added new section after Skills section with inter-agent chat
+- **Navigation:** Added "Multi-Agent" button between Skills and Troubleshooting
+- **Inter-Agent Chat:** Chat box for sending messages to other agents with session selection
+- **Session Management:** Filter sessions by type, view session history, and manage sessions
+- **Agent Configuration:** Create new agents, view current configuration
+- **Routing Bindings:** Add, view, and clear routing bindings between channels and agents
+- **JavaScript Functions:** Added 15+ new functions for multi-agent management
+- **Status:** Multi-Agent Management section ready for GitHub upload
 
 ## Changes from v1.0 to v1.1
 - **Version:** Updated from v1.0 to v1.1 (redesigned troubleshooting section)
