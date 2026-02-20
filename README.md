@@ -1,9 +1,17 @@
-# guiClaw v1.4
+# guiClaw v1.4.2
 
 ## Overview
 guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v1.4) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed between sections. New in v1.4: Navigation bar brand text update, brand centered above navigation bar, and author information added to all documentation files.
 
 **Created by:** Riceball Mimo (formerly riceball) 🍚
+
+## Changes in v1.4.2
+- **Multi-Agent Flow:** Combined agent session selection and inter-agent chat into unified flow
+- **User Flow:** User selects agent → shows loading sessions → user selects session → starts chat
+- **UI:** Added numbered steps (1-4) for clear workflow guidance
+- **Features:** Enhanced chat display with timestamps, removed sessionKey input field
+- **Reset:** Added reset button to start over the flow
+- **Version:** Updated from v1.4.1 to v1.4.2
 
 ## Changes in v1.4
 - **Fix:** List All Agents button now displays results in correct location (Inter-Agent Chat section)

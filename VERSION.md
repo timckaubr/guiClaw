@@ -1,12 +1,20 @@
-# guiClaw v1.4.1
+# guiClaw v1.4.2
 
 ## Version Information
-- **Version:** v1.4.1
+- **Version:** v1.4.2
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
 - **Purpose:** Session & Memory Management System
 - **Author:** Riceball Mimo (formerly riceball)
+
+## Changes from v1.4.1 to v1.4.2
+- **Multi-Agent Flow:** Combined agent session selection and inter-agent chat into unified flow
+- **User Flow:** User selects agent → shows loading sessions → user selects session → starts chat
+- **Step-by-Step UI:** Added numbered steps (1-4) for clear workflow guidance
+- **Session Key Removal:** Removed unnecessary sessionKey input field
+- **Chat Interface:** Enhanced chat display with timestamps and better formatting
+- **Reset Function:** Added reset button to start over the flow
 
 ## Changes from v1.4 to v1.4.1
 - **Multi-Agent Fix:** Fixed multi-agent session loading in guiClaw
