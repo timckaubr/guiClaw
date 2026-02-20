@@ -3275,30 +3275,29 @@
             detailsDisplay.innerHTML = '<div style="color: #6b7280; font-style: italic;">Loading sessions for ' + selectedAgent + ' agent...</div>';
             
             try {
-                // Map agent name to session store path
-                const agentPaths = {
-                    'main': '~/.openclaw/agents/main/sessions/sessions.json',
-                    'assistant': '~/.openclaw/agents/assistant/sessions/sessions.json',
-                    'developer': '~/.openclaw/agents/developer/sessions/sessions.json'
-                };
-                
-                const sessionStorePath = agentPaths[selectedAgent];
-                
-                const response = await fetch('/api/execute', {
+                const response = await fetch('/v1/responses', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
                     },
                     body: JSON.stringify({
-                        command: `openclaw sessions list --store ${sessionStorePath} --json`
+                        model: 'openclaw',
+                        input: `[COMMAND] openclaw sessions list --kinds ${selectedAgent}`
                     })
                 });
                 
                 const data = await response.json();
                 let result = '';
                 
-                if (data.output) {
-                    result = data.output.trim();
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
                 }
                 
                 // Parse the session list and populate the dropdown
@@ -3337,38 +3336,17 @@
                 return sessions;
             }
             
-            try {
-                // Parse JSON output from OpenClaw
-                const data = JSON.parse(sessionListText);
-                
-                if (data.sessions && Array.isArray(data.sessions)) {
-                    data.sessions.forEach(session => {
-                        // Convert Unix timestamp to readable date
-                        let updatedAt = 'unknown';
-                        if (session.updatedAt) {
-                            const date = new Date(session.updatedAt);
-                            updatedAt = date.toLocaleString();
-                        }
-                        
-                        sessions.push({
-                            key: session.key,
-                            updatedAt: updatedAt
-                        });
+            // Parse session list (format: "key: sessionKey, updated: timestamp")
+            const lines = sessionListText.split('\n');
+            lines.forEach(line => {
+                const match = line.match(/key:\s*([^,]+),\s*updated:\s*([^,]+)/);
+                if (match) {
+                    sessions.push({
+                        key: match[1].trim(),
+                        updatedAt: match[2].trim()
                     });
                 }
-            } catch (err) {
-                // Fallback to old parsing if JSON fails
-                const lines = sessionListText.split('\n');
-                lines.forEach(line => {
-                    const match = line.match(/key:\s*([^,]+),\s*updated:\s*([^,]+)/);
-                    if (match) {
-                        sessions.push({
-                            key: match[1].trim(),
-                            updatedAt: match[2].trim()
-                        });
-                    }
-                });
-            }
+            });
             
             return sessions;
         }
@@ -3391,30 +3369,29 @@
             detailsDisplay.innerHTML = `<div style="color: #6b7280; font-style: italic;">Loading session ${selectedSession} for ${selectedAgent} agent...</div>`;
             
             try {
-                // Map agent name to session key
-                const agentKeys = {
-                    'main': 'agent:main:main',
-                    'assistant': 'agent:assistant:main',
-                    'developer': 'agent:developer:main'
-                };
-                
-                const sessionKey = agentKeys[selectedAgent];
-                
-                const response = await fetch('/api/execute', {
+                const response = await fetch('/v1/responses', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
                     },
                     body: JSON.stringify({
-                        command: `openclaw agent --session-id ${selectedSession} --message "Load session ${selectedSession}"`
+                        model: 'openclaw',
+                        input: `[COMMAND] openclaw sessions send --session ${selectedSession} --agent ${selectedAgent} --message "Load session ${selectedSession}"`
                     })
                 });
                 
                 const data = await response.json();
                 let result = '';
                 
-                if (data.output) {
-                    result = data.output.trim();
+                if (data.choices?.[0]?.message?.content) {
+                    result = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        result = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
                 }
                 
                 detailsDisplay.innerHTML = `<div style="color: #10b981; font-weight: 600;">✅ Session loaded successfully!</div>` +
