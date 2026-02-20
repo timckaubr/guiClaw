@@ -37,6 +37,21 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // Serve CSS
+    if (req.method === 'GET' && req.url === '/styles.css') {
+        const cssPath = path.join(__dirname, 'styles.css');
+        fs.readFile(cssPath, (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                res.end('CSS file not found');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/css' });
+                res.end(data);
+            }
+        });
+        return;
+    }
+
     // Serve Config
     if (req.method === 'GET' && req.url === '/config') {
         const configPath = path.join(process.env.HOME, '.openclaw', 'openclaw.json');
@@ -96,6 +111,51 @@ const server = http.createServer((req, res) => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: err.message }));
         }
+        return;
+    }
+
+    // Execute CLI Commands API
+    if (req.method === 'POST' && req.url === '/api/execute') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                const command = data.command;
+                
+                if (!command) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'No command provided' }));
+                    return;
+                }
+                
+                console.log(`Executing CLI command: ${command}`);
+                
+                const { exec } = require('child_process');
+                exec(command, (error, stdout, stderr) => {
+                    if (error) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ 
+                            error: error.message,
+                            output: stdout,
+                            stderr: stderr
+                        }));
+                    } else {
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ 
+                            output: stdout,
+                            stderr: stderr
+                        }));
+                    }
+                });
+            } catch (err) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Invalid JSON: ' + err.message }));
+            }
+        });
         return;
     }
 

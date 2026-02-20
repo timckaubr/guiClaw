@@ -1,11 +1,28 @@
-# guiClaw v1.3
+# guiClaw v1.3.3
 
 ## Version Information
-- **Version:** v1.3
+- **Version:** v1.3.3
 - **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
-- **Purpose:** Multi-Agent Management section with inter-agent chat, session management, agent configuration, and routing bindings UI
+- **Purpose:** Session & Memory Management System
+- **Author:** Riceball Mimo (formerly riceball)
+
+## Changes from v1.3.2 to v1.3.3
+- **New Section:** Added "Session & Memory Management" section
+- **Session Operations:** Delete all sessions, delete all except last, delete sessions older than X hours
+- **Memory Management:** View memory files, backup memory, clear memory, export sessions
+- **Session Statistics:** View session counts, disk usage, and statistics
+- **Pruning Configuration:** Get, enable, disable, and configure session pruning
+- **API Endpoint:** Added `/api/execute` for CLI command execution
+- **File Size:** index.html increased to 235KB (new section added)
+
+## Changes from v1.3.1 to v1.3.2
+- **Modularization:** Started Phase 1 - CSS extraction to external file
+- **CSS:** Extracted 8.5KB of CSS from index.html to styles.css
+- **Proxy:** Updated proxy.js to serve CSS files
+- **File Size:** Reduced index.html from 236KB to 227KB
+- **Benefits:** Better organization, improved maintainability, better caching
 
 ## Changes from v1.3 to v1.3.1
 - **Fix:** List All Agents button now displays results in correct location (Inter-Agent Chat section)

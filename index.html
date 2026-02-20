@@ -3,299 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>guiClaw v1.3.1</title>
-    <style>
-        :root {
-            --bg-color: #f9fafb;
-            --chat-bg: #ffffff;
-            --primary-color: #2563eb;
-            --text-color: #1f2937;
-            --bubble-user: #2563eb;
-            --bubble-assistant: #f3f4f6;
-            --bubble-text-user: #ffffff;
-            --bubble-text-assistant: #1f2937;
-            --nav-border: #e5e7eb;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            font-size: 16px;
-            line-height: 1.5;
-            overflow: hidden; /* Prevent body scroll, container handles it */
-        }
-
-        .container {
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            background: var(--chat-bg);
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            overflow: hidden; /* Ensure content stays within bounds */
-        }
-
-        /* HEADER & NAV */
-        header {
-            flex-shrink: 0; /* Don't shrink header */
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--nav-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #fff;
-        }
-
-        .brand h1 {
-            margin: 0;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .brand p {
-            margin: 0;
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-        .version-badge {
-            background: #eff6ff;
-            color: #1e40af;
-            padding: 0.125rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-
-        nav {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        nav button {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #6b7280;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        nav button:hover {
-            background-color: #f3f4f6;
-            color: #111827;
-        }
-
-        nav button.active {
-            background-color: #eff6ff;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        /* SECTIONS */
-        main {
-            flex: 1;
-            overflow: hidden; /* Important: this contains the scrollable sections */
-            position: relative;
-            display: flex; /* Ensure children fill height */
-            flex-direction: column;
-            height: 100%; /* Explicit height */
-        }
-
-        .section {
-            display: none !important; /* Force hide inactive sections */
-            flex: 1; /* Fill remaining space */
-            flex-direction: column;
-            padding: 1.5rem;
-            overflow-y: auto; /* Scroll ONLY the section content */
-            height: 100%; /* Ensure it takes full height of main */
-            box-sizing: border-box; /* Include padding in height */
-            width: 100%; /* Ensure full width */
-        }
-
-        .section.active {
-            display: flex !important; /* Force show active section */
-        }
-
-        /* CHAT SPECIFIC STYLES (Nested scroll) */
-        #section-assistant {
-            overflow: hidden; /* Don't scroll the outer container for chat */
-            padding: 1.5rem; /* Add padding back to outer container */
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            gap: 1rem; /* Gap between the two boxes */
-            background-color: var(--bg-color); /* Ensure background is grey/light */
-            box-sizing: border-box;
-        }
-
-        /* BOX 1: MODEL SELECTOR */
-        .chat-header {
-            flex-shrink: 0;
-            padding: 1rem 1.5rem;
-            background: #fff;
-            border: 1px solid #e5e7eb; /* Add border */
-            border-radius: 0.5rem; /* Rounded corners */
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow */
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            font-size: 0.875rem;
-            color: #4b5563;
-        }
-
-        /* BOX 2: CHAT AREA WRAPPER */
-        .chat-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            overflow: hidden; /* Contain inner scroll */
-            min-height: 0;
-        }
-
-        .chat-header label { font-weight: 600; }
-
-        .chat-header select {
-            padding: 0.5rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            color: #111827;
-            background: #fff;
-            min-width: 200px;
-        }
-        
-        #chat-container {
-            flex: 1;
-            overflow-y: auto; /* Scroll ONLY the message list */
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding: 1.5rem; /* Padding inside scroll area */
-            min-height: 0; /* Important for flex child scrolling */
-            background-color: #fff; /* White background for chat area */
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.9375rem;
-            line-height: 1.6;
-            white-space: pre-wrap; /* Preserve line breaks and spacing */
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background-color: var(--bubble-user);
-            color: var(--bubble-text-user);
-        }
-
-        .message.assistant {
-            align-self: flex-start;
-            background-color: var(--bubble-assistant);
-            color: var(--bubble-text-assistant);
-        }
-
-        /* Chat Input Area */
-        .chat-controls {
-            flex-shrink: 0; /* Don't shrink input area */
-            padding: 1rem 1.5rem; /* Padding for input area */
-            border-top: 1px solid #e5e7eb; /* Separator from chat */
-            display: flex;
-            gap: 0.75rem;
-            background: #fff;
-            margin-bottom: 0; /* Ensure no extra margin */
-        }
-
-        .chat-controls input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            outline: none;
-        }
-
-        .chat-controls input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .chat-controls button {
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 700; /* Made bolder to match */
-            font-size: 0.85rem; /* Matched size with installation section */
-            cursor: pointer;
-        }
-
-        .chat-controls button:hover { background-color: #1d4ed8; }
-
-        /* GENERIC SECTION STYLES */
-        h2 { margin-top: 0; font-size: 1.5rem; color: #111827; }
-        p { color: #4b5563; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* TYPING INDICATOR */
-        .typing-indicator {
-            display: flex;
-            gap: 4px;
-            padding: 12px 16px;
-            background: var(--bubble-assistant);
-            border-radius: 12px;
-            align-self: flex-start;
-            width: fit-content;
-            margin-bottom: 8px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #9ca3af;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-    </style>
+    <title>guiClaw v1.3.3</title>
+    <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
     <div class="container">
         <header>
             <div class="brand">
-                <h1>🦁 guiClaw <span class="version-badge">v1.3.1</span></h1>
-                <p>GUI for OpenClaw by Riceball</p>
+                <h1>🦁 guiClaw <span class="version-badge">v1.3.3</span></h1>
+                <p>GUI for OpenClaw by Riceball Mimo</p>
             </div>
             <nav>
                 <button onclick="showSection('install')" id="nav-install" style="font-size: 0.85rem;">Installation</button>
@@ -305,6 +22,7 @@
                 <button onclick="showSection('browser')" id="nav-browser" style="font-size: 0.85rem;">Browser</button>
                 <button onclick="showSection('skills')" id="nav-skills" style="font-size: 0.85rem;">Skills</button>
                 <button onclick="showSection('multiagent')" id="nav-multiagent" style="font-size: 0.85rem;">Multi-Agent</button>
+                <button onclick="showSection('session')" id="nav-session" style="font-size: 0.85rem;">Session</button>
                 <button onclick="showSection('troubleshoot')" id="nav-troubleshoot" style="font-size: 0.85rem;">Troubleshooting</button>
             </nav>
         </header>
@@ -1519,7 +1237,133 @@
                 </div>
             </div>
 
-            <!-- SECTION 6: TROUBLESHOOTING -->
+            <!-- SECTION 6: SESSION MANAGEMENT -->
+            <div id="section-session" class="section">
+                <h2>Session & Memory Management</h2>
+                <p>Manage OpenClaw sessions and memory across all agents.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Current Session Status -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📊</span> Current Session Status
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.375rem; border-left: 4px solid #3b82f6;">
+                                    <div style="font-size: 0.85rem; color: #6b7280;">Main Agent Sessions</div>
+                                    <div id="mainSessionCount" style="font-size: 1.5rem; font-weight: 700; color: #1f2937;">-</div>
+                                </div>
+                                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.375rem; border-left: 4px solid #10b981;">
+                                    <div style="font-size: 0.85rem; color: #6b7280;">Assistant Agent Sessions</div>
+                                    <div id="assistantSessionCount" style="font-size: 1.5rem; font-weight: 700; color: #1f2937;">-</div>
+                                </div>
+                                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.375rem; border-left: 4px solid #f59e0b;">
+                                    <div style="font-size: 0.85rem; color: #6b7280;">Developer Agent Sessions</div>
+                                    <div id="developerSessionCount" style="font-size: 1.5rem; font-weight: 700; color: #1f2937;">-</div>
+                                </div>
+                                <div style="background: #f9fafb; padding: 1rem; border-radius: 0.375rem; border-left: 4px solid #8b5cf6;">
+                                    <div style="font-size: 0.85rem; color: #6b7280;">Total Sessions</div>
+                                    <div id="totalSessionCount" style="font-size: 1.5rem; font-weight: 700; color: #1f2937;">-</div>
+                                </div>
+                            </div>
+                            <button onclick="refreshSessionCounts()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Refresh Counts</button>
+                        </div>
+                    </div>
+
+                    <!-- Session Operations -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🗑️</span> Session Deletion Operations
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                <button onclick="deleteAllSessions()" style="padding: 0.75rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Delete All Sessions</button>
+                                <button onclick="deleteAllExceptLast()" style="padding: 0.75rem; background: #f59e0b; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Delete All Except Last</button>
+                                <button onclick="deleteSessionsOlderThan(1)" style="padding: 0.75rem; background: #8b5cf6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Delete >1 Hour Old</button>
+                                <button onclick="deleteSessionsOlderThan(24)" style="padding: 0.75rem; background: #6366f1; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Delete >24 Hours Old</button>
+                            </div>
+                            <div style="margin-top: 1rem; background: #fef3c7; padding: 1rem; border-radius: 0.375rem; border-left: 4px solid #f59e0b;">
+                                <p style="margin: 0; font-size: 0.85rem; color: #92400e;">
+                                    <strong>⚠️ Warning:</strong> These operations are destructive and cannot be undone. 
+                                    Please backup important sessions before proceeding.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Memory Management -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🧠</span> Memory Management
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                <button onclick="viewMemoryFiles()" style="padding: 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">View Memory Files</button>
+                                <button onclick="backupMemory()" style="padding: 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Backup Memory</button>
+                                <button onclick="clearMemory()" style="padding: 0.75rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Clear Memory</button>
+                                <button onclick="exportSessions()" style="padding: 0.75rem; background: #8b5cf6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Export Sessions</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session Details -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📋</span> Session Details
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+                                <select id="sessionAgentSelect" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.85rem;">
+                                    <option value="main">Main Agent</option>
+                                    <option value="assistant">Assistant Agent</option>
+                                    <option value="developer">Developer Agent</option>
+                                </select>
+                                <button onclick="viewSessionDetails()" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">View Details</button>
+                            </div>
+                            <div id="sessionDetailsDisplay" style="background: #f3f4f6; padding: 1rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; min-height: 100px; max-height: 300px; overflow-y: auto; white-space: pre-wrap;">
+                                <div style="color: #6b7280; font-style: italic;">Session details will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session Statistics -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📈</span> Session Statistics
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+                                <button onclick="getSessionStats()" style="padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Get Statistics</button>
+                                <button onclick="getDiskUsage()" style="padding: 0.5rem 1rem; background: #8b5cf6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Disk Usage</button>
+                            </div>
+                            <div id="sessionStatsDisplay" style="background: #f3f4f6; padding: 1rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; min-height: 100px; max-height: 300px; overflow-y: auto; white-space: pre-wrap;">
+                                <div style="color: #6b7280; font-style: italic;">Statistics will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session Pruning Configuration -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden;">
+                        <div style="padding: 0.75rem 1rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>⚙️</span> Session Pruning Configuration
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                                <button onclick="getPruningConfig()" style="padding: 0.5rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Get Config</button>
+                                <button onclick="enablePruning()" style="padding: 0.5rem; background: #10b981; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Enable Pruning</button>
+                                <button onclick="disablePruning()" style="padding: 0.5rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Disable Pruning</button>
+                                <button onclick="setPruningTTL()" style="padding: 0.5rem; background: #8b5cf6; color: white; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Set TTL</button>
+                            </div>
+                            <div id="pruningConfigDisplay" style="margin-top: 1rem; background: #f3f4f6; padding: 1rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; min-height: 50px; max-height: 200px; overflow-y: auto; white-space: pre-wrap;">
+                                <div style="color: #6b7280; font-style: italic;">Configuration will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 7: TROUBLESHOOTING -->
             <div id="section-troubleshoot" class="section">
                 <h2>Troubleshooting & Maintenance</h2>
                 
@@ -3773,6 +3617,409 @@
                 document.getElementById('bindingsDisplay').textContent = `Error: ${err.message}`;
             }
         }
+
+        // SESSION MANAGEMENT FUNCTIONS
+        async function refreshSessionCounts() {
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: 'openclaw sessions list --count' })
+                });
+                const data = await response.json();
+                
+                // Parse the output to get session counts
+                const output = data.output || '';
+                
+                // Count sessions for each agent
+                const mainCount = await getAgentSessionCount('main');
+                const assistantCount = await getAgentSessionCount('assistant');
+                const developerCount = await getAgentSessionCount('developer');
+                
+                document.getElementById('mainSessionCount').textContent = mainCount;
+                document.getElementById('assistantSessionCount').textContent = assistantCount;
+                document.getElementById('developerSessionCount').textContent = developerCount;
+                document.getElementById('totalSessionCount').textContent = mainCount + assistantCount + developerCount;
+                
+            } catch (err) {
+                document.getElementById('mainSessionCount').textContent = 'Error';
+                document.getElementById('assistantSessionCount').textContent = 'Error';
+                document.getElementById('developerSessionCount').textContent = 'Error';
+                document.getElementById('totalSessionCount').textContent = 'Error';
+            }
+        }
+
+        async function getAgentSessionCount(agent) {
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: `ls ~/.openclaw/agents/${agent}/sessions/ | wc -l` })
+                });
+                const data = await response.json();
+                return parseInt(data.output?.trim()) || 0;
+            } catch (err) {
+                return 0;
+            }
+        }
+
+        async function deleteAllSessions() {
+            if (!confirm('⚠️ WARNING: This will delete ALL sessions for ALL agents. This cannot be undone. Are you sure?')) {
+                return;
+            }
+            
+            const resultDiv = document.getElementById('sessionDetailsDisplay');
+            resultDiv.textContent = 'Deleting all sessions...';
+            
+            try {
+                const commands = [
+                    'rm -rf ~/.openclaw/agents/main/sessions/*.jsonl',
+                    'rm -rf ~/.openclaw/agents/main/sessions/*.jsonl.reset.*',
+                    'rm -rf ~/.openclaw/agents/main/sessions/sessions.json',
+                    'rm -rf ~/.openclaw/agents/assistant/sessions/*.jsonl',
+                    'rm -rf ~/.openclaw/agents/assistant/sessions/*.jsonl.reset.*',
+                    'rm -rf ~/.openclaw/agents/assistant/sessions/sessions.json',
+                    'rm -rf ~/.openclaw/agents/developer/sessions/*.jsonl',
+                    'rm -rf ~/.openclaw/agents/developer/sessions/*.jsonl.reset.*',
+                    'rm -rf ~/.openclaw/agents/developer/sessions/sessions.json'
+                ];
+                
+                let results = [];
+                for (const cmd of commands) {
+                    const response = await fetch('/api/execute', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: cmd })
+                    });
+                    const data = await response.json();
+                    results.push(`${cmd}: ${data.output || 'Done'}`);
+                }
+                
+                resultDiv.textContent = '✅ All sessions deleted successfully:\n\n' + results.join('\n');
+                refreshSessionCounts();
+                
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function deleteAllExceptLast() {
+            if (!confirm('⚠️ WARNING: This will delete all sessions except the most recent one for each agent. This cannot be undone. Are you sure?')) {
+                return;
+            }
+            
+            const resultDiv = document.getElementById('sessionDetailsDisplay');
+            resultDiv.textContent = 'Deleting old sessions...';
+            
+            try {
+                const commands = [
+                    // Keep only the last session for main agent
+                    'cd ~/.openclaw/agents/main/sessions && ls -t *.jsonl | tail -n +2 | xargs rm -f',
+                    'cd ~/.openclaw/agents/main/sessions && ls -t *.jsonl.reset.* | tail -n +2 | xargs rm -f',
+                    // Keep only the last session for assistant agent
+                    'cd ~/.openclaw/agents/assistant/sessions && ls -t *.jsonl | tail -n +2 | xargs rm -f',
+                    'cd ~/.openclaw/agents/assistant/sessions && ls -t *.jsonl.reset.* | tail -n +2 | xargs rm -f',
+                    // Keep only the last session for developer agent
+                    'cd ~/.openclaw/agents/developer/sessions && ls -t *.jsonl | tail -n +2 | xargs rm -f',
+                    'cd ~/.openclaw/agents/developer/sessions && ls -t *.jsonl.reset.* | tail -n +2 | xargs rm -f'
+                ];
+                
+                let results = [];
+                for (const cmd of commands) {
+                    const response = await fetch('/api/execute', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: cmd })
+                    });
+                    const data = await response.json();
+                    results.push(`${cmd}: ${data.output || 'Done'}`);
+                }
+                
+                resultDiv.textContent = '✅ Old sessions deleted, keeping only the most recent one:\n\n' + results.join('\n');
+                refreshSessionCounts();
+                
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function deleteSessionsOlderThan(hours) {
+            if (!confirm(`⚠️ WARNING: This will delete all sessions older than ${hours} hour(s). This cannot be undone. Are you sure?`)) {
+                return;
+            }
+            
+            const resultDiv = document.getElementById('sessionDetailsDisplay');
+            resultDiv.textContent = `Deleting sessions older than ${hours} hour(s)...`;
+            
+            try {
+                const commands = [
+                    `find ~/.openclaw/agents/main/sessions -name "*.jsonl" -type f -mmin +${hours * 60} -delete`,
+                    `find ~/.openclaw/agents/main/sessions -name "*.jsonl.reset.*" -type f -mmin +${hours * 60} -delete`,
+                    `find ~/.openclaw/agents/assistant/sessions -name "*.jsonl" -type f -mmin +${hours * 60} -delete`,
+                    `find ~/.openclaw/agents/assistant/sessions -name "*.jsonl.reset.*" -type f -mmin +${hours * 60} -delete`,
+                    `find ~/.openclaw/agents/developer/sessions -name "*.jsonl" -type f -mmin +${hours * 60} -delete`,
+                    `find ~/.openclaw/agents/developer/sessions -name "*.jsonl.reset.*" -type f -mmin +${hours * 60} -delete`
+                ];
+                
+                let results = [];
+                for (const cmd of commands) {
+                    const response = await fetch('/api/execute', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command: cmd })
+                    });
+                    const data = await response.json();
+                    results.push(`${cmd}: ${data.output || 'Done'}`);
+                }
+                
+                resultDiv.textContent = `✅ Sessions older than ${hours} hour(s) deleted:\n\n` + results.join('\n');
+                refreshSessionCounts();
+                
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function viewSessionDetails() {
+            const agent = document.getElementById('sessionAgentSelect').value;
+            const resultDiv = document.getElementById('sessionDetailsDisplay');
+            resultDiv.textContent = `Loading session details for ${agent} agent...`;
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: `ls -la ~/.openclaw/agents/${agent}/sessions/ | head -20` })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'No sessions found.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function getSessionStats() {
+            const resultDiv = document.getElementById('sessionStatsDisplay');
+            resultDiv.textContent = 'Loading session statistics...';
+            
+            try {
+                const commands = [
+                    'echo "=== Main Agent Statistics ==="',
+                    'ls ~/.openclaw/agents/main/sessions/*.jsonl 2>/dev/null | wc -l | xargs echo "Total session files:"',
+                    'du -sh ~/.openclaw/agents/main/sessions 2>/dev/null | xargs echo "Main sessions size:"',
+                    'echo ""',
+                    'echo "=== Assistant Agent Statistics ==="',
+                    'ls ~/.openclaw/agents/assistant/sessions/*.jsonl 2>/dev/null | wc -l | xargs echo "Total session files:"',
+                    'du -sh ~/.openclaw/agents/assistant/sessions 2>/dev/null | xargs echo "Assistant sessions size:"',
+                    'echo ""',
+                    'echo "=== Developer Agent Statistics ==="',
+                    'ls ~/.openclaw/agents/developer/sessions/*.jsonl 2>/dev/null | wc -l | xargs echo "Total session files:"',
+                    'du -sh ~/.openclaw/agents/developer/sessions 2>/dev/null | xargs echo "Developer sessions size:"',
+                    'echo ""',
+                    'echo "=== Total Statistics ==="',
+                    'find ~/.openclaw/agents -name "*.jsonl" -type f 2>/dev/null | wc -l | xargs echo "Total session files across all agents:"',
+                    'du -sh ~/.openclaw/agents 2>/dev/null | xargs echo "Total agents directory size:"'
+                ];
+                
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: commands.join(' && ') })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'No statistics available.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function getDiskUsage() {
+            const resultDiv = document.getElementById('sessionStatsDisplay');
+            resultDiv.textContent = 'Calculating disk usage...';
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: 'du -sh ~/.openclaw/agents/main/sessions ~/.openclaw/agents/assistant/sessions ~/.openclaw/agents/developer/sessions 2>/dev/null' })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'No disk usage data available.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function viewMemoryFiles() {
+            const resultDiv = document.getElementById('sessionStatsDisplay');
+            resultDiv.textContent = 'Loading memory files...';
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: 'ls -la ~/.openclaw/workspace/memory/ 2>/dev/null && echo "" && echo "=== MEMORY.md ===" && head -20 ~/.openclaw/workspace/MEMORY.md 2>/dev/null' })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'No memory files found.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function backupMemory() {
+            const resultDiv = document.getElementById('sessionStatsDisplay');
+            resultDiv.textContent = 'Backing up memory files...';
+            
+            try {
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const commands = [
+                    `mkdir -p ~/.openclaw/backups/memory-${timestamp}`,
+                    `cp ~/.openclaw/workspace/MEMORY.md ~/.openclaw/backups/memory-${timestamp}/ 2>/dev/null`,
+                    `cp -r ~/.openclaw/workspace/memory ~/.openclaw/backups/memory-${timestamp}/ 2>/dev/null`,
+                    `echo "Backup created at: ~/.openclaw/backups/memory-${timestamp}"`
+                ];
+                
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: commands.join(' && ') })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'Backup completed.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function clearMemory() {
+            if (!confirm('⚠️ WARNING: This will clear all memory files. This cannot be undone. Are you sure?')) {
+                return;
+            }
+            
+            const resultDiv = document.getElementById('sessionStatsDisplay');
+            resultDiv.textContent = 'Clearing memory files...';
+            
+            try {
+                const commands = [
+                    'rm -rf ~/.openclaw/workspace/memory/*.md',
+                    'rm -f ~/.openclaw/workspace/MEMORY.md',
+                    'echo "Memory files cleared successfully"'
+                ];
+                
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: commands.join(' && ') })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'Memory cleared.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function exportSessions() {
+            const resultDiv = document.getElementById('sessionStatsDisplay');
+            resultDiv.textContent = 'Exporting sessions...';
+            
+            try {
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const commands = [
+                    `mkdir -p ~/.openclaw/backups/sessions-${timestamp}`,
+                    `cp -r ~/.openclaw/agents/main/sessions ~/.openclaw/backups/sessions-${timestamp}/main/ 2>/dev/null`,
+                    `cp -r ~/.openclaw/agents/assistant/sessions ~/.openclaw/backups/sessions-${timestamp}/assistant/ 2>/dev/null`,
+                    `cp -r ~/.openclaw/agents/developer/sessions ~/.openclaw/backups/sessions-${timestamp}/developer/ 2>/dev/null`,
+                    `echo "Sessions exported to: ~/.openclaw/backups/sessions-${timestamp}"`
+                ];
+                
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: commands.join(' && ') })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'Export completed.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function getPruningConfig() {
+            const resultDiv = document.getElementById('pruningConfigDisplay');
+            resultDiv.textContent = 'Loading pruning configuration...';
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: 'openclaw config get agents.defaults.contextPruning' })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'No pruning configuration found.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function enablePruning() {
+            const resultDiv = document.getElementById('pruningConfigDisplay');
+            resultDiv.textContent = 'Enabling session pruning...';
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: 'openclaw config patch agents.defaults.contextPruning.mode=cache-ttl' })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'Pruning enabled.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function disablePruning() {
+            const resultDiv = document.getElementById('pruningConfigDisplay');
+            resultDiv.textContent = 'Disabling session pruning...';
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: 'openclaw config patch agents.defaults.contextPruning.mode=none' })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'Pruning disabled.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        async function setPruningTTL() {
+            const ttl = prompt('Enter TTL in seconds (e.g., 3600 for 1 hour):', '3600');
+            if (!ttl) return;
+            
+            const resultDiv = document.getElementById('pruningConfigDisplay');
+            resultDiv.textContent = 'Setting TTL...';
+            
+            try {
+                const response = await fetch('/api/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: `openclaw config patch agents.defaults.contextPruning.ttl="${ttl}"` })
+                });
+                const data = await response.json();
+                resultDiv.textContent = data.output || 'TTL set successfully.';
+            } catch (err) {
+                resultDiv.textContent = `❌ Error: ${err.message}`;
+            }
+        }
+
+        // Initialize session counts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshSessionCounts();
+        });
     </script>
 </body>
 </html>

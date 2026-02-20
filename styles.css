@@ -1,0 +1,309 @@
+
+        :root {
+            --bg-color: #f9fafb;
+            --chat-bg: #ffffff;
+            --primary-color: #2563eb;
+            --text-color: #1f2937;
+            --bubble-user: #2563eb;
+            --bubble-assistant: #f3f4f6;
+            --bubble-text-user: #ffffff;
+            --bubble-text-assistant: #1f2937;
+            --nav-border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow: hidden; /* Prevent body scroll, container handles it */
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: var(--chat-bg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            overflow: hidden; /* Ensure content stays within bounds */
+        }
+
+        /* HEADER & NAV */
+        header {
+            flex-shrink: 0; /* Don't shrink header */
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--nav-border);
+            display: flex;
+            flex-direction: column; /* Stack brand above nav */
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        /* Brand centered above navigation */
+        .brand {
+            text-align: center;
+            margin-bottom: 0.75rem; /* Space between brand and nav */
+        }
+
+        /* Navigation bar below brand */
+        header nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .brand p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .version-badge {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .brand {
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        nav button {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        nav button:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        nav button.active {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* SECTIONS */
+        main {
+            flex: 1;
+            overflow: hidden; /* Important: this contains the scrollable sections */
+            position: relative;
+            display: flex; /* Ensure children fill height */
+            flex-direction: column;
+            height: 100%; /* Explicit height */
+        }
+
+        .section {
+            display: none !important; /* Force hide inactive sections */
+            flex: 1; /* Fill remaining space */
+            flex-direction: column;
+            padding: 1.5rem;
+            overflow-y: auto; /* Scroll ONLY the section content */
+            height: 100%; /* Ensure it takes full height of main */
+            box-sizing: border-box; /* Include padding in height */
+            width: 100%; /* Ensure full width */
+        }
+
+        .section.active {
+            display: flex !important; /* Force show active section */
+        }
+
+        /* CHAT SPECIFIC STYLES (Nested scroll) */
+        #section-assistant {
+            overflow: hidden; /* Don't scroll the outer container for chat */
+            padding: 1.5rem; /* Add padding back to outer container */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 1rem; /* Gap between the two boxes */
+            background-color: var(--bg-color); /* Ensure background is grey/light */
+            box-sizing: border-box;
+        }
+
+        /* BOX 1: MODEL SELECTOR */
+        .chat-header {
+            flex-shrink: 0;
+            padding: 1rem 1.5rem;
+            background: #fff;
+            border: 1px solid #e5e7eb; /* Add border */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        /* BOX 2: CHAT AREA WRAPPER */
+        .chat-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            overflow: hidden; /* Contain inner scroll */
+            min-height: 0;
+        }
+
+        .chat-header label { font-weight: 600; }
+
+        .chat-header select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: #111827;
+            background: #fff;
+            min-width: 200px;
+        }
+        
+        #chat-container {
+            flex: 1;
+            overflow-y: auto; /* Scroll ONLY the message list */
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem; /* Padding inside scroll area */
+            min-height: 0; /* Important for flex child scrolling */
+            background-color: #fff; /* White background for chat area */
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            white-space: pre-wrap; /* Preserve line breaks and spacing */
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--bubble-user);
+            color: var(--bubble-text-user);
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background-color: var(--bubble-assistant);
+            color: var(--bubble-text-assistant);
+        }
+
+        /* Chat Input Area */
+        .chat-controls {
+            flex-shrink: 0; /* Don't shrink input area */
+            padding: 1rem 1.5rem; /* Padding for input area */
+            border-top: 1px solid #e5e7eb; /* Separator from chat */
+            display: flex;
+            gap: 0.75rem;
+            background: #fff;
+            margin-bottom: 0; /* Ensure no extra margin */
+        }
+
+        .chat-controls input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            outline: none;
+        }
+
+        .chat-controls input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .chat-controls button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700; /* Made bolder to match */
+            font-size: 0.85rem; /* Matched size with installation section */
+            cursor: pointer;
+        }
+
+        .chat-controls button:hover { background-color: #1d4ed8; }
+
+        /* GENERIC SECTION STYLES */
+        h2 { margin-top: 0; font-size: 1.5rem; color: #111827; }
+        p { color: #4b5563; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TYPING INDICATOR */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--bubble-assistant);
+            border-radius: 12px;
+            align-self: flex-start;
+            width: fit-content;
+            margin-bottom: 8px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    
