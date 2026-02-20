@@ -1,10 +1,11 @@
-# guiClaw v0.8
+# guiClaw v0.9.5
 
 ## Version Information
-- **Version:** v0.8
-- **Date:** 2026-02-19
+- **Version:** v0.9.5
+- **Date:** 2026-02-20
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
+- **Purpose:** Updated troubleshooting section with correct OpenClaw CLI commands and improved result display design
 
 ## Changes from v2.1
 - **index.html:** Updated from 18,392 bytes to 22,188 bytes (added WhatsApp configuration)
@@ -234,11 +235,78 @@
 - ✅ Enable/disable toggles functional
 - ✅ Apply Tool Configuration button working
 
+## Changelog v0.9.5 (2026-02-20)
+### Changes
+- **Version:** Updated to v0.9.5
+- **Date:** 2026-02-20
+- **Status:** Current version
+- **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.9.5
+- **Purpose:** Updated troubleshooting section with correct OpenClaw CLI commands and improved result display design
+
+### Troubleshooting Section Updates
+- **Updated Gateway Commands:** All gateway commands now use full `openclaw gateway` syntax:
+  - `gateway stop` → `openclaw gateway stop`
+  - `gateway install` → `openclaw gateway install`
+  - `gateway restart` → `openclaw gateway restart`
+
+- **Improved Result Display Design:** Replaced single dark terminal log with individual result boxes:
+  - **Normal commands:** Light gray background with blue/gray text
+  - **Gateway reinstall sequence:** Amber background with brown text
+  - **Force restart sequence:** Red background with dark red text
+  - **Terminal opening:** Green background with dark green text
+  - **Scrollable:** Long outputs can be scrolled within each box
+  - **Color-coded:** Different colors for different operation types
+
+### JavaScript Functions Updated
+- **`runTroubleshoot(cmd)`:** Creates individual result box for each command
+- **`runReinstallGateway()`:** Creates result box for the entire sequence with step-by-step tracking
+- **`runForceRestartSequence()`:** Creates result box for the entire sequence with step-by-step tracking
+- **`openTerminal()`:** Creates result box for terminal opening attempt
+
+### UI Improvements
+- **Better Visibility:** Results appear directly below buttons (no more scrolling through single log)
+- **Clear Separation:** Each command has its own result box
+- **Consistent Design:** Matches other sections in guiClaw
+- **Color Coding:** Different colors for different types of operations
+- **Scrollable:** Long outputs can be scrolled within each box
+
+### Technical Updates
+- **Version:** Updated to v0.9.5
+- **Backup:** Complete backup of v0.9.5 created
+- **HTML Changes:** Removed `troubleshoot-log` div, added `troubleshoot-results` container
+- **JavaScript Changes:** Updated 4 functions to use result boxes instead of log
+
+### Files Modified
+- `index.html` - Updated troubleshooting section with result display design
+- `README.md` - Updated with troubleshooting section documentation
+- `VERSION.md` - Updated with v0.9.5 changelog
+- **Backup:** `~/Desktop/Backups/guiClaw/guiClaw-v0.9.5`
+
+### Testing Results
+- ✅ All gateway commands now use correct `openclaw gateway` syntax
+- ✅ Result boxes display correctly for each command
+- ✅ Sequential execution works with result boxes
+- ✅ Color coding works for different operation types
+- ✅ Scrollable result boxes for long outputs
+- ✅ All existing functionality preserved
+- ✅ No breaking changes introduced
+
+### Features Preserved
+- ✅ All existing guiClaw features
+- ✅ Agent Management section (essential features only)
+- ✅ Multi-Agent Configuration (full capabilities)
+- ✅ Session Pruning & Context Management
+- ✅ Troubleshooting section (now with improved result display)
+- ✅ Assistant section
+- ✅ Channel management
+- ✅ Tools and Skills sections
+- ✅ Browser integration
+
 ## Changelog v0.8 (2026-02-19)
 ### Changes
 - **Version:** Updated to v0.8
 - **Date:** 2026-02-19
-- **Status:** Current version
+- **Status:** Previous version
 - **Backup Location:** ~/Desktop/Backups/guiClaw/guiClaw-v0.8
 - **Purpose:** Complete backup of current guiClaw project
 

@@ -1,7 +1,7 @@
-# guiClaw v0.8
+# guiClaw v0.9.5
 
 ## Overview
-guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.8) provides a local web interface for interacting with OpenClaw through a browser with enhanced installation guide, improved UI, comprehensive tool configuration, redesigned Skills management section, redesigned troubleshooting section, and cleaner section naming.
+guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v0.9.5) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes updated troubleshooting section with correct OpenClaw CLI commands and improved result display design.
 
 ## 📸 Screenshots
 
@@ -152,10 +152,10 @@ The gateway must be configured to trust the proxy server:
 - **Gateway Port**: 18789 (OpenClaw gateway)
 
 ## Version Information
-- **Version**: v0.6
-- **Date**: 2026-02-19
+- **Version**: v0.9.5
+- **Date**: 2026-02-20
 - **Status**: Operational
-- **Features**: Complete backup of current guiClaw project, all v5.1 features included
+- **Features**: Updated troubleshooting section with correct OpenClaw CLI commands and improved result display design
 
 ## Features in v0.6
 - ✅ **Complete Backup**: Full backup of current guiClaw project
@@ -250,6 +250,15 @@ When the gateway is completely stuck or commands don't work:
 - Standard restart commands fail
 - You need a completely clean state
 - After configuration changes that need a fresh start
+
+#### Result Display Design
+The troubleshooting section now uses individual result boxes for each command:
+- **Normal commands**: Light gray background with blue/gray text
+- **Gateway reinstall sequence**: Amber background with brown text
+- **Force restart sequence**: Red background with dark red text
+- **Terminal opening**: Green background with dark green text
+- **Scrollable**: Long outputs can be scrolled within each box
+- **Color-coded**: Different colors for different operation types
 
 ### System Doctor
 - **Run Doctor Check**: Diagnostic check for system issues
