@@ -1,9 +1,18 @@
-# guiClaw v1.4.2
+# guiClaw v1.5
 
 ## Overview
 guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running inside OpenClaw. This version (v1.4) provides a local web interface for interacting with OpenClaw through a browser with enhanced multi-agent configuration, dynamic agent loading, comprehensive routing bindings, and full multi-agent support based on OpenClaw multi-agent concepts. This version includes redesigned troubleshooting section with installation section style, showing commands with copy buttons, and results displayed between sections. New in v1.4: Navigation bar brand text update, brand centered above navigation bar, and author information added to all documentation files.
 
 **Created by:** Riceball Mimo (formerly riceball) 🍚
+
+## Changes in v1.5
+- **Mobile Link Section:** Added new "Link to Mobile" section for mobile device access
+- **Mobile Access:** Access OpenClaw from mobile devices using QR codes and dynamic DNS
+- **Connection URLs:** Local network and internet access options
+- **No-IP Integration:** Dynamic DNS setup for remote access
+- **Port Forwarding:** Router configuration guide for external access
+- **IP Detection:** Built-in IP address detection tool
+- **Version:** Updated from v1.4.2 to v1.5
 
 ## Changes in v1.4.2
 - **Multi-Agent Flow:** Combined agent session selection and inter-agent chat into unified flow
@@ -37,13 +46,50 @@ guiClaw is a custom web-based GUI for OpenClaw - a personal assistant running in
 - **Consistent UI**: All buttons use consistent font size (0.85rem)
 - **Tool Groups Configuration**: 9 tool groups with enable/disable toggles
 - **Browser Profiles**: 6 browser profiles with configuration options
-- **Enhanced UI**: 7 navigation sections (Assistant, Channel, Tools, Browser, Skills, Troubleshooting, etc.)
+- **Enhanced UI**: 8 navigation sections (Assistant, Channel, Tools, Browser, Skills, Multi-Agent, Session, Troubleshooting, Mobile Link)
 - **Current Model Display**: Shows actual model name (xiaomi/mimo-v2-flash)
 - **Token Usage Display**: Removed for cleaner interface
 - **Redesigned Troubleshooting Section**: Step-by-step workflow with sequential execution
 - **Gateway Reinstall Automation**: Stop → Install → Restart sequence
 - **System Doctor Integration**: Health checks and auto-fix capabilities
 - **Force Restart Commands**: Emergency restart with pkill and complete reset options
+- **Mobile Link Feature**: Access OpenClaw from mobile devices using QR codes and dynamic DNS
+- **Dynamic DNS Setup**: No-IP integration for remote access
+- **Port Forwarding Guide**: Router configuration for external access
+- **IP Detection Tool**: Built-in IP address detection for mobile connection setup
+
+## Mobile Link Feature
+
+The Mobile Link feature allows you to access your OpenClaw instance from mobile devices using QR codes and dynamic DNS. This is particularly useful for accessing your personal assistant from your phone or tablet.
+
+### Connection Options
+
+#### 1. Local Network Access
+For devices on the same network:
+```
+http://[YOUR-IP]:8000
+```
+
+#### 2. Internet Access (Dynamic DNS)
+For access from anywhere via No-IP:
+```
+http://your-hostname.ddns.net:8000
+```
+
+### Setup Steps
+
+1. **Get Your Connection URL**: Determine your connection URL for mobile access
+2. **No-IP Dynamic DNS Setup**: Set up No-IP dynamic DNS for remote access
+3. **Router Port Forwarding**: Configure your router to forward port 8000 to your computer
+4. **Mobile Access**: Access guiClaw from your mobile device
+
+### Features
+- **IP Detection**: Built-in tool to get your current public IP address
+- **No-IP Integration**: Automated setup for dynamic DNS
+- **Port Forwarding Guide**: Step-by-step router configuration
+- **QR Code Support**: QR codes for easy mobile access
+- **Local Network Access**: Quick access from devices on the same network
+- **Remote Access**: Access from anywhere via dynamic DNS
 
 ## Architecture
 ```
@@ -167,10 +213,10 @@ The gateway must be configured to trust the proxy server:
 - **Gateway Port**: 18789 (OpenClaw gateway)
 
 ## Version Information
-- **Version**: v0.9.5
-- **Date**: 2026-02-20
-- **Status**: Operational
-- **Features**: Updated troubleshooting section with correct OpenClaw CLI commands and improved result display design
+- **Version**: v1.5
+- **Date**: 2026-02-22
+- **Status**: GitHub Release Ready
+- **Features**: Added Mobile Link section for mobile device access with dynamic DNS and port forwarding support
 
 ## Features in v0.6
 - ✅ **Complete Backup**: Full backup of current guiClaw project

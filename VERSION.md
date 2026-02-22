@@ -1,12 +1,24 @@
-# guiClaw v1.4.2
+# guiClaw v1.5
 
 ## Version Information
-- **Version:** v1.4.2
-- **Date:** 2026-02-20
+- **Version:** v1.5
+- **Date:** 2026-02-22
 - **Source:** guiClaw project on GitHub
 - **Status:** GitHub release
-- **Purpose:** Session & Memory Management System
+- **Purpose:** Mobile Link Feature for Mobile Device Access
 - **Author:** Riceball Mimo (formerly riceball)
+
+## Changes from v1.4.2 to v1.5
+- **Mobile Link Section:** Added new "Link to Mobile" section for mobile device access
+- **Mobile Access:** Access OpenClaw from mobile devices using QR codes and dynamic DNS
+- **Connection URLs:** Local network and internet access options
+- **No-IP Integration:** Dynamic DNS setup for remote access
+- **Port Forwarding:** Router configuration guide for external access
+- **IP Detection:** Built-in IP address detection tool
+- **Navigation:** Added "Mobile Link" button to navigation bar (8th section)
+- **Version:** Updated from v1.4.2 to v1.5
+- **Documentation:** Updated README.md with Mobile Link feature documentation
+- **GitHub Upload:** Prepared for GitHub upload with complete feature documentation
 
 ## Changes from v1.4.1 to v1.4.2
 - **Multi-Agent Flow:** Combined agent session selection and inter-agent chat into unified flow

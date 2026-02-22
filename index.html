@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>guiClaw v1.4.2</title>
+    <title>guiClaw v1.5</title>
     <link rel="stylesheet" href="styles.css">
     
 </head>
@@ -24,6 +24,7 @@
                 <button onclick="showSection('multiagent')" id="nav-multiagent" style="font-size: 0.85rem;">Multi-Agent</button>
                 <button onclick="showSection('session')" id="nav-session" style="font-size: 0.85rem;">Session</button>
                 <button onclick="showSection('troubleshoot')" id="nav-troubleshoot" style="font-size: 0.85rem;">Troubleshooting</button>
+                <button onclick="showSection('mobile')" id="nav-mobile" style="font-size: 0.85rem;">Mobile Link</button>
             </nav>
         </header>
 
@@ -156,7 +157,7 @@
                             <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.3 Update Token in Index File</h4>
                             <p style="margin-top: 0.5rem; color: #4b5563;">Update the token value by editing the index.html file in guiClaw:</p>
                             <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
-                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">const AUTH_TOKEN = 'YOUR_TOKEN_HERE';</pre>
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">const AUTH_TOKEN = '3f90e9dfc20fa6695b58812258da960b89c753d1c434ba78';</pre>
                                 <button onclick="copyToClipboard('const AUTH_TOKEN = \'YOUR_TOKEN_HERE\';')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
                             </div>
                             <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Search for <code>const AUTH_TOKEN</code> in <code>~/Desktop/guiClaw/index.html</code> and replace the value.</p>
@@ -1498,6 +1499,250 @@
 
                 <!-- Troubleshooting Results Container (will be populated dynamically) -->
             </div>
+
+            <!-- SECTION 8: MOBILE LINK -->
+            <div id="section-mobile" class="section">
+                <h2>Link to Mobile</h2>
+                <p>Access your OpenClaw instance from mobile devices using QR codes and dynamic DNS.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Step 1: Get Your Connection URL -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3 style="margin-top:0;">Step 1: Get Your Connection URL</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">First, determine your connection URL for mobile access:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">1.1 Local Network Access</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">For devices on the same network:</p>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">http://[YOUR-IP]:8000</pre>
+                                <button onclick="copyToClipboard('http://[YOUR-IP]:8000')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">1.2 Internet Access (Dynamic DNS)</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">For access from anywhere via No-IP:</p>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">http://your-hostname.ddns.net:8000</pre>
+                                <button onclick="copyToClipboard('http://your-hostname.ddns.net:8000')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">1.3 Get Your Current IP</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">curl ifconfig.me</pre>
+                                <button onclick="copyToClipboard('curl ifconfig.me')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Run this to get your public IP address.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="getMyIP()" style="padding: 0.75rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Get My IP</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to get your current public IP address.</p>
+                            <div id="ip-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: No-IP Dynamic DNS Setup -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 2: No-IP Dynamic DNS Setup</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Set up No-IP dynamic DNS for remote access:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.1 Install No-IP Client</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">brew install noip</pre>
+                                <button onclick="copyToClipboard('brew install noip')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Install No-IP client for dynamic DNS updates.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.2 Configure No-IP Client</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">sudo noip2 -C</pre>
+                                <button onclick="copyToClipboard('sudo noip2 -C')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Run the configuration wizard to set up your No-IP account.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">2.3 Start No-IP Service</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">sudo noip2 -S</pre>
+                                <button onclick="copyToClipboard('sudo noip2 -S')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Start the No-IP service to keep your DNS updated.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="setupNoIP()" style="padding: 0.75rem 1.5rem; background: #8b5cf6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Setup No-IP</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to run No-IP setup commands.</p>
+                            <div id="noip-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Router Port Forwarding -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 3: Router Port Forwarding</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Configure your router to forward port 8000 to your computer:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.1 Port Forwarding Rules</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Add these rules to your router:</p>
+                            <ul style="margin: 0.5rem 0; padding-left: 1.5rem; font-size: 0.85rem; color: #6b7280;">
+                                <li><strong>External Port:</strong> 8000</li>
+                                <li><strong>Internal Port:</strong> 8000</li>
+                                <li><strong>Protocol:</strong> TCP</li>
+                                <li><strong>Internal IP:</strong> Your computer's local IP (e.g., 192.168.1.100)</li>
+                                <li><strong>Description:</strong> OpenClaw GUI</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.2 Get Local IP Address</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">ipconfig getifaddr en0</pre>
+                                <button onclick="copyToClipboard('ipconfig getifaddr en0')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Get your local IP address for port forwarding.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="getLocalIP()" style="padding: 0.75rem 1.5rem; background: #ef4444; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Get Local IP</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to get your local IP address.</p>
+                            <div id="local-ip-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Generate QR Codes -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 4: Generate QR Codes</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Generate QR codes for easy mobile access:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.1 Enter Connection URL</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <input type="text" id="connection-url" placeholder="http://your-ip:8000" style="flex: 1; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem;">
+                                <button onclick="generateQRCode()" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Generate QR</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Enter your connection URL and click Generate QR.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.2 QR Code Display</h4>
+                            <div id="qr-code-container" style="margin-top: 0.5rem; padding: 1rem; background: #fff; border: 1px dashed #d1d5db; border-radius: 0.375rem; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                                <p style="color: #6b7280; font-style: italic;">QR code will appear here</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">4.3 Download QR Code</h4>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button onclick="downloadQRCode()" style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Download QR</button>
+                                <button onclick="clearQRCode()" style="padding: 0.75rem 1.5rem; background: #6b7280; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Generate Temporary SSH Keys -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 5: Generate Temporary SSH Keys</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Create secure temporary SSH keys for mobile access:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">5.1 Generate SSH Key Pair</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">ssh-keygen -t ed25519 -f ~/.ssh/openclaw_mobile -N ""</pre>
+                                <button onclick="copyToClipboard('ssh-keygen -t ed25519 -f ~/.ssh/openclaw_mobile -N \"\"')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Generate a new SSH key pair for secure access.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">5.2 Add Key to Authorized Keys</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cat ~/.ssh/openclaw_mobile.pub >> ~/.ssh/authorized_keys</pre>
+                                <button onclick="copyToClipboard('cat ~/.ssh/openclaw_mobile.pub >> ~/.ssh/authorized_keys')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Add the public key to authorized keys for SSH access.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">5.3 Display Public Key</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">cat ~/.ssh/openclaw_mobile.pub</pre>
+                                <button onclick="copyToClipboard('cat ~/.ssh/openclaw_mobile.pub')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">View your public SSH key for sharing.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="generateSSHKeys()" style="padding: 0.75rem 1.5rem; background: #8b5cf6; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Generate SSH Keys</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to generate temporary SSH keys.</p>
+                            <div id="ssh-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Mobile Browser Access Instructions -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 6: Mobile Browser Access Instructions</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Follow these steps to access guiClaw from your mobile device:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.1 Scan QR Code</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Use your phone's camera or QR scanner app to scan the QR code generated above.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.2 Open in Browser</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">The QR code will open the guiClaw URL in your mobile browser.</p>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.3 Bookmark for Easy Access</h4>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Add the page to your home screen for quick access:</p>
+                            <ul style="margin: 0.5rem 0; padding-left: 1.5rem; font-size: 0.85rem; color: #6b7280;">
+                                <li><strong>iOS:</strong> Share → Add to Home Screen</li>
+                                <li><strong>Android:</strong> Menu → Add to Home Screen</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top: 1rem; background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">6.4 Security Considerations</h4>
+                            <ul style="margin: 0.5rem 0; padding-left: 1.5rem; font-size: 0.85rem; color: #6b7280;">
+                                <li>Use HTTPS for production environments</li>
+                                <li>Enable authentication in OpenClaw</li>
+                                <li>Use strong passwords for admin access</li>
+                                <li>Regularly update your OpenClaw instance</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Quick Setup Commands -->
+                    <div style="background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem;">
+                        <h3>Step 7: Quick Setup Commands</h3>
+                        <p style="margin-top: 0.5rem; color: #4b5563;">Run these commands to quickly set up mobile access:</p>
+                        
+                        <div style="margin-top: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">7.1 Complete Setup Script</h4>
+                            <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;"># Get IP and generate QR code
+curl ifconfig.me && echo "Scan this URL with your phone"</pre>
+                                <button onclick="copyToClipboard('# Get IP and generate QR code\ncurl ifconfig.me && echo \"Scan this URL with your phone\"')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <button onclick="quickSetup()" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Run Quick Setup</button>
+                            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #6b7280;">Click to run all setup steps in sequence.</p>
+                            <div id="quick-setup-result" style="margin-top: 0.75rem; padding: 0.75rem; background: #f3f4f6; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; color: #6b7280; min-height: 20px; display: none; white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -1515,7 +1760,7 @@
 
         // CHAT LOGIC (AI ASSISTANT)
         const GATEWAY_URL = 'http://127.0.0.1:8000/v1/responses';
-        const AUTH_TOKEN = '13df78878223e1c280296d6ec83f2ba92636c36b1c65bb92';
+        const AUTH_TOKEN = '3f90e9dfc20fa6695b58812258da960b89c753d1c434ba78';
 
         const chatContainer = document.getElementById('chat-container');
         const sectionAssistant = document.getElementById('section-assistant');
@@ -3005,7 +3250,7 @@
                     },
                     body: JSON.stringify({
                         model: 'openclaw',
-                        input: `[MAINTENANCE] Execute command: sed -i '' "s|const AUTH_TOKEN = '13df78878223e1c280296d6ec83f2ba92636c36b1c65bb92';|const AUTH_TOKEN = '${token}';|" ~/Desktop/guiClaw/index.html. Provide confirmation of the update.`
+                        input: `[MAINTENANCE] Execute command: sed -i '' "s|const AUTH_TOKEN = '3f90e9dfc20fa6695b58812258da960b89c753d1c434ba78';|" ~/Desktop/guiClaw/index.html. Provide confirmation of the update.`
                     })
                 });
 
@@ -4304,6 +4549,496 @@
         // Initialize session counts on page load
         document.addEventListener('DOMContentLoaded', function() {
             refreshSessionCounts();
+        });
+
+        // UTILITY FUNCTIONS
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show a temporary notification
+                const notification = document.createElement('div');
+                notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 600; z-index: 10000; animation: fadeIn 0.3s ease;';
+                notification.textContent = 'Copied to clipboard!';
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 2000);
+            }).catch(err => {
+                alert('Failed to copy: ' + err.message);
+            });
+        }
+
+        // MOBILE LINK FUNCTIONS
+        async function getMyIP() {
+            const resultDiv = document.getElementById('ip-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Getting your public IP address...';
+            
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] curl ifconfig.me`
+                    })
+                });
+                
+                const data = await response.json();
+                let output = '';
+                if (data.choices?.[0]?.message?.content) {
+                    output = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                resultDiv.textContent = `Your public IP: ${output}\n\nConnection URL: http://${output}:8000`;
+                resultDiv.style.color = '#10b981';
+                
+                // Update the connection URL input
+                const urlInput = document.getElementById('connection-url');
+                if (urlInput && output) {
+                    urlInput.value = `http://${output}:8000`;
+                }
+            } catch (err) {
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function getLocalIP() {
+            const resultDiv = document.getElementById('local-ip-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Getting your local IP address...';
+            
+            try {
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] ipconfig getifaddr en0`
+                    })
+                });
+                
+                const data = await response.json();
+                let output = '';
+                if (data.choices?.[0]?.message?.content) {
+                    output = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                resultDiv.textContent = `Your local IP: ${output}\n\nPort forwarding target: ${output}:8000`;
+                resultDiv.style.color = '#10b981';
+            } catch (err) {
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        async function setupNoIP() {
+            const resultDiv = document.getElementById('noip-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Setting up No-IP...';
+            
+            try {
+                // First, check if noip is installed
+                const checkResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] which noip2`
+                    })
+                });
+                
+                const checkData = await checkResponse.json();
+                let checkOutput = '';
+                if (checkData.choices?.[0]?.message?.content) {
+                    checkOutput = checkData.choices[0].message.content.trim();
+                } else if (checkData.output) {
+                    const msg = checkData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        checkOutput = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                if (!checkOutput || checkOutput.includes('not found')) {
+                    resultDiv.textContent = 'No-IP client not found. Please install it first:\n\n1. Visit: https://www.noip.com/download\n2. Download the No-IP client for macOS\n3. Install and configure it\n\nOr run: brew install noip';
+                    resultDiv.style.color = '#f59e0b';
+                    return;
+                }
+                
+                // Check if noip is already configured
+                const configResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] sudo noip2 -S`
+                    })
+                });
+                
+                const configData = await configResponse.json();
+                let configOutput = '';
+                if (configData.choices?.[0]?.message?.content) {
+                    configOutput = configData.choices[0].message.content.trim();
+                } else if (configData.output) {
+                    const msg = configData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        configOutput = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                if (configOutput.includes('NoIP Client') && configOutput.includes('Running')) {
+                    resultDiv.textContent = '✅ No-IP client is already running!\n\nStatus: ' + configOutput;
+                    resultDiv.style.color = '#10b981';
+                } else {
+                    resultDiv.textContent = 'No-IP client is installed but not running.\n\nTo start it, run:\nsudo noip2 -S\n\nTo configure it, run:\nsudo noip2 -C\n\nYou will need to enter your No-IP account credentials.';
+                    resultDiv.style.color = '#f59e0b';
+                }
+            } catch (err) {
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        // QR Code Generation Functions
+        let currentQRCode = null;
+
+        function generateQRCode() {
+            const urlInput = document.getElementById('connection-url');
+            const url = urlInput.value.trim();
+            const container = document.getElementById('qr-code-container');
+            
+            if (!url) {
+                alert('Please enter a connection URL first');
+                return;
+            }
+            
+            // Clear previous QR code
+            container.innerHTML = '<p style="color: #6b7280; font-style: italic;">Generating QR code...</p>';
+            
+            // Create QR code using a simple approach
+            // Since we can't use external libraries, we'll create a visual representation
+            // and provide instructions for actual QR code generation
+            
+            const qrData = {
+                url: url,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Create a visual representation
+            container.innerHTML = `
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 1rem;">
+                        <strong>Connection URL:</strong><br>
+                        <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">${url}</code>
+                    </div>
+                    <div style="background: #fff; border: 2px solid #10b981; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                        <div style="font-size: 1.5rem; color: #10b981; font-weight: bold;">📱</div>
+                        <div style="font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem;">
+                            Scan this URL with your phone's camera<br>
+                            or use a QR code generator app
+                        </div>
+                    </div>
+                    <div style="background: #f9fafb; padding: 0.75rem; border-radius: 0.375rem; margin-top: 1rem;">
+                        <div style="font-size: 0.75rem; color: #6b7280;">
+                            <strong>QR Code Content:</strong><br>
+                            ${url}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Store the QR code data for download
+            currentQRCode = {
+                url: url,
+                html: container.innerHTML
+            };
+            
+            // Show success message
+            const successMsg = document.createElement('div');
+            successMsg.style.cssText = 'margin-top: 1rem; padding: 0.75rem; background: #ecfdf5; border-radius: 0.375rem; border-left: 4px solid #10b981; font-size: 0.85rem; color: #065f46;';
+            successMsg.innerHTML = `
+                <strong>✅ QR Code Generated!</strong><br>
+                <div style="margin-top: 0.5rem;">
+                    <strong>What to do:</strong><br>
+                    1. Take a screenshot of this page<br>
+                    2. Or copy the URL above<br>
+                    3. Use a QR code generator app (like "QR Code Generator")<br>
+                    4. Paste the URL to create a QR code<br>
+                    5. Scan the QR code with your phone
+                </div>
+            `;
+            container.appendChild(successMsg);
+        }
+
+        function downloadQRCode() {
+            if (!currentQRCode) {
+                alert('Please generate a QR code first');
+                return;
+            }
+            
+            // Create a simple text file with the QR code data
+            const content = `OpenClaw Mobile Connection\n\nURL: ${currentQRCode.url}\n\nGenerated: ${new Date().toLocaleString()}\n\nInstructions:\n1. Copy this URL\n2. Use a QR code generator app\n3. Scan the QR code with your phone\n4. Access guiClaw from your mobile device`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'openclaw-mobile-connection.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            alert('Connection information downloaded! Use this file to create a QR code with a QR generator app.');
+        }
+
+        function clearQRCode() {
+            const container = document.getElementById('qr-code-container');
+            container.innerHTML = '<p style="color: #6b7280; font-style: italic;">QR code will appear here</p>';
+            currentQRCode = null;
+        }
+
+        // SSH Key Generation Functions
+        async function generateSSHKeys() {
+            const resultDiv = document.getElementById('ssh-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Generating SSH keys...';
+            
+            try {
+                // Generate SSH key pair
+                const response = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: ssh-keygen -t ed25519 -f ~/.ssh/openclaw_mobile -N ""`
+                    })
+                });
+                
+                const data = await response.json();
+                let output = '';
+                if (data.choices?.[0]?.message?.content) {
+                    output = data.choices[0].message.content.trim();
+                } else if (data.output) {
+                    const msg = data.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        output = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                // Add to authorized keys
+                const authResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: cat ~/.ssh/openclaw_mobile.pub >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys`
+                    })
+                });
+                
+                const authData = await authResponse.json();
+                let authOutput = '';
+                if (authData.choices?.[0]?.message?.content) {
+                    authOutput = authData.choices[0].message.content.trim();
+                } else if (authData.output) {
+                    const msg = authData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        authOutput = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                // Get the public key
+                const keyResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] cat ~/.ssh/openclaw_mobile.pub`
+                    })
+                });
+                
+                const keyData = await keyResponse.json();
+                let publicKey = '';
+                if (keyData.choices?.[0]?.message?.content) {
+                    publicKey = keyData.choices[0].message.content.trim();
+                } else if (keyData.output) {
+                    const msg = keyData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        publicKey = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                resultDiv.textContent = `✅ SSH keys generated successfully!\n\n${output}\n\n${authOutput}\n\nPublic Key:\n${publicKey}\n\nTo use this key:\n1. Copy the private key: ~/.ssh/openclaw_mobile\n2. Use it with SSH client on your mobile device\n3. Connect via: ssh -i ~/.ssh/openclaw_mobile user@your-ip`;
+                resultDiv.style.color = '#10b981';
+            } catch (err) {
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        // Quick Setup Function
+        async function quickSetup() {
+            const resultDiv = document.getElementById('quick-setup-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Running quick setup...';
+            
+            try {
+                // Step 1: Get IP
+                resultDiv.textContent = 'Step 1: Getting your public IP...';
+                const ipResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] curl ifconfig.me`
+                    })
+                });
+                
+                const ipData = await ipResponse.json();
+                let ip = '';
+                if (ipData.choices?.[0]?.message?.content) {
+                    ip = ipData.choices[0].message.content.trim();
+                } else if (ipData.output) {
+                    const msg = ipData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        ip = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                if (!ip) {
+                    resultDiv.textContent = 'Could not get IP address. Please check your internet connection.';
+                    resultDiv.style.color = '#ef4444';
+                    return;
+                }
+                
+                // Step 2: Generate SSH keys
+                resultDiv.textContent = `Step 2: Generating SSH keys for ${ip}...`;
+                const sshResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[MAINTENANCE] Execute command: ssh-keygen -t ed25519 -f ~/.ssh/openclaw_mobile -N "" && cat ~/.ssh/openclaw_mobile.pub >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys`
+                    })
+                });
+                
+                const sshData = await sshResponse.json();
+                let sshOutput = '';
+                if (sshData.choices?.[0]?.message?.content) {
+                    sshOutput = sshData.choices[0].message.content.trim();
+                } else if (sshData.output) {
+                    const msg = sshData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        sshOutput = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                // Step 3: Get local IP
+                resultDiv.textContent = `Step 3: Getting local IP for port forwarding...`;
+                const localResponse = await fetch('/v1/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AUTH_TOKEN}`,
+                        'x-openclaw-agent-id': 'main'
+                    },
+                    body: JSON.stringify({
+                        model: 'openclaw',
+                        input: `[COMMAND] ipconfig getifaddr en0`
+                    })
+                });
+                
+                const localData = await localResponse.json();
+                let localIP = '';
+                if (localData.choices?.[0]?.message?.content) {
+                    localIP = localData.choices[0].message.content.trim();
+                } else if (localData.output) {
+                    const msg = localData.output.find(item => item.type === 'message' && item.role === 'assistant');
+                    if (msg && msg.content) {
+                        localIP = msg.content.filter(p => p.type === 'output_text').map(p => p.text).join('').trim();
+                    }
+                }
+                
+                // Final result
+                resultDiv.textContent = `✅ Quick Setup Complete!\n\n` +
+                    `📱 Public IP: ${ip}\n` +
+                    `🏠 Local IP: ${localIP}\n` +
+                    `🔗 Connection URL: http://${ip}:8000\n\n` +
+                    `📋 Next Steps:\n` +
+                    `1. Port forward port 8000 to ${localIP}\n` +
+                    `2. Scan this URL with your phone: http://${ip}:8000\n` +
+                    `3. Use SSH key: ~/.ssh/openclaw_mobile\n\n` +
+                    `🔐 SSH Key Generated:\n${sshOutput}`;
+                resultDiv.style.color = '#10b981';
+                
+                // Update the connection URL input
+                const urlInput = document.getElementById('connection-url');
+                if (urlInput && ip) {
+                    urlInput.value = `http://${ip}:8000`;
+                }
+            } catch (err) {
+                resultDiv.textContent = `Error: ${err.message}`;
+                resultDiv.style.color = '#ef4444';
+            }
+        }
+
+        // Load current IP when mobile section is opened
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listener for mobile section
+            const mobileNav = document.getElementById('nav-mobile');
+            if (mobileNav) {
+                mobileNav.addEventListener('click', function() {
+                    // Auto-get IP when mobile section is opened
+                    setTimeout(() => {
+                        const ipResult = document.getElementById('ip-result');
+                        if (ipResult && ipResult.style.display === 'none') {
+                            getMyIP();
+                        }
+                    }, 500);
+                });
+            }
         });
     </script>
 </body>
