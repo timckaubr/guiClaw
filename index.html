@@ -157,7 +157,7 @@
                             <h4 style="margin: 0 0 0.5rem 0; color: #1f2937;">3.3 Update Token in Index File</h4>
                             <p style="margin-top: 0.5rem; color: #4b5563;">Update the token value by editing the index.html file in guiClaw:</p>
                             <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.5rem;">
-                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">const AUTH_TOKEN = '3f90e9dfc20fa6695b58812258da960b89c753d1c434ba78';</pre>
+                                <pre style="background: #f3f4f6; color: #6b7280; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 0; flex: 1;">const AUTH_TOKEN = '2f12b2ebbb13551b0ef484e61a24d00ac160354a987cdbf6';</pre>
                                 <button onclick="copyToClipboard('const AUTH_TOKEN = \'YOUR_TOKEN_HERE\';')" style="padding: 0.5rem 0.75rem; background: #dbeafe; color: #2563eb; border: none; border-radius: 0.375rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap;">Copy</button>
                             </div>
                             <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #6b7280;">Search for <code>const AUTH_TOKEN</code> in <code>~/Desktop/guiClaw/index.html</code> and replace the value.</p>
@@ -1760,7 +1760,7 @@ curl ifconfig.me && echo "Scan this URL with your phone"</pre>
 
         // CHAT LOGIC (AI ASSISTANT)
         const GATEWAY_URL = 'http://127.0.0.1:8000/v1/responses';
-        const AUTH_TOKEN = '3f90e9dfc20fa6695b58812258da960b89c753d1c434ba78';
+        const AUTH_TOKEN = '2f12b2ebbb13551b0ef484e61a24d00ac160354a987cdbf6';
 
         const chatContainer = document.getElementById('chat-container');
         const sectionAssistant = document.getElementById('section-assistant');
@@ -3250,7 +3250,7 @@ curl ifconfig.me && echo "Scan this URL with your phone"</pre>
                     },
                     body: JSON.stringify({
                         model: 'openclaw',
-                        input: `[MAINTENANCE] Execute command: sed -i '' "s|const AUTH_TOKEN = '3f90e9dfc20fa6695b58812258da960b89c753d1c434ba78';|" ~/Desktop/guiClaw/index.html. Provide confirmation of the update.`
+                        input: `[MAINTENANCE] Execute command: sed -i '' "s|const AUTH_TOKEN = '2f12b2ebbb13551b0ef484e61a24d00ac160354a987cdbf6';|" ~/Desktop/guiClaw/index.html. Provide confirmation of the update.`
                     })
                 });
 
